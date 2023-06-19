@@ -14,7 +14,7 @@ The idea with this project started from me using Roll20 to play Dungeons and Dra
 
 - Learn how to use `react-beautiful-dnd` to make draggable and droppable components
 - Make custom components
-  - `*Future*` Maybe make it so the player can customize their own components?
+  - `#Future` Maybe make it so the player can customize their own components?
 - Make front end pretty
 - Database :
   - Go SQL Lite so I can ship it all as an Electron app?
