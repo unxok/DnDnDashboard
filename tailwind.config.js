@@ -4,10 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#2C3639",
-        secondary: "#3F4E4F",
-        accent: "#A27B5C",
-        base: "#DCD7C9",
+        primary: "#3F4E4F",
+        secondary: "#A27B5C",
+        accent: "#DCD7C9",
+        base: "#2C3639",
+      },
+      height: {
+        droppable: "100px",
       },
     },
   },

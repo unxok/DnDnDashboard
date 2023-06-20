@@ -1,30 +1,30 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
+import { useEffect } from "react";
 
 export const Draggable = (props) => {
   // logic
+  const { attributes, listeners, setNodeRef, transform, translate } =
+    useDraggable({
+      id: "some-uid",
+    });
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
-  });
-
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    top: props.top,
+    left: props.left,
+  };
 
   return (
-    <button
-      className="bg-accent w-max p-5 rounded-lg m-5 text-white"
-      style={style}
+    <div
+      className=" absolute bg-primary"
       ref={setNodeRef}
+      style={style}
       {...listeners}
       {...attributes}
     >
-      {props.children}
-    </button>
+      Can you drag me?
+    </div>
   );
 };
-
-export default Draggable;
