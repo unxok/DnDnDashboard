@@ -5,48 +5,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 
 export const DragItem = ({ xDefault, yDefault, children, ...props }) => {
-  let draggablesArray = [
-    {
-      id: 1,
-      element: "div",
-      text: "I am a div",
-      top: 10,
-      left: 10,
-      className: "bg-primary p-5 absolute flex items-center justify-center",
-    },
-    {
-      id: 2,
-      element: "div",
-      text: "I am another div",
-      top: 20,
-      left: 20,
-      className: "bg-primary p-5 absolute flex items-center justify-center",
-    },
-    {
-      id: 3,
-      element: "div",
-      text: "This is a div",
-      top: 30,
-      left: 30,
-      className: "bg-primary p-5 absolute flex items-center justify-center",
-    },
-    {
-      id: 4,
-      element: "div",
-      text: "Yet another div",
-      top: 40,
-      left: 40,
-      className: "bg-primary p-5 absolute flex items-center justify-center",
-    },
-    {
-      id: 5,
-      element: "div",
-      text: "A div here",
-      top: 50,
-      left: 50,
-      className: "bg-primary p-5 absolute flex items-center justify-center",
-    },
-  ];
+  let draggablesArray = [];
 
   let draggablesArrayRefs = draggablesArray.reduce((acc, obj) => {
     acc[obj.id] = useRef();

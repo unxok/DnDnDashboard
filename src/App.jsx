@@ -1,8 +1,8 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useRef } from "react";
-import { DraggableWidget } from "./assets/components/DraggableWidget/DraggableWidget";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
+import SampleCard from "./assets/components/SampleCard/SampleCard";
 
 export const App = () => {
   const myEl = useRef();
@@ -13,10 +13,8 @@ export const App = () => {
         id={"myEl"}
         top={100}
         left={100}
+        element={SampleCard}
         text={"this is a test"}
-        widgetClass={
-          "bg-primary p-5 absolute flex items-center justify-center rounded-lg text-accent"
-        }
       ></DragContextProvider>
     </div>
   );

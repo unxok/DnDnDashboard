@@ -1,13 +1,16 @@
 import React from "react";
-import { DndContext } from "@dnd-kit/core";
+import { forwardRef } from "react";
 
-import { Draggable } from "";
-
-const SampleCard = (props) => {
+export const SampleCard = ({ children, style }) => {
   // logic
 
   return (
-    <div className="bg-primary w-max p-5 rounded-lg">{props.children}</div>
+    <div
+      style={style}
+      className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent"
+    >
+      {children}
+    </div>
   );
 };
 export default SampleCard;
