@@ -1,19 +1,17 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { useEffect } from "react";
 
-export const Draggable = (props) => {
+export const Draggable = ({ top, left, key, id, ...props }) => {
   // logic
-  const { attributes, listeners, setNodeRef, transform, translate } =
-    useDraggable({
-      id: "some-uid",
-    });
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "some-uid",
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    top: props.top,
-    left: props.left,
+    top: top,
+    left: left,
   };
 
   return (
@@ -21,10 +19,11 @@ export const Draggable = (props) => {
       className=" absolute bg-primary"
       ref={setNodeRef}
       style={style}
+      id={id}
       {...listeners}
       {...attributes}
     >
-      Can you drag me?
+      {props.children}
     </div>
   );
 };
