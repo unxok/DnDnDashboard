@@ -1,6 +1,6 @@
 import React from "react";
 import { DraggableProvider } from "../DraggableProvider/DraggableProvider";
-import { DndContext, closestCenter, DragOverlay } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import { useState } from "react";
 import { SampleCard } from "../SampleCard/SampleCard";
@@ -41,7 +41,9 @@ export const DragContextProvider = ({ id, top, left, text, element }) => {
         isoverlay={"false"}
       ></DraggableProvider>
       <DragOverlay modifiers={[restrictToParentElement]}>
-        <SampleCard>{text}</SampleCard>
+        <div className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent">
+          {text}
+        </div>
       </DragOverlay>
     </DndContext>
   );

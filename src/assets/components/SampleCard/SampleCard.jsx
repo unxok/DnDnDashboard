@@ -1,5 +1,4 @@
 import React from "react";
-import { forwardRef } from "react";
 
 export const SampleCard = ({ children, style }) => {
   // logic
@@ -9,7 +8,7 @@ export const SampleCard = ({ children, style }) => {
       style={style}
       className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent"
     >
-      {children}
+      {children + "can you see me??"}
     </div>
   );
 };

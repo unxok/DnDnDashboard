@@ -1,13 +1,13 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+// import { CSS } from "@dnd-kit/utilities";
+// import { useEffect } from "react";
+// import { useState } from "react";
 import SampleCard from "../SampleCard/SampleCard";
-import { CSS } from "@dnd-kit/utilities";
-import { useEffect } from "react";
-import { useState } from "react";
 
 export const DraggableProvider = ({ id, top, left, text, element }) => {
   // logic
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef } = useDraggable({
     id: id,
   });
 
@@ -19,10 +19,14 @@ export const DraggableProvider = ({ id, top, left, text, element }) => {
 
   // render
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners}>
-      <SampleCard style={style} id={id}>
-        {text}
-      </SampleCard>
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent"
+    >
+      {text}
     </div>
   );
 };

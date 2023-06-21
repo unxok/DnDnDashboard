@@ -5,8 +5,6 @@ import { DragContextProvider } from "./assets/components/DragContextProvider/Dra
 import SampleCard from "./assets/components/SampleCard/SampleCard";
 
 export const App = () => {
-  const myEl = useRef();
-
   return (
     <div className="w-screen h-screen bg-base">
       <DragContextProvider
