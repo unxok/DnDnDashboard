@@ -1,16 +1,23 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
-import { DragItem } from "./assets/components/DragItem/DragItem";
+import { React, useRef } from "react";
+import { DraggableWidget } from "./assets/components/DraggableWidget/DraggableWidget";
+import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
 
 export const App = () => {
+  const myEl = useRef();
+
   return (
-    <div className="w-screen h-screen bg-primary">
-      <DragItem xDefault={25} yDefault={25}>
-        Drag me! 1
-      </DragItem>
-      <DragItem xDefault={100} yDefault={100}>
-        Drag me! 2
-      </DragItem>
+    <div className="w-screen h-screen bg-base">
+      <DragContextProvider
+        id={"myEl"}
+        top={100}
+        left={100}
+        text={"this is a test"}
+        widgetClass={
+          "bg-primary p-5 absolute flex items-center justify-center rounded-lg text-accent"
+        }
+      ></DragContextProvider>
     </div>
   );
 };
