@@ -2,8 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import clsx from "clsx";
-
-export const Strength = ({ configs, isoverlay }) => {
+export const AbilityScore = ({ configs, isoverlay }) => {
   // logic
   let shortName, longName;
   switch (configs.scoreType) {

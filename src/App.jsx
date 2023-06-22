@@ -3,7 +3,7 @@
 import { React, useState, createContext, useContext } from "react";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
 import SampleCard from "./assets/components/SampleCard/SampleCard";
-import { Strength } from "./assets/components/AbilityScores/Strength/Strength";
+import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddScoreButton } from "./assets/components/AddScoreButton/AddScoreButton";
 
 export const ScoresContext = createContext();
@@ -14,7 +14,7 @@ export const App = () => {
       id: 1,
       top: 200,
       left: 200,
-      element: Strength,
+      element: AbilityScore,
       configs: {
         isNameBottom: true,
         isModAboveScore: true,
@@ -31,7 +31,7 @@ export const App = () => {
       id: 2,
       top: 200,
       left: 200,
-      element: Strength,
+      element: AbilityScore,
       configs: {
         isNameBottom: null,
         isModAboveScore: null,
