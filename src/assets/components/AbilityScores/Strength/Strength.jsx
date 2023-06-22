@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import clsx from "clsx";
 
-export const Strength = ({ text, configs, isoverlay }) => {
+export const Strength = ({ configs, isoverlay }) => {
   // logic
   let shortName, longName;
   switch (configs.scoreType) {
@@ -36,7 +37,7 @@ export const Strength = ({ text, configs, isoverlay }) => {
       break;
   }
 
-  const modifier = Math.floor((text - 10) / 2);
+  const modifier = Math.floor((configs.score - 10) / 2);
   let isModAboveScore = configs.isModAboveScore
     ? configs.isModAboveScore
     : false;
@@ -50,30 +51,36 @@ export const Strength = ({ text, configs, isoverlay }) => {
   let textColor = configs.textColor
     ? " text-" + configs.textColor
     : " text-accent";
-  let cardContainerClass =
-    "p-4 w-24 absolute flex items-center justify-center rounded-lg" +
-    bg +
-    textColor +
-    (isNameBottom ? " flex-col-reverse " : " flex-col") +
-    (isoverlay ? " opacity-50" : "");
+  let cardContainerClass = clsx(
+    "p-4",
+    "w-24",
+    "absolute",
+    "flex",
+    "items-center",
+    "justify-center",
+    "rounded-lg",
+    bg,
+    textColor,
+    { "flex-col-reverse": isNameBottom },
+    { "flex-col": !isNameBottom },
+    { "opacity-50": isoverlay }
+  );
 
-  let scoreContainerClass =
-    "flex items-center justify-center " +
-    (isModAboveScore ? "flex-col" : "flex-col-reverse");
+  let scoreContainerClass = clsx("flex", "items-center", "justify-center", {
+    "flex-col": isModAboveScore,
+    "flex-col-reverse": !isModAboveScore,
+  });
 
   let scoreName = configs.isShorthand ? shortName : longName;
   scoreName = configs.isCapital ? scoreName.toUpperCase() : scoreName;
 
-  useEffect(() => {
-    console.log(configs);
-  }, []);
   // render
   return (
     <div name="card-container" className={cardContainerClass}>
       <div className={"text-lg"}>{scoreName}</div>
       <div className={scoreContainerClass} name="score-container">
         <div className={modClass}>{modifier}</div>
-        <div className={scoreClass}>{text}</div>
+        <div className={scoreClass}>{configs.score}</div>
       </div>
     </div>
   );

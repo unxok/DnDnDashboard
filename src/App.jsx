@@ -1,59 +1,72 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
-import { React, useRef } from "react";
+import { React, useState, createContext, useContext } from "react";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
 import SampleCard from "./assets/components/SampleCard/SampleCard";
 import { Strength } from "./assets/components/AbilityScores/Strength/Strength";
+import { AddScoreButton } from "./assets/components/AddScoreButton/AddScoreButton";
 
-const someConfig = {
-  isNameBottom: true,
-  isModAboveScore: false,
-  isModBig: true,
-  bgColor: "primary",
-  textColor: "accent",
-  isShorthand: true,
-  isCapital: true,
-  scoreType: "str",
-};
-
-const someConfig1 = {
-  isNameBottom: false,
-  isModAboveScore: null,
-  isModBig: null,
-  bgColor: "secondary",
-  textColor: "primary",
-  isShorthand: true,
-  isCapital: false,
-  scoreType: "wis",
-};
+export const ScoresContext = createContext();
 
 export const App = () => {
+  const [scoresContextValue, setScoresContextValue] = useState([
+    {
+      id: 1,
+      top: 200,
+      left: 200,
+      element: Strength,
+      configs: {
+        isNameBottom: true,
+        isModAboveScore: true,
+        isModBig: true,
+        bgColor: "accent",
+        textColor: "primary",
+        isShorthand: true,
+        isCapital: true,
+        scoreType: "wis",
+        score: 20,
+      },
+    },
+    {
+      id: 2,
+      top: 200,
+      left: 200,
+      element: Strength,
+      configs: {
+        isNameBottom: null,
+        isModAboveScore: null,
+        isModBig: null,
+        bgColor: "primary",
+        textColor: "accent",
+        isShorthand: null,
+        isCapital: null,
+        scoreType: "cha",
+        score: 17,
+      },
+    },
+  ]);
+
+  const updateScoresContextValue = (newScore) => {
+    setScoresContextValue([...scoresContextValue, newScore]);
+  };
+
   return (
-    <div className="w-screen h-screen bg-base">
-      <DragContextProvider
-        id={"myEl"}
-        top={100}
-        left={100}
-        element={SampleCard}
-        text={"this is a test"}
-      ></DragContextProvider>
-      <DragContextProvider
-        id={"str"}
-        top={200}
-        left={200}
-        element={Strength}
-        text={20}
-        configs={someConfig}
-      ></DragContextProvider>
-      <DragContextProvider
-        id={"str"}
-        top={200}
-        left={200}
-        element={Strength}
-        text={18}
-        configs={someConfig1}
-      ></DragContextProvider>
-    </div>
+    <ScoresContext.Provider
+      value={{ scoresContextValue, updateScoresContextValue }}
+    >
+      <div className="w-screen h-screen bg-base">
+        <AddScoreButton></AddScoreButton>
+        {scoresContextValue.map((score) => (
+          <DragContextProvider
+            id={score.id}
+            top={score.top}
+            left={score.left}
+            element={score.element}
+            configs={score.configs}
+          />
+        ))}
+      </div>
+    </ScoresContext.Provider>
   );
 };
 
