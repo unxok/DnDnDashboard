@@ -3,9 +3,15 @@ import { DraggableProvider } from "../DraggableProvider/DraggableProvider";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import { useState } from "react";
-import { SampleCard } from "../SampleCard/SampleCard";
 
-export const DragContextProvider = ({ id, top, left, text, element }) => {
+export const DragContextProvider = ({
+  id,
+  top,
+  left,
+  text,
+  element,
+  configs,
+}) => {
   // logic
   const [coords, setCoords] = useState({
     top: top,
@@ -38,12 +44,10 @@ export const DragContextProvider = ({ id, top, left, text, element }) => {
         left={coords.left}
         text={text}
         element={element}
-        isoverlay={"false"}
+        configs={configs}
       ></DraggableProvider>
       <DragOverlay modifiers={[restrictToParentElement]}>
-        <div className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent">
-          {text}
-        </div>
+        <Element configs={configs} text={text} isoverlay={true}></Element>
       </DragOverlay>
     </DndContext>
   );

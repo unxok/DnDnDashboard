@@ -5,7 +5,16 @@ import { useDraggable } from "@dnd-kit/core";
 // import { useState } from "react";
 import SampleCard from "../SampleCard/SampleCard";
 
-export const DraggableProvider = ({ id, top, left, text, element }) => {
+export const DraggableProvider = ({
+  id,
+  top,
+  left,
+  text,
+  element,
+  isoverlay,
+  configs,
+  ...props
+}) => {
   // logic
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: id,
@@ -17,6 +26,8 @@ export const DraggableProvider = ({ id, top, left, text, element }) => {
     left: left,
   };
 
+  const Element = element || "div";
+
   // render
   return (
     <div
@@ -24,9 +35,9 @@ export const DraggableProvider = ({ id, top, left, text, element }) => {
       style={style}
       {...attributes}
       {...listeners}
-      className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent"
+      className="absolute"
     >
-      {text}
+      <Element configs={configs} text={text} {...props}></Element>
     </div>
   );
 };

@@ -1,14 +1,12 @@
 import React from "react";
 
-export const SampleCard = ({ children, style }) => {
+export const SampleCard = ({ children, text, config, ...props }) => {
   // logic
+  const { namePos, modAboveScore, bgColor, textColor } = config || {};
 
   return (
-    <div
-      style={style}
-      className="bg-secondary p-5 absolute flex items-center justify-center rounded-lg text-accent"
-    >
-      {children + "can you see me??"}
+    <div className="bg-accent text-primary w-max p-5 capitalize" {...props}>
+      {text}
     </div>
   );
 };
