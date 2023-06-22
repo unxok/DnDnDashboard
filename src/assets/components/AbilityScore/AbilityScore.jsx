@@ -2,10 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import clsx from "clsx";
-export const AbilityScore = ({ configs, isoverlay }) => {
+export const AbilityScore = ({
+  configs: { required, optional },
+  isoverlay,
+}) => {
   // logic
   let shortName, longName;
-  switch (configs.scoreType) {
+  switch (required.scoreType) {
     case "str":
       shortName = "Str";
       longName = "Strength";
@@ -36,19 +39,19 @@ export const AbilityScore = ({ configs, isoverlay }) => {
       break;
   }
 
-  const modifier = Math.floor((configs.score - 10) / 2);
-  let isModAboveScore = configs.isModAboveScore
-    ? configs.isModAboveScore
+  const modifier = Math.floor((required.score - 10) / 2);
+  let isModAboveScore = optional.isModAboveScore
+    ? optional.isModAboveScore
     : false;
-  let isModBig = configs.isModBig ? configs.isModBig : false;
+  let isModBig = optional.isModBig ? optional.isModBig : false;
   let modClass = isModBig ? "text-2xl" : "";
   let scoreClass = isModBig ? "" : "text-2xl";
 
-  let isNameBottom = configs.isNameBottom ? configs.isNameBottom : false;
+  let isNameBottom = optional.isNameBottom ? optional.isNameBottom : false;
 
-  let bg = configs.bgColor ? " bg-" + configs.bgColor : " bg-primary";
-  let textColor = configs.textColor
-    ? " text-" + configs.textColor
+  let bg = optional.bgColor ? " bg-" + optional.bgColor : " bg-primary";
+  let textColor = optional.textColor
+    ? " text-" + optional.textColor
     : " text-accent";
   let cardContainerClass = clsx(
     "p-4",
@@ -70,8 +73,8 @@ export const AbilityScore = ({ configs, isoverlay }) => {
     "flex-col-reverse": !isModAboveScore,
   });
 
-  let scoreName = configs.isShorthand ? shortName : longName;
-  scoreName = configs.isCapital ? scoreName.toUpperCase() : scoreName;
+  let scoreName = optional.isShorthand ? shortName : longName;
+  scoreName = optional.isCapital ? scoreName.toUpperCase() : scoreName;
 
   // render
   return (
@@ -79,7 +82,7 @@ export const AbilityScore = ({ configs, isoverlay }) => {
       <div className={"text-lg"}>{scoreName}</div>
       <div className={scoreContainerClass} name="score-container">
         <div className={modClass}>{modifier}</div>
-        <div className={scoreClass}>{configs.score}</div>
+        <div className={scoreClass}>{required.score}</div>
       </div>
     </div>
   );

@@ -2,14 +2,13 @@
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useContext } from "react";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
-import SampleCard from "./assets/components/SampleCard/SampleCard";
 import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
-import { AddScoreButton } from "./assets/components/AddScoreButton/AddScoreButton";
+import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 
-export const ScoresContext = createContext();
+export const CardsContext = createContext();
 
 export const App = () => {
-  const [scoresContextValue, setScoresContextValue] = useState([
+  const [cardsContextValue, setCardsContextValue] = useState([
     {
       id: 1,
       top: 200,
@@ -47,16 +46,16 @@ export const App = () => {
   ]);
 
   const updateScoresContextValue = (newScore) => {
-    setScoresContextValue([...scoresContextValue, newScore]);
+    setCardsContextValue([...cardsContextValue, newScore]);
   };
 
   return (
-    <ScoresContext.Provider
-      value={{ scoresContextValue, updateScoresContextValue }}
+    <CardsContext.Provider
+      value={{ cardsContextValue, updateScoresContextValue }}
     >
       <div className="w-screen h-screen bg-base">
-        <AddScoreButton></AddScoreButton>
-        {scoresContextValue.map((score) => (
+        <AddCardButton></AddCardButton>
+        {cardsContextValue.map((score) => (
           <DragContextProvider
             id={score.id}
             top={score.top}
@@ -66,7 +65,7 @@ export const App = () => {
           />
         ))}
       </div>
-    </ScoresContext.Provider>
+    </CardsContext.Provider>
   );
 };
 
