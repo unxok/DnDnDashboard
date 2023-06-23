@@ -4,10 +4,12 @@ import { React, useState, createContext, useContext } from "react";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
 import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
+import { useEffect } from "react";
 
 export const CardsContext = createContext();
 
 export const App = () => {
+  const [isModalShow, setModalShow] = useState(false);
   const [cardsContextValue, setCardsContextValue] = useState([
     {
       id: 1,
@@ -15,53 +17,65 @@ export const App = () => {
       left: 200,
       element: AbilityScore,
       configs: {
-        isNameBottom: true,
-        isModAboveScore: true,
-        isModBig: true,
-        bgColor: "accent",
-        textColor: "primary",
-        isShorthand: true,
-        isCapital: true,
-        scoreType: "wis",
-        score: 20,
-      },
-    },
-    {
-      id: 2,
-      top: 200,
-      left: 200,
-      element: AbilityScore,
-      configs: {
-        isNameBottom: null,
-        isModAboveScore: null,
-        isModBig: null,
-        bgColor: "primary",
-        textColor: "accent",
-        isShorthand: null,
-        isCapital: null,
-        scoreType: "cha",
-        score: 17,
+        required: {
+          scoreType: "wis",
+          score: 20,
+        },
+        optional: {
+          isNameBottom: true,
+          isModAboveScore: true,
+          isModBig: true,
+          bgColor: "accent",
+          textColor: "primary",
+          isShorthand: true,
+          isCapital: true,
+        },
       },
     },
   ]);
 
-  const updateScoresContextValue = (newScore) => {
-    setCardsContextValue([...cardsContextValue, newScore]);
+  const updateCardsContextValue = (newCard) => {
+    setCardsContextValue((prevCardsContextValue) => [
+      ...prevCardsContextValue,
+      newCard,
+    ]);
+    console.log("card should be added to context and rendered : ", newCard);
+  };
+
+  useEffect(() => {
+    console.log("current cards", cardsContextValue);
+  }, [cardsContextValue]);
+
+  const updateModalShow = () => {
+    setModalShow(false);
   };
 
   return (
     <CardsContext.Provider
-      value={{ cardsContextValue, updateScoresContextValue }}
+      value={{ cardsContextValue, updateCardsContextValue }}
     >
       <div className="w-screen h-screen bg-base">
-        <AddCardButton></AddCardButton>
-        {cardsContextValue.map((score) => (
+        <div className="absolute bg-white">
+          <button
+            onClick={() => {
+              setModalShow(true);
+            }}
+          >
+            Add Card
+          </button>
+        </div>
+        <AddCardButton
+          isModalShow={isModalShow}
+          updateModalShow={updateModalShow}
+        ></AddCardButton>
+        {cardsContextValue.map((card) => (
           <DragContextProvider
-            id={score.id}
-            top={score.top}
-            left={score.left}
-            element={score.element}
-            configs={score.configs}
+            id={card.id}
+            key={card.id}
+            top={card.top}
+            left={card.left}
+            element={card.element}
+            configs={card.configs}
           />
         ))}
       </div>

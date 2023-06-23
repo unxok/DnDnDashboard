@@ -1,5 +1,8 @@
+import { AbilityScore } from "../AbilityScore/AbilityScore";
+
 export const ConfigMap = {
   AbilityScore: {
+    element: AbilityScore,
     required: [
       {
         value: "scoreType",
@@ -31,14 +34,14 @@ export const ConfigMap = {
         show: "Modifier above or below score",
         type: "select",
         options: [
-          { value: null, show: "above" },
-          { value: true, show: "below" },
+          { value: null, show: "below" },
+          { value: true, show: "above" },
         ],
       },
       {
         value: "isModBig",
         show: "Score or modifier shown larger",
-        type: "def",
+        type: "select",
         options: [
           { value: null, show: "score" },
           { value: true, show: "modifier" },
