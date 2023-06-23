@@ -1,15 +1,17 @@
 import React from "react";
-import { useContext } from "react";
-import { CardsContext } from "../../../App";
-import { AbilityScore } from "../AbilityScore/AbilityScore";
 import { useState } from "react";
 import { ConfigMap } from "../ConfigMap/ConfigMap";
 import { useEffect } from "react";
 
-export const AddCardButton = ({ isModalShow, updateModalShow }) => {
-  const { updateCardsContextValue } = useContext(CardsContext);
+export const AddCardButton = ({
+  isModalShow,
+  updateModalShow,
+  updateCardsContextValue,
+}) => {
+  //const { updateCardsContextValue } = useContext(CardsContext);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [newCardValue, setNewCardValue] = useState({});
+  const [isFormInvalid, setFormInvalid] = useState(false);
 
   let id = 1;
   const generateId = () => {
@@ -67,7 +69,28 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
     }));
   };
 
+  const checkFormInvalid = () => {
+    let numOfReqs = 0;
+    let numOfFilledReqs = 0;
+    selectedTypeConfig.required.forEach((attr) => {
+      numOfReqs++;
+    });
+
+    for (let key in newCardValue.configs.required) {
+      numOfFilledReqs++;
+    }
+
+    if (numOfReqs !== numOfFilledReqs) {
+      return true;
+    }
+  };
+
   const handleAddItem = () => {
+    if (checkFormInvalid()) {
+      setFormInvalid(true);
+      return;
+    }
+    setFormInvalid(false);
     updateModalShow();
     updateCardsContextValue(newCardValue);
     console.log("item should be added");
@@ -75,9 +98,12 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
     setSelectedTypeConfig(null);
   };
 
-  useEffect(() => {
-    console.log(newCardValue);
-  }, [newCardValue]);
+  const cancelAddItem = () => {
+    setFormInvalid(false);
+    updateModalShow();
+    setSelectedTypeConfig(null);
+    setNewCardValue({});
+  };
 
   return (
     <>
@@ -103,7 +129,13 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
               </select>
             </div>
             {selectedTypeConfig && (
-              <div className="m-3 w-72 rounded-lg bg-base text-white p-5 flex flex-col">
+              <div
+                className={
+                  "m-3 w-72 text-center rounded-lg bg-base text-white p-5 flex flex-col" +
+                  (isFormInvalid ? " border border-red-500" : "")
+                }
+              >
+                Required <hr className="opacity-30 m-1" />
                 {selectedTypeConfig.required.map(
                   ({ value, show, type, options = null, inputType = null }) => {
                     const Component = type;
@@ -191,7 +223,25 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
               </div>
             )}
             <div>
-              <button onClick={handleAddItem}>Add Item</button>
+              <button
+                disabled={!selectedTypeConfig}
+                onClick={handleAddItem}
+                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:bg-gray-300 disabled:hover:shadow-none"
+              >
+                Add Item
+              </button>
+              <button
+                name="cancel-item"
+                onClick={cancelAddItem}
+                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 "
+              >
+                Cancel
+              </button>{" "}
+              {isFormInvalid && (
+                <div className="bg-red-400 p-2 rounded-md">
+                  Please fill all required fields
+                </div>
+              )}
             </div>
           </div>
         </div>

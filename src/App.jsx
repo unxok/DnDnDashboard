@@ -6,80 +6,50 @@ import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 import { useEffect } from "react";
 
-export const CardsContext = createContext();
-
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
-  const [cardsContextValue, setCardsContextValue] = useState([
-    {
-      // id: 1,
-      // top: 200,
-      // left: 200,
-      // element: AbilityScore,
-      // configs: {
-      //   required: {
-      //     scoreType: "wis",
-      //     score: 20,
-      //   },
-      //   optional: {
-      //     isNameBottom: true,
-      //     isModAboveScore: true,
-      //     isModBig: true,
-      //     bgColor: "accent",
-      //     textColor: "primary",
-      //     isShorthand: true,
-      //     isCapital: true,
-      //   },
-      // },
-    },
-  ]);
+  const [cards, setCards] = useState([{}]);
 
   const updateCardsContextValue = (newCard) => {
-    setCardsContextValue((prevCardsContextValue) => [
-      ...prevCardsContextValue,
-      newCard,
-    ]);
+    setCards((prevCards) => [...prevCards, newCard]);
     console.log("card should be added to context and rendered : ", newCard);
   };
 
   useEffect(() => {
-    console.log("current cards", cardsContextValue);
-  }, [cardsContextValue]);
+    console.log("current cards", cards);
+  }, [cards]);
 
   const updateModalShow = () => {
     setModalShow(false);
   };
 
   return (
-    <CardsContext.Provider
-      value={{ cardsContextValue, updateCardsContextValue }}
-    >
-      <div className="w-screen h-screen bg-base">
-        <div className="absolute bg-white">
-          <button
-            onClick={() => {
-              setModalShow(true);
-            }}
-          >
-            Add Card
-          </button>
-        </div>
-        <AddCardButton
-          isModalShow={isModalShow}
-          updateModalShow={updateModalShow}
-        ></AddCardButton>
-        {cardsContextValue.map((card) => (
-          <DragContextProvider
-            id={card.id}
-            key={card.id}
-            top={card.top}
-            left={card.left}
-            element={card.element}
-            configs={card.configs}
-          />
-        ))}
+    <div className="w-screen h-screen bg-base">
+      <div className="absolute bg-white">
+        <button
+          onClick={() => {
+            setModalShow(true);
+          }}
+        >
+          Add Card
+        </button>
       </div>
-    </CardsContext.Provider>
+      <AddCardButton
+        isModalShow={isModalShow}
+        updateModalShow={updateModalShow}
+        updateCardsContextValue={updateCardsContextValue}
+      ></AddCardButton>
+      {cards.map((card) => (
+        <DragContextProvider
+          id={card.id}
+          key={card.id}
+          top={card.top}
+          left={card.left}
+          element={card.element}
+          configs={card.configs}
+        />
+      ))}
+    </div>
   );
 };
 
