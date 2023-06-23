@@ -1,25 +1,28 @@
 import React from "react";
-import { useContext } from "react";
-import { CardsContext } from "../../../App";
 import { AbilityScore } from "../AbilityScore/AbilityScore";
 import { useState } from "react";
 import { ConfigMap } from "../ConfigMap/ConfigMap";
 import { useEffect } from "react";
 
-export const AddCardButton = ({ isModalShow, updateModalShow }) => {
-  const { updateCardsContextValue } = useContext(CardsContext);
+export const AddCardButton = ({
+  isModalShow,
+  updateModalShow,
+  updateCardsContextValue,
+}) => {
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [newCardValue, setNewCardValue] = useState({});
+  const [isFormInvalid, setFormInvalid] = useState(false);
+  const [idState, setIdState] = useState(0);
 
-  let id = 1;
   const generateId = () => {
-    let newId = id + 1;
-    return newId;
+    let defId = 0;
+    console.log(defId + 1);
+    return defId++;
   };
 
   const handleChooseType = ({ target }) => {
     const selectedType = ConfigMap[target.value];
-    const element = ConfigMap[target.value].element;
+    console.log("Element = ", Element);
     if (selectedType !== selectedTypeConfig) {
       setSelectedTypeConfig(selectedType);
       setNewCardValue({
@@ -27,10 +30,10 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
           required: {},
           optional: {},
         },
-        id: generateId(),
+        id: idState,
         top: 200,
-        left: 200,
-        element: element,
+        left: 800,
+        element: selectedType.element,
       });
     }
   };
@@ -67,7 +70,28 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
     }));
   };
 
+  const checkFormInvalid = () => {
+    let numOfReqs = 0;
+    let numOfFilledReqs = 0;
+    selectedTypeConfig.required.forEach((attr) => {
+      numOfReqs++;
+    });
+
+    for (let key in newCardValue.configs.required) {
+      numOfFilledReqs++;
+    }
+
+    if (numOfReqs !== numOfFilledReqs) {
+      return true;
+    }
+  };
+
   const handleAddItem = () => {
+    if (checkFormInvalid()) {
+      setFormInvalid(true);
+      return;
+    }
+    setFormInvalid(false);
     updateModalShow();
     updateCardsContextValue(newCardValue);
     console.log("item should be added");
@@ -75,18 +99,22 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
     setSelectedTypeConfig(null);
   };
 
-  useEffect(() => {
-    console.log(newCardValue);
-  }, [newCardValue]);
+  const cancelAddItem = () => {
+    setFormInvalid(false);
+    updateModalShow();
+    setSelectedTypeConfig(null);
+    setNewCardValue({});
+  };
 
   return (
     <>
       {isModalShow && (
-        <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-gray-500 bg-opacity-50 z-40">
-          <div className="p-5 bg-primary z-50 flex flex-col rounded-lg items-center justify-center ">
+        <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-gray-500 bg-opacity-50 z-20">
+          <div className="p-5 bg-primary z-30 flex flex-col rounded-lg items-center justify-center shadow-lg shadow-gray-700 ">
             <div
               name="typeSelector"
-              className="bg-base text-white p-3 w-56 flex justify-evenly rounded-xl "
+              key="typeSelector"
+              className="bg-base text-white p-3 m-3 w-56 shadow-lg flex justify-evenly rounded-xl "
             >
               <label htmlFor="typeSelector">Type : </label>
               <select
@@ -103,7 +131,14 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
               </select>
             </div>
             {selectedTypeConfig && (
-              <div className="m-3 w-72 rounded-lg bg-base text-white p-5 flex flex-col">
+              <div
+                key="req"
+                className={
+                  "m-3 w-72 rounded-lg bg-base text-white p-5 flex flex-col shadow-lg text-center" +
+                  (isFormInvalid ? " border-red-600 border-solid border" : "")
+                }
+              >
+                Required <hr className="opacity-10 m-1" />
                 {selectedTypeConfig.required.map(
                   ({ value, show, type, options = null, inputType = null }) => {
                     const Component = type;
@@ -116,7 +151,7 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           name={value}
                           key={uid}
                           onChange={handleRequiredChange}
-                          className="text-center text-black"
+                          className="text-center text-black rounded-sm"
                           defaultValue=""
                         >
                           <option value="" disabled>
@@ -138,7 +173,7 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           key={uid}
                           type={inputType}
                           onChange={handleRequiredChange}
-                          className="w-24 text-black text-center"
+                          className="w-24 text-black text-center rounded-sm"
                         ></Component>
                       </div>
                     );
@@ -147,7 +182,11 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
               </div>
             )}
             {selectedTypeConfig && (
-              <div className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col">
+              <div
+                key="opt"
+                className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col shadow-lg text-center"
+              >
+                Optional <hr className="opacity-10 m-1" />
                 {selectedTypeConfig.optional.map(
                   ({ value, show, type, options = null, inputType = null }) => {
                     const Component = type;
@@ -160,7 +199,7 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           name={value}
                           key={uid}
                           onChange={handleOptionalChange}
-                          className="text-center text-black w-24"
+                          className="text-center text-black w-24 rounded-sm"
                           defaultValue=""
                         >
                           <option value="" disabled>
@@ -182,7 +221,7 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           key={uid}
                           type={inputType}
                           onChange={handleOptionalChange}
-                          className="w-24 text-black text-center"
+                          className="w-24 text-black text-center rounded-sm"
                         ></Component>
                       </div>
                     );
@@ -191,8 +230,26 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
               </div>
             )}
             <div>
-              <button onClick={handleAddItem}>Add Item</button>
+              <button
+                name="add-item"
+                onClick={handleAddItem}
+                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 "
+              >
+                Add Item
+              </button>{" "}
+              <button
+                name="cancel-item"
+                onClick={cancelAddItem}
+                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 "
+              >
+                Cancel
+              </button>
             </div>
+            {isFormInvalid && (
+              <div className="bg-red-400 p-2 rounded-md">
+                Please fill all required fields
+              </div>
+            )}
           </div>
         </div>
       )}

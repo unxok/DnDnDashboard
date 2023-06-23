@@ -10,29 +10,11 @@ export const CardsContext = createContext();
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
-  const [cardsContextValue, setCardsContextValue] = useState([
-    {
-      // id: 1,
-      // top: 200,
-      // left: 200,
-      // element: AbilityScore,
-      // configs: {
-      //   required: {
-      //     scoreType: "wis",
-      //     score: 20,
-      //   },
-      //   optional: {
-      //     isNameBottom: true,
-      //     isModAboveScore: true,
-      //     isModBig: true,
-      //     bgColor: "accent",
-      //     textColor: "primary",
-      //     isShorthand: true,
-      //     isCapital: true,
-      //   },
-      // },
-    },
-  ]);
+  const [cardsContextValue, setCardsContextValue] = useState([{}]);
+
+  const updateCardContextCoords = (coords, id) => {
+    console.log("coords: ", coords, "id: ", id);
+  };
 
   const updateCardsContextValue = (newCard) => {
     setCardsContextValue((prevCardsContextValue) => [
@@ -51,35 +33,33 @@ export const App = () => {
   };
 
   return (
-    <CardsContext.Provider
-      value={{ cardsContextValue, updateCardsContextValue }}
-    >
-      <div className="w-screen h-screen bg-base">
-        <div className="absolute bg-white">
-          <button
-            onClick={() => {
-              setModalShow(true);
-            }}
-          >
-            Add Card
-          </button>
-        </div>
-        <AddCardButton
-          isModalShow={isModalShow}
-          updateModalShow={updateModalShow}
-        ></AddCardButton>
-        {cardsContextValue.map((card) => (
-          <DragContextProvider
-            id={card.id}
-            key={card.id}
-            top={card.top}
-            left={card.left}
-            element={card.element}
-            configs={card.configs}
-          />
-        ))}
+    <div className="w-screen h-screen bg-base">
+      <div className="absolute bg-white">
+        <button
+          onClick={() => {
+            setModalShow(true);
+          }}
+        >
+          Add Card
+        </button>
       </div>
-    </CardsContext.Provider>
+      <AddCardButton
+        isModalShow={isModalShow}
+        updateModalShow={updateModalShow}
+        updateCardsContextValue={updateCardsContextValue}
+      ></AddCardButton>
+      {cardsContextValue.map((card) => (
+        <DragContextProvider
+          id={card.id}
+          key={card.id}
+          top={card.top}
+          left={card.left}
+          element={card.element}
+          configs={card.configs}
+          updateCardContextCoords={updateCardContextCoords}
+        />
+      ))}
+    </div>
   );
 };
 
