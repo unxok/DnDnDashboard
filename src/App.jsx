@@ -8,15 +8,7 @@ import { useEffect } from "react";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
-<<<<<<< HEAD
-  const [cardsContextValue, setCardsContextValue] = useState([{}]);
-
-  const updateCardContextCoords = (coords, id) => {
-    console.log("coords: ", coords, "id: ", id);
-  };
-=======
   const [cards, setCards] = useState([{}]);
->>>>>>> bug-not-dragging
 
   const updateCardsContextValue = (newCard) => {
     setCards((prevCards) => [...prevCards, newCard]);
@@ -47,11 +39,7 @@ export const App = () => {
         updateModalShow={updateModalShow}
         updateCardsContextValue={updateCardsContextValue}
       ></AddCardButton>
-<<<<<<< HEAD
-      {cardsContextValue.map((card) => (
-=======
       {cards.map((card) => (
->>>>>>> bug-not-dragging
         <DragContextProvider
           id={card.id}
           key={card.id}
@@ -59,10 +47,6 @@ export const App = () => {
           left={card.left}
           element={card.element}
           configs={card.configs}
-<<<<<<< HEAD
-          updateCardContextCoords={updateCardContextCoords}
-=======
->>>>>>> bug-not-dragging
         />
       ))}
     </div>
