@@ -223,20 +223,22 @@ export const AddCardButton = ({
               </div>
             )}
             <div>
-              <button
-                disabled={!selectedTypeConfig}
-                onClick={handleAddItem}
-                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:bg-gray-300 disabled:hover:shadow-none"
-              >
-                Add Item
-              </button>
-              <button
-                name="cancel-item"
-                onClick={cancelAddItem}
-                className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 "
-              >
-                Cancel
-              </button>{" "}
+              <div className="flex items-center justify-center ">
+                <button
+                  disabled={!selectedTypeConfig}
+                  onClick={handleAddItem}
+                  className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:bg-gray-300 disabled:hover:shadow-none"
+                >
+                  Add Item
+                </button>
+                <button
+                  name="cancel-item"
+                  onClick={cancelAddItem}
+                  className="bg-accent m-2 p-2 rounded-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 "
+                >
+                  Cancel
+                </button>
+              </div>
               {isFormInvalid && (
                 <div className="bg-red-400 p-2 rounded-md">
                   Please fill all required fields
