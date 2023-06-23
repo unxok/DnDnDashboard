@@ -12,25 +12,25 @@ export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
   const [cardsContextValue, setCardsContextValue] = useState([
     {
-      id: 1,
-      top: 200,
-      left: 200,
-      element: AbilityScore,
-      configs: {
-        required: {
-          scoreType: "wis",
-          score: 20,
-        },
-        optional: {
-          isNameBottom: true,
-          isModAboveScore: true,
-          isModBig: true,
-          bgColor: "accent",
-          textColor: "primary",
-          isShorthand: true,
-          isCapital: true,
-        },
-      },
+      // id: 1,
+      // top: 200,
+      // left: 200,
+      // element: AbilityScore,
+      // configs: {
+      //   required: {
+      //     scoreType: "wis",
+      //     score: 20,
+      //   },
+      //   optional: {
+      //     isNameBottom: true,
+      //     isModAboveScore: true,
+      //     isModBig: true,
+      //     bgColor: "accent",
+      //     textColor: "primary",
+      //     isShorthand: true,
+      //     isCapital: true,
+      //   },
+      // },
     },
   ]);
 

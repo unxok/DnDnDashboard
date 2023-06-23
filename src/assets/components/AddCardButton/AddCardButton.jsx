@@ -90,12 +90,15 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
             >
               <label htmlFor="typeSelector">Type : </label>
               <select
-                className="w-20 text-center text-black rounded-sm"
+                className="w-32 text-center text-black rounded-sm"
                 onChange={handleChooseType}
                 name="typeSelector"
                 id="typeSelector"
+                defaultValue=""
               >
-                <option value="">Choose</option>
+                <option value="" disabled>
+                  select one
+                </option>
                 <option value="AbilityScore">Ability Score</option>
               </select>
             </div>
@@ -114,7 +117,11 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           key={uid}
                           onChange={handleRequiredChange}
                           className="text-center text-black"
+                          defaultValue=""
                         >
+                          <option value="" disabled>
+                            select one
+                          </option>
                           {options.map((option) => (
                             <option value={option.value} key={option.value}>
                               {option.show}
@@ -154,7 +161,11 @@ export const AddCardButton = ({ isModalShow, updateModalShow }) => {
                           key={uid}
                           onChange={handleOptionalChange}
                           className="text-center text-black w-24"
+                          defaultValue=""
                         >
+                          <option value="" disabled>
+                            select one
+                          </option>
                           {options.map((option) => (
                             <option value={option.value} key={option.value}>
                               {option.show}

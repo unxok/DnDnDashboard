@@ -6,7 +6,7 @@ export const ConfigMap = {
     required: [
       {
         value: "scoreType",
-        show: "Ability type",
+        show: "Ability Score",
         type: "select",
         options: [
           { value: "str", show: "Strength" },
@@ -50,14 +50,24 @@ export const ConfigMap = {
       {
         value: "bgColor",
         show: "Background",
-        type: "input",
-        inputType: "color",
+        type: "select",
+        options: [
+          { value: "primary", show: "primary" },
+          { value: "secondary", show: "secondary" },
+          { value: "accent", show: "accent" },
+          { value: "base", show: "base" },
+        ],
       },
       {
         value: "textColor",
         show: "text",
-        type: "input",
-        inputType: "color",
+        type: "select",
+        options: [
+          { value: "primary", show: "primary" },
+          { value: "secondary", show: "secondary" },
+          { value: "accent", show: "accent" },
+          { value: "base", show: "base" },
+        ],
       },
       {
         value: "isShorthand",
