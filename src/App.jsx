@@ -6,27 +6,26 @@ import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 import { useEffect } from "react";
 
-export const CardsContext = createContext();
-
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
+<<<<<<< HEAD
   const [cardsContextValue, setCardsContextValue] = useState([{}]);
 
   const updateCardContextCoords = (coords, id) => {
     console.log("coords: ", coords, "id: ", id);
   };
+=======
+  const [cards, setCards] = useState([{}]);
+>>>>>>> bug-not-dragging
 
   const updateCardsContextValue = (newCard) => {
-    setCardsContextValue((prevCardsContextValue) => [
-      ...prevCardsContextValue,
-      newCard,
-    ]);
+    setCards((prevCards) => [...prevCards, newCard]);
     console.log("card should be added to context and rendered : ", newCard);
   };
 
   useEffect(() => {
-    console.log("current cards", cardsContextValue);
-  }, [cardsContextValue]);
+    console.log("current cards", cards);
+  }, [cards]);
 
   const updateModalShow = () => {
     setModalShow(false);
@@ -48,7 +47,11 @@ export const App = () => {
         updateModalShow={updateModalShow}
         updateCardsContextValue={updateCardsContextValue}
       ></AddCardButton>
+<<<<<<< HEAD
       {cardsContextValue.map((card) => (
+=======
+      {cards.map((card) => (
+>>>>>>> bug-not-dragging
         <DragContextProvider
           id={card.id}
           key={card.id}
@@ -56,7 +59,10 @@ export const App = () => {
           left={card.left}
           element={card.element}
           configs={card.configs}
+<<<<<<< HEAD
           updateCardContextCoords={updateCardContextCoords}
+=======
+>>>>>>> bug-not-dragging
         />
       ))}
     </div>

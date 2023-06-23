@@ -40,6 +40,10 @@ export const AbilityScore = ({
       longName = "Invalid Ability Score";
       break;
   }
+<<<<<<< HEAD
+=======
+
+>>>>>>> bug-not-dragging
   required.score = required.score ? required.score : 0;
   const modifier = Math.floor((required.score - 10) / 2);
   let isModAboveScore = optional.isModAboveScore
@@ -48,7 +52,7 @@ export const AbilityScore = ({
   let isModBig = optional.isModBig ? optional.isModBig : false;
   let modClass = isModBig ? "text-2xl" : "";
   let scoreClass = isModBig ? "" : "text-2xl";
-
+  let isShorthand = optional.isShorthand ? optional.isShorthand : false;
   let isNameBottom = optional.isNameBottom ? optional.isNameBottom : false;
   let isShorthand = optional.isShorthand ? optional.isShorthand : false;
   let bg = optional.bgColor ? " bg-" + optional.bgColor : " bg-primary";
@@ -64,6 +68,8 @@ export const AbilityScore = ({
     "items-center",
     "justify-center",
     "rounded-lg",
+    { "w-24": isShorthand },
+    { "w-28": !isShorthand },
     bg,
     textColor,
     { "flex-col-reverse": isNameBottom },
