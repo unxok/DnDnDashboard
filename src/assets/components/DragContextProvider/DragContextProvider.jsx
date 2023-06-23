@@ -25,6 +25,7 @@ export const DragContextProvider = ({
       top: prevCoords.top + delta.y,
       left: prevCoords.left + delta.x,
     }));
+    console.log("delta", delta.x, delta.y);
     updateCardContextCoords(coords, id);
   };
 
