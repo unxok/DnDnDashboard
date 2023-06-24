@@ -15,15 +15,12 @@ export const App = () => {
   //const [newCardValue, setNewCardValue] = useState({});
   const [isFormInvalid, setFormInvalid] = useState(false);
 
-  const generateId = () => {
-    let id = Math.floor(Math.random().toFixed(4) * 10000);
-    console.log(id);
-    return id;
+  const logCoords = (coords) => {
+    console.log("coords: ", coords.left, coords.top);
   };
 
-  const updateCardsContextValue = (newCard) => {
+  const updateCards = (newCard) => {
     setCards((prevCards) => [...prevCards, newCard]);
-    console.log("card should be added to context and rendered : ", newCard);
   };
 
   const updateSelectedTypeConfig = (selectedType) => {
@@ -33,10 +30,6 @@ export const App = () => {
   const updateFormInvalid = (bool) => {
     setFormInvalid(bool);
   };
-
-  useEffect(() => {
-    console.log("current cards", cards);
-  }, [cards]);
 
   const updateModalShow = () => {
     setModalShow(false);
@@ -57,12 +50,9 @@ export const App = () => {
       <AddCardButton
         isModalShow={isModalShow}
         updateModalShow={updateModalShow}
-        updateCardsContextValue={updateCardsContextValue}
+        updateCards={updateCards}
         selectedTypeConfig={selectedTypeConfig}
         updateSelectedTypeConfig={updateSelectedTypeConfig}
-        //newCardValue={newCardValue}
-        //initializeNewCardValue={initializeNewCardValue}
-        //updateNewCardValue={updateNewCardValue}
         isFormInvalid={isFormInvalid}
         updateFormInvalid={updateFormInvalid}
       ></AddCardButton>
@@ -74,6 +64,7 @@ export const App = () => {
           left={card.left}
           element={card.element}
           configs={card.configs}
+          logCoords={logCoords}
         />
       ))}
     </div>

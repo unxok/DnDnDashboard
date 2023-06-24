@@ -4,7 +4,14 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
 import { useState } from "react";
 
-export const DragContextProvider = ({ id, top, left, element, configs }) => {
+export const DragContextProvider = ({
+  id,
+  top,
+  left,
+  element,
+  configs,
+  logCoords,
+}) => {
   // logic
   const [coords, setCoords] = useState({
     top: top,
@@ -18,6 +25,7 @@ export const DragContextProvider = ({ id, top, left, element, configs }) => {
       top: prevCoords.top + delta.y,
       left: prevCoords.left + delta.x,
     }));
+    logCoords(coords);
   };
 
   const Element = element || "div";

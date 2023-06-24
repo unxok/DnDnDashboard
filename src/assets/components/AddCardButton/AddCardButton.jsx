@@ -6,7 +6,7 @@ import { useEffect } from "react";
 export const AddCardButton = ({
   isModalShow,
   updateModalShow,
-  updateCardsContextValue,
+  updateCards,
   selectedTypeConfig,
   updateSelectedTypeConfig,
   isFormInvalid,
@@ -30,7 +30,6 @@ export const AddCardButton = ({
 
   const generateId = () => {
     let id = Math.floor(Math.random().toFixed(4) * 10000);
-    console.log(id);
     return id;
   };
 
@@ -43,40 +42,7 @@ export const AddCardButton = ({
     }
   };
 
-  // const handleRequiredChange = (e) => {
-  //   console.log(e.target.value);
-  //   const { name, value } = e.target;
-
-  //   updateNewCardValue((prevValue) => ({
-  //     ...prevValue,
-  //     configs: {
-  //       ...prevValue.configs,
-  //       required: {
-  //         ...prevValue.configs.required,
-  //         [name]: value,
-  //       },
-  //     },
-  //   }));
-  // };
-
-  // const handleOptionalChange = (e) => {
-  //   console.log(e.target.value);
-  //   const { name, value } = e.target;
-
-  //   updateNewCardValue((prevValue) => ({
-  //     ...prevValue,
-  //     configs: {
-  //       ...prevValue.configs,
-  //       optional: {
-  //         ...prevValue.configs.optional,
-  //         [name]: value,
-  //       },
-  //     },
-  //   }));
-  // };
-
   const updateNewCardValue = (e, optionType) => {
-    console.log(e.target.value);
     const { name, value } = e.target;
 
     setNewCardValue((prevValue) => ({
@@ -114,22 +80,17 @@ export const AddCardButton = ({
     }
     updateFormInvalid(false);
     updateModalShow();
-    updateCardsContextValue(newCardValue);
-    console.log("item should be added");
-    updateNewCardValue(null);
-    setSelectedTypeConfig(null);
+    updateCards(newCardValue);
+    // setNewCardValue(newCardValue);
+    updateSelectedTypeConfig(null);
   };
 
   const cancelAddItem = () => {
     updateFormInvalid(false);
     updateModalShow();
     updateSelectedTypeConfig(null);
-    updateNewCardValue({});
+    setNewCardValue({});
   };
-
-  useEffect(() => {
-    console.log("selectedTypeConfig updated");
-  }, [selectedTypeConfig]);
 
   return (
     <>
@@ -173,7 +134,6 @@ export const AddCardButton = ({
                           name={value}
                           key={value}
                           onChange={(e) => {
-                            console.log(e);
                             updateNewCardValue(e, "required");
                           }}
                           className="text-center text-black"
@@ -220,7 +180,6 @@ export const AddCardButton = ({
                           name={value}
                           key={value}
                           onChange={(e) => {
-                            console.log(e);
                             updateNewCardValue(e, "optional");
                           }}
                           className="text-center text-black w-24"
