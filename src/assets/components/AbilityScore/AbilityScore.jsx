@@ -2,11 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import clsx from "clsx";
+
 export const AbilityScore = ({
-  configs: { required, optional },
+  configs: { required, optional } = {},
   isoverlay,
 }) => {
   // logic
+
   let shortName, longName;
   switch (required.scoreType) {
     case "str":
@@ -38,7 +40,6 @@ export const AbilityScore = ({
       longName = "Invalid Ability Score";
       break;
   }
-
   required.score = required.score ? required.score : 0;
   const modifier = Math.floor((required.score - 10) / 2);
   let isModAboveScore = optional.isModAboveScore
@@ -47,16 +48,17 @@ export const AbilityScore = ({
   let isModBig = optional.isModBig ? optional.isModBig : false;
   let modClass = isModBig ? "text-2xl" : "";
   let scoreClass = isModBig ? "" : "text-2xl";
-  let isShorthand = optional.isShorthand ? optional.isShorthand : false;
-  let isNameBottom = optional.isNameBottom ? optional.isNameBottom : false;
 
+  let isNameBottom = optional.isNameBottom ? optional.isNameBottom : false;
+  let isShorthand = optional.isShorthand ? optional.isShorthand : false;
   let bg = optional.bgColor ? " bg-" + optional.bgColor : " bg-primary";
   let textColor = optional.textColor
     ? " text-" + optional.textColor
     : " text-accent";
   let cardContainerClass = clsx(
     "p-4",
-    "w-24",
+    { "w-24": isShorthand },
+    { "w-28": !isShorthand },
     "absolute",
     "flex",
     "items-center",
