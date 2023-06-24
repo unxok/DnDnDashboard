@@ -6,7 +6,6 @@ import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 import { useEffect } from "react";
 import plus from "./assets/svgs/plus.svg";
-import { useRef } from "react";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -47,6 +46,24 @@ export const App = () => {
     setModalShow(false);
   };
 
+  const handleCopySave = async () => {
+    const saveString = JSON.stringify(
+      cards.map((obj) => {
+        const newObj = { ...obj };
+        console.log("element :", newObj.element);
+        newObj.element = newObj.element ? newObj.element.name : undefined;
+        return newObj;
+      })
+    );
+
+    try {
+      await navigator.clipboard.writeText(saveString);
+      console.log("success");
+    } catch (e) {
+      console.log("failed to copy", e);
+    }
+  };
+
   useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
@@ -63,6 +80,7 @@ export const App = () => {
           }}
         ></img>
       </div>
+      <button onClick={handleCopySave}>Save String</button>
       <AddCardButton
         isModalShow={isModalShow}
         updateModalShow={updateModalShow}
