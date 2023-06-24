@@ -7,37 +7,75 @@ export const AddCardButton = ({
   isModalShow,
   updateModalShow,
   updateCardsContextValue,
+  selectedTypeConfig,
+  updateSelectedTypeConfig,
+  isFormInvalid,
+  updateFormInvalid,
 }) => {
   //const { updateCardsContextValue } = useContext(CardsContext);
-  const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [newCardValue, setNewCardValue] = useState({});
-  const [isFormInvalid, setFormInvalid] = useState(false);
 
-  let id = 1;
+  const initializeNewCardValue = (element) => {
+    setNewCardValue({
+      configs: {
+        required: {},
+        optional: {},
+      },
+      id: generateId(),
+      top: 200,
+      left: 200,
+      element: element,
+    });
+  };
+
   const generateId = () => {
-    let newId = id + 1;
-    return newId;
+    let id = Math.floor(Math.random().toFixed(4) * 10000);
+    console.log(id);
+    return id;
   };
 
   const handleChooseType = ({ target }) => {
     const selectedType = ConfigMap[target.value];
     const element = ConfigMap[target.value].element;
     if (selectedType !== selectedTypeConfig) {
-      setSelectedTypeConfig(selectedType);
-      setNewCardValue({
-        configs: {
-          required: {},
-          optional: {},
-        },
-        id: generateId(),
-        top: 200,
-        left: 200,
-        element: element,
-      });
+      updateSelectedTypeConfig(selectedType);
+      initializeNewCardValue(element);
     }
   };
 
-  const handleRequiredChange = (e) => {
+  // const handleRequiredChange = (e) => {
+  //   console.log(e.target.value);
+  //   const { name, value } = e.target;
+
+  //   updateNewCardValue((prevValue) => ({
+  //     ...prevValue,
+  //     configs: {
+  //       ...prevValue.configs,
+  //       required: {
+  //         ...prevValue.configs.required,
+  //         [name]: value,
+  //       },
+  //     },
+  //   }));
+  // };
+
+  // const handleOptionalChange = (e) => {
+  //   console.log(e.target.value);
+  //   const { name, value } = e.target;
+
+  //   updateNewCardValue((prevValue) => ({
+  //     ...prevValue,
+  //     configs: {
+  //       ...prevValue.configs,
+  //       optional: {
+  //         ...prevValue.configs.optional,
+  //         [name]: value,
+  //       },
+  //     },
+  //   }));
+  // };
+
+  const updateNewCardValue = (e, optionType) => {
     console.log(e.target.value);
     const { name, value } = e.target;
 
@@ -45,24 +83,8 @@ export const AddCardButton = ({
       ...prevValue,
       configs: {
         ...prevValue.configs,
-        required: {
-          ...prevValue.configs.required,
-          [name]: value,
-        },
-      },
-    }));
-  };
-
-  const handleOptionalChange = (e) => {
-    console.log(e.target.value);
-    const { name, value } = e.target;
-
-    setNewCardValue((prevValue) => ({
-      ...prevValue,
-      configs: {
-        ...prevValue.configs,
-        optional: {
-          ...prevValue.configs.optional,
+        [optionType]: {
+          ...prevValue.configs[optionType],
           [name]: value,
         },
       },
@@ -87,23 +109,27 @@ export const AddCardButton = ({
 
   const handleAddItem = () => {
     if (checkFormInvalid()) {
-      setFormInvalid(true);
+      updateFormInvalid(true);
       return;
     }
-    setFormInvalid(false);
+    updateFormInvalid(false);
     updateModalShow();
     updateCardsContextValue(newCardValue);
     console.log("item should be added");
-    setNewCardValue(null);
+    updateNewCardValue(null);
     setSelectedTypeConfig(null);
   };
 
   const cancelAddItem = () => {
-    setFormInvalid(false);
+    updateFormInvalid(false);
     updateModalShow();
-    setSelectedTypeConfig(null);
-    setNewCardValue({});
+    updateSelectedTypeConfig(null);
+    updateNewCardValue({});
   };
+
+  useEffect(() => {
+    console.log("selectedTypeConfig updated");
+  }, [selectedTypeConfig]);
 
   return (
     <>
@@ -139,15 +165,17 @@ export const AddCardButton = ({
                 {selectedTypeConfig.required.map(
                   ({ value, show, type, options = null, inputType = null }) => {
                     const Component = type;
-                    const uid = generateId();
                     return options ? (
                       // <Component> = <select>
                       <div className="flex justify-between m-2">
                         <label htmlFor={value}>{show} :</label>
                         <Component
                           name={value}
-                          key={uid}
-                          onChange={handleRequiredChange}
+                          key={value}
+                          onChange={(e) => {
+                            console.log(e);
+                            updateNewCardValue(e, "required");
+                          }}
                           className="text-center text-black"
                           defaultValue=""
                         >
@@ -167,9 +195,9 @@ export const AddCardButton = ({
                         <label htmlFor={value}>{show} :</label>
                         <Component
                           name={value}
-                          key={uid}
+                          key={value}
                           type={inputType}
-                          onChange={handleRequiredChange}
+                          onChange={(e) => updateNewCardValue(e, "required")}
                           className="w-24 text-black text-center"
                         ></Component>
                       </div>
@@ -183,15 +211,18 @@ export const AddCardButton = ({
                 {selectedTypeConfig.optional.map(
                   ({ value, show, type, options = null, inputType = null }) => {
                     const Component = type;
-                    const uid = generateId();
+
                     return options ? (
                       // <Component> = <select>
                       <div className="flex justify-between m-2">
                         <label htmlFor={value}>{show} :</label>
                         <Component
                           name={value}
-                          key={uid}
-                          onChange={handleOptionalChange}
+                          key={value}
+                          onChange={(e) => {
+                            console.log(e);
+                            updateNewCardValue(e, "optional");
+                          }}
                           className="text-center text-black w-24"
                           defaultValue=""
                         >
@@ -211,9 +242,9 @@ export const AddCardButton = ({
                         <label htmlFor={value}>{show} :</label>
                         <Component
                           name={value}
-                          key={uid}
+                          key={value}
                           type={inputType}
-                          onChange={handleOptionalChange}
+                          onChange={(e) => updateNewCardValue(e, "optional")}
                           className="w-24 text-black text-center"
                         ></Component>
                       </div>

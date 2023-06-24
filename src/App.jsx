@@ -6,14 +6,32 @@ import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 import { useEffect } from "react";
 import plus from "./assets/svgs/plus.svg";
+import { useRef } from "react";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
   const [cards, setCards] = useState([{}]);
+  const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
+  //const [newCardValue, setNewCardValue] = useState({});
+  const [isFormInvalid, setFormInvalid] = useState(false);
+
+  const generateId = () => {
+    let id = Math.floor(Math.random().toFixed(4) * 10000);
+    console.log(id);
+    return id;
+  };
 
   const updateCardsContextValue = (newCard) => {
     setCards((prevCards) => [...prevCards, newCard]);
     console.log("card should be added to context and rendered : ", newCard);
+  };
+
+  const updateSelectedTypeConfig = (selectedType) => {
+    setSelectedTypeConfig(selectedType);
+  };
+
+  const updateFormInvalid = (bool) => {
+    setFormInvalid(bool);
   };
 
   useEffect(() => {
@@ -40,6 +58,13 @@ export const App = () => {
         isModalShow={isModalShow}
         updateModalShow={updateModalShow}
         updateCardsContextValue={updateCardsContextValue}
+        selectedTypeConfig={selectedTypeConfig}
+        updateSelectedTypeConfig={updateSelectedTypeConfig}
+        //newCardValue={newCardValue}
+        //initializeNewCardValue={initializeNewCardValue}
+        //updateNewCardValue={updateNewCardValue}
+        isFormInvalid={isFormInvalid}
+        updateFormInvalid={updateFormInvalid}
       ></AddCardButton>
       {cards.map((card) => (
         <DragContextProvider
