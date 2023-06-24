@@ -2,7 +2,6 @@ import React from "react";
 import { DraggableProvider } from "../DraggableProvider/DraggableProvider";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { restrictToParentElement } from "@dnd-kit/modifiers";
-import { useState } from "react";
 
 export const DragContextProvider = ({
   id,
@@ -13,19 +12,11 @@ export const DragContextProvider = ({
   logCoords,
 }) => {
   // logic
-  const [coords, setCoords] = useState({
-    top: top,
-    left: left,
-  });
 
   const handleDragStart = () => {};
 
   const handleDragEnd = ({ delta }) => {
-    setCoords((prevCoords) => ({
-      top: prevCoords.top + delta.y,
-      left: prevCoords.left + delta.x,
-    }));
-    logCoords(coords);
+    logCoords(delta, id);
   };
 
   const Element = element || "div";
@@ -33,14 +24,15 @@ export const DragContextProvider = ({
   // render
   return (
     <DndContext
+      key={id}
       onDragStart={handleDragStart}
       onDragCancel={() => {}}
       onDragEnd={handleDragEnd}
     >
       <DraggableProvider
         id={id}
-        top={coords.top}
-        left={coords.left}
+        top={top}
+        left={left}
         element={element}
         configs={configs}
       ></DraggableProvider>

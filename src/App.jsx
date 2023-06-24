@@ -15,8 +15,20 @@ export const App = () => {
   //const [newCardValue, setNewCardValue] = useState({});
   const [isFormInvalid, setFormInvalid] = useState(false);
 
-  const logCoords = (coords) => {
-    console.log("coords: ", coords.left, coords.top);
+  const logCoords = (coords, id) => {
+    setCards((prevCards) => {
+      return prevCards.map((card) => {
+        if (card.id === id) {
+          return {
+            ...card,
+            top: card.top + coords.y,
+            left: card.left + coords.x,
+          };
+        } else {
+          return card;
+        }
+      });
+    });
   };
 
   const updateCards = (newCard) => {
@@ -34,6 +46,10 @@ export const App = () => {
   const updateModalShow = () => {
     setModalShow(false);
   };
+
+  useEffect(() => {
+    console.log("cards : ", cards);
+  }, [cards]);
 
   return (
     <div className="w-screen h-screen bg-base">
