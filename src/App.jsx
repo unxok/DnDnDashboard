@@ -5,6 +5,7 @@ import { DragContextProvider } from "./assets/components/DragContextProvider/Dra
 import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
 import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
 import { useEffect } from "react";
+import plus from "./assets/svgs/plus.svg";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -25,14 +26,15 @@ export const App = () => {
 
   return (
     <div className="w-screen h-screen bg-base">
-      <div className="absolute bg-white">
-        <button
+      <div className="absolute opacity-70 left-5 top-5 transition ease-in-out duration-300 hover:cursor-pointer hover:scale-110 hover:opacity-100">
+        <img
+          src={plus}
+          width="50vh"
+          height="auto"
           onClick={() => {
             setModalShow(true);
           }}
-        >
-          Add Card
-        </button>
+        ></img>
       </div>
       <AddCardButton
         isModalShow={isModalShow}
