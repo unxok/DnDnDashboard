@@ -232,11 +232,6 @@ export const AddCardForm = ({
                   Cancel
                 </button>
               </div>
-              {isFormInvalid && (
-                <div className="bg-red-400 p-2 rounded-md">
-                  Please fill all required fields
-                </div>
-              )}
             </div>
           </div>
         </div>
