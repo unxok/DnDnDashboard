@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ConfigMap } from "../ConfigMap/ConfigMap";
 import { useEffect } from "react";
 
-export const AddCardButton = ({
+export const AddCardForm = ({
   isModalShow,
   updateModalShow,
   updateCards,
@@ -11,6 +11,7 @@ export const AddCardButton = ({
   updateSelectedTypeConfig,
   isFormInvalid,
   updateFormInvalid,
+  triggerAlert,
 }) => {
   //const { updateCardsContextValue } = useContext(CardsContext);
   const [newCardValue, setNewCardValue] = useState({});
@@ -76,10 +77,12 @@ export const AddCardButton = ({
   const handleAddItem = () => {
     if (checkFormInvalid()) {
       updateFormInvalid(true);
+      triggerAlert("error", "Please fill all required fields");
       return;
     }
     updateFormInvalid(false);
     updateModalShow();
+    triggerAlert("success", `New ${selectedTypeConfig.element.name} was added`);
     updateCards(newCardValue);
     // setNewCardValue(newCardValue);
     updateSelectedTypeConfig(null);

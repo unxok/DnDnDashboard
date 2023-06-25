@@ -9,8 +9,11 @@ export default {
         accent: "#DCD7C9",
         base: "#2C3639",
       },
-      height: {
-        droppable: "100px",
+      transitionDuration: {
+        2500: "2500ms",
+      },
+      animation: {
+        "bounce-custom": "bounce 3s infinite",
       },
     },
   },

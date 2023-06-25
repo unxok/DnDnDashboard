@@ -2,17 +2,32 @@
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useContext } from "react";
 import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
-import { AbilityScore } from "./assets/components/AbilityScore/AbilityScore";
-import { AddCardButton } from "./assets/components/AddCardButton/AddCardButton";
+import { AddCardForm } from "./assets/components/AddCardForm/AddCardForm";
 import { useEffect } from "react";
-import plus from "./assets/svgs/plus.svg";
+import { Toolbar } from "./assets/components/Toolbar/Toolbar";
+import { Alert } from "./assets/components/Alert/Alert";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
   const [cards, setCards] = useState([{}]);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
-  //const [newCardValue, setNewCardValue] = useState({});
   const [isFormInvalid, setFormInvalid] = useState(false);
+  const [isAlertVisible, toggleAlertVisible] = useState(false);
+  const [{ alertType, alertText }, setAlertType] = useState({});
+
+  useEffect(() => {
+    setTimeout(() => {
+      toggleAlertVisible(false);
+    }, 2600);
+  }, [isAlertVisible]);
+
+  const triggerAlert = (aType, aText) => {
+    setAlertType({
+      alertType: aType,
+      alertText: aText,
+    });
+    toggleAlertVisible(true);
+  };
 
   const logCoords = (coords, id) => {
     setCards((prevCards) => {
@@ -46,50 +61,33 @@ export const App = () => {
     setModalShow(false);
   };
 
-  const handleCopySave = async () => {
-    const saveString = JSON.stringify(
-      cards.map((obj) => {
-        const newObj = { ...obj };
-        console.log("element :", newObj.element);
-        newObj.element = newObj.element ? newObj.element.name : undefined;
-        return newObj;
-      })
-    );
-
-    try {
-      await navigator.clipboard.writeText(saveString);
-      console.log("success");
-    } catch (e) {
-      console.log("failed to copy", e);
-    }
-  };
-
   useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
 
   return (
-    <div className="w-screen h-screen bg-base">
-      <div className="absolute opacity-70 left-5 top-5 transition ease-in-out duration-300 hover:cursor-pointer hover:scale-110 hover:opacity-100">
-        <img
-          src={plus}
-          width="50vh"
-          height="auto"
-          onClick={() => {
-            setModalShow(true);
-          }}
-        ></img>
-      </div>
-      <button onClick={handleCopySave}>Save String</button>
-      <AddCardButton
-        isModalShow={isModalShow}
-        updateModalShow={updateModalShow}
-        updateCards={updateCards}
-        selectedTypeConfig={selectedTypeConfig}
-        updateSelectedTypeConfig={updateSelectedTypeConfig}
-        isFormInvalid={isFormInvalid}
-        updateFormInvalid={updateFormInvalid}
-      ></AddCardButton>
+    <div className="w-screen h-screen bg-base flex justify-center items-start">
+      <Toolbar
+        onClick={setModalShow}
+        cards={cards}
+        triggerAlert={triggerAlert}
+      ></Toolbar>
+      <Alert isAlertVisible={isAlertVisible} alertType={alertType}>
+        {alertText}
+      </Alert>
+
+      {isModalShow && (
+        <AddCardForm
+          isModalShow={isModalShow}
+          updateModalShow={updateModalShow}
+          updateCards={updateCards}
+          selectedTypeConfig={selectedTypeConfig}
+          updateSelectedTypeConfig={updateSelectedTypeConfig}
+          isFormInvalid={isFormInvalid}
+          updateFormInvalid={updateFormInvalid}
+          triggerAlert={triggerAlert}
+        ></AddCardForm>
+      )}
       {cards.map((card) => (
         <DragContextProvider
           id={card.id}
