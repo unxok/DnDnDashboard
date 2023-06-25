@@ -35,7 +35,7 @@ export const DraggableProvider = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="absolute"
+      className="absolute z-10"
     >
       <Element configs={configs} text={text} {...props}></Element>
     </div>

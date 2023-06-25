@@ -6,6 +6,7 @@ import { AddCardForm } from "./assets/components/AddCardForm/AddCardForm";
 import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
+import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -13,6 +14,7 @@ export const App = () => {
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [isFormInvalid, setFormInvalid] = useState(false);
   const [isAlertVisible, toggleAlertVisible] = useState(false);
+  const [isUploadModalShow, setUploadModalShow] = useState(false);
   const [{ alertType, alertText }, setAlertType] = useState({});
 
   useEffect(() => {
@@ -57,8 +59,12 @@ export const App = () => {
     setFormInvalid(bool);
   };
 
-  const updateModalShow = () => {
-    setModalShow(false);
+  const updateModalShow = (bool) => {
+    setModalShow(bool);
+  };
+
+  const updateUploadModalShow = (bool) => {
+    setUploadModalShow(bool);
   };
 
   useEffect(() => {
@@ -68,7 +74,8 @@ export const App = () => {
   return (
     <div className="w-screen h-screen bg-base flex justify-center items-start">
       <Toolbar
-        onClick={setModalShow}
+        updateModalShow={updateModalShow}
+        updateUploadModalShow={updateUploadModalShow}
         cards={cards}
         triggerAlert={triggerAlert}
       ></Toolbar>
@@ -87,6 +94,12 @@ export const App = () => {
           updateFormInvalid={updateFormInvalid}
           triggerAlert={triggerAlert}
         ></AddCardForm>
+      )}
+      {isUploadModalShow && (
+        <UploadSaveForm
+          updateUploadModalShow={updateUploadModalShow}
+          triggerAlert={triggerAlert}
+        />
       )}
       {cards.map((card) => (
         <DragContextProvider

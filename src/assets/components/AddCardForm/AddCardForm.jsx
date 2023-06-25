@@ -81,7 +81,7 @@ export const AddCardForm = ({
       return;
     }
     updateFormInvalid(false);
-    updateModalShow();
+    updateModalShow(false);
     triggerAlert("success", `New ${selectedTypeConfig.element.name} was added`);
     updateCards(newCardValue);
     // setNewCardValue(newCardValue);
@@ -90,7 +90,7 @@ export const AddCardForm = ({
 
   const cancelAddItem = () => {
     updateFormInvalid(false);
-    updateModalShow();
+    updateModalShow(false);
     updateSelectedTypeConfig(null);
     setNewCardValue({});
   };
