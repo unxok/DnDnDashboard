@@ -22,10 +22,9 @@ The idea with this project started from me using Roll20 to play Dungeons and Dra
 ## Feature Wishlist
 
 <input type="checkbox"> Customizable colors</input><br>
-<input type="checkbox"> Saveable layout</input><br>
 <input type="checkbox"> Edit existing cards</input><br>
-<input type="checkbox"> Auto Save to Local Storage</input><br>
-<input type="checkbox"> Export/Import Save</input><br>
+<input type="checkbox" checked> Auto Save to Local Storage</input><br>
+<input type="checkbox" checked> Export/Import Save</input><br>
 <input type="checkbox"> Drag Mode Toggle</input><br>
 <input type="checkbox"> Edit Mode Toggle</input><br>
 

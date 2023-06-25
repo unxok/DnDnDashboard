@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
+import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -16,12 +17,46 @@ export const App = () => {
   const [isAlertVisible, toggleAlertVisible] = useState(false);
   const [isUploadModalShow, setUploadModalShow] = useState(false);
   const [{ alertType, alertText }, setAlertType] = useState({});
+  const [firstLoad, setFirstLoad] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
       toggleAlertVisible(false);
     }, 2600);
   }, [isAlertVisible]);
+
+  // autosave
+  useEffect(() => {
+    if (!firstLoad) {
+      const saveString = JSON.stringify(
+        cards.map((obj) => {
+          const newObj = { ...obj };
+          newObj.element = newObj.element ? newObj.element.name : undefined;
+          return newObj;
+        })
+      );
+      try {
+        localStorage.setItem("autosave", saveString);
+        console.log("successfully autosaved");
+      } catch (e) {
+        console.log("failed to autosave", e);
+      }
+    }
+  }, [cards]);
+
+  // load autosave
+  useEffect(() => {
+    if (firstLoad) {
+      let tmp = JSON.parse(localStorage.getItem("autosave"));
+      const parsedSave = tmp.map((obj) => {
+        obj.element = getElementByName(obj.element);
+        return obj;
+      });
+      setCards(parsedSave);
+      console.log("should have loaded from ls", parsedSave);
+    }
+    setFirstLoad(false);
+  }, []);
 
   const triggerAlert = (aType, aText) => {
     setAlertType({
@@ -67,9 +102,20 @@ export const App = () => {
     setUploadModalShow(bool);
   };
 
+  const updateCardsFromUpload = (upload) => {
+    setCards(upload);
+  };
+
   useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
+
+  useEffect(() => {
+    if (isUploadModalShow) {
+      console.log("alert should trigger ");
+      triggerAlert("info", "Current Dashboard will be overwritten!");
+    }
+  }, [isUploadModalShow]);
 
   return (
     <div className="w-screen h-screen bg-base flex justify-center items-start">
@@ -99,8 +145,10 @@ export const App = () => {
         <UploadSaveForm
           updateUploadModalShow={updateUploadModalShow}
           triggerAlert={triggerAlert}
+          updateCardsFromUpload={updateCardsFromUpload}
         />
       )}
+
       {cards.map((card) => (
         <DragContextProvider
           id={card.id}

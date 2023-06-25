@@ -3,6 +3,7 @@ import { AbilityScore } from "../AbilityScore/AbilityScore";
 export const ConfigMap = {
   AbilityScore: {
     element: AbilityScore,
+    name: "AbilityScore",
     required: [
       {
         value: "scoreType",
@@ -86,4 +87,12 @@ export const ConfigMap = {
       },
     ],
   },
+};
+
+export const getElementByName = (elName) => {
+  for (const key in ConfigMap) {
+    if (ConfigMap[key].name === elName) {
+      return ConfigMap[key].element;
+    }
+  }
 };

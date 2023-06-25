@@ -2,21 +2,16 @@ import React from "react";
 
 import { useState } from "react";
 import { useEffect } from "react";
+import { getElementByName } from "../ConfigMap/ConfigMap";
 
 export const UploadSaveForm = ({
   triggerAlert,
-  isUploadModalShow,
   updateUploadModalShow,
+  updateCardsFromUpload,
 }) => {
   // logic
   const [pastedSave, setPastedSave] = useState(null);
   const [firefoxErr, setFirefoxErr] = useState(false);
-
-  useEffect(() => {
-    if (isUploadModalShow) {
-      triggerAlert("info", "Current Dashboard will be overwritten!");
-    }
-  }, [isUploadModalShow]);
 
   useEffect(() => {
     setFirefoxErr(false);
@@ -38,6 +33,20 @@ export const UploadSaveForm = ({
       triggerAlert("error", `Error Occurred: ${error}`);
     }
   };
+
+  const handleUploadSave = () => {
+    let tmp = JSON.parse(pastedSave);
+    const parsedSave = tmp.map((obj) => {
+      obj.element = getElementByName(obj.element);
+      return obj;
+    });
+    updateCardsFromUpload(parsedSave);
+    triggerAlert("success", "New Dashboard loaded");
+    setPastedSave(null);
+    setFirefoxErr(false);
+    updateUploadModalShow(false);
+  };
+
   const cancelUpload = () => {
     // clear loaded save if needed
     setPastedSave(null);
@@ -79,6 +88,7 @@ export const UploadSaveForm = ({
             <button
               disabled={pastedSave ? false : true}
               key="uploadSaveButton"
+              onClick={handleUploadSave}
               className="bg-accent m-2 p-2 rounded-lg border border-gray-800 shadow-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:bg-gray-300 disabled:hover:shadow-none disabled:hover:cursor-not-allowed active:scale-90 active:delay-0 active:shadow-none"
             >
               Upload
