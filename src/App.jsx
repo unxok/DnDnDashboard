@@ -2,28 +2,31 @@
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useContext } from "react";
 import { DraggableContainer } from "./assets/components/DragContextProvider/DragContextProvider";
-import { AddCardForm } from "./assets/components/AddCardForm/AddCardForm";
+import { AddCardForm } from "./assets/components/ToolbarForm/AddCardForm/AddCardForm";
 import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
-import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
-import { EditCardForm } from "./assets/components/EditCardForm/EditCardForm";
+import { UploadSaveForm } from "./assets/components/ToolbarForm/UploadSaveForm/UploadSaveForm";
+import { EditCardForm } from "./assets/components/ToolbarForm/EditCardForm/EditCardForm";
 import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
+import { ToolbarForm } from "./assets/components/ToolbarForm/ToolbarForm";
 
 export const App = () => {
-  const [isAddFormShow, setAddFormShow] = useState(false);
+  const [isFormShow, setFormShow] = useState({
+    add: false,
+    upload: false,
+    edit: false,
+  });
   const [cards, setCards] = useState([]);
+  const [isAlertShow, toggleAlertShow] = useState(false);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [isFormInvalid, setFormInvalid] = useState(false);
-  const [isAlertShow, toggleAlertShow] = useState(false);
-  const [isUploadFormShow, setUploadFormShow] = useState(false);
   const [{ alertType, alertText }, setAlertType] = useState({});
   const [firstLoad, setFirstLoad] = useState(true);
   const [overlay, setOverlay] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
-  const [isEditFormShow, setEditFormShow] = useState(false);
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
@@ -92,19 +95,6 @@ export const App = () => {
     });
   };
 
-  const handleDragStart = ({ active: { id } }) => {
-    cards.forEach((card) => {
-      if (card.id === id) {
-        setOverlay({ element: card.element, configs: card.configs });
-        if (isEditMode) {
-          setEditId(card);
-          setEditFormShow(true);
-          console.log("edit mode should be enabled for id: ", editId);
-        }
-      }
-    });
-  };
-
   const handleDragEnd = ({ active, delta }) => {
     logCoords(delta, active.id);
   };
@@ -129,22 +119,27 @@ export const App = () => {
     setFormInvalid(bool);
   };
 
-  const updateAddFormShow = (bool) => {
-    setAddFormShow(bool);
+  const updateFormShow = (formType, bool) => {
+    setFormShow((defVals) => ({
+      ...defVals,
+      [formType]: bool,
+    }));
   };
 
-  const updateUploadFormShow = (bool) => {
-    setUploadFormShow(bool);
+  const handleDragStart = ({ active: { id } }) => {
+    cards.forEach((card) => {
+      if (card.id === id) {
+        setOverlay({ element: card.element, configs: card.configs });
+        if (isEditMode) {
+          setEditId(card);
+          updateFormShow("edit", true);
+          console.log("edit mode should be enabled for id: ", editId);
+        }
+      }
+    });
   };
-
   const updateCardsFromUpload = (upload) => {
     setCards(upload);
-  };
-
-  const udpateEditFormShow = () => {
-    setEditFormShow((prev) => {
-      return !prev;
-    });
   };
 
   const updateEditMode = () => {
@@ -157,22 +152,25 @@ export const App = () => {
   };
 
   useEffect(() => {
+    console.log("isFormShow : ", isFormShow);
+  }, [isFormShow]);
+
+  useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
 
   useEffect(() => {
-    if (isUploadFormShow) {
+    if (isFormShow.upload) {
       console.log("alert should trigger ");
       triggerAlert("info", "Current Dashboard will be overwritten!");
     }
-  }, [isUploadFormShow]);
+  }, [isFormShow]);
 
   return (
     <div className="w-screen h-screen bg-base flex justify-center items-start">
       <Toolbar
-        updateAddFormShow={updateAddFormShow}
-        updateUploadFormShow={updateUploadFormShow}
         updateEditMode={updateEditMode}
+        updateFormShow={updateFormShow}
         isEditMode={isEditMode}
         cards={cards}
         triggerAlert={triggerAlert}
@@ -180,39 +178,19 @@ export const App = () => {
       <Alert isAlertVisible={isAlertShow} alertType={alertType}>
         {alertText}
       </Alert>
+      <ToolbarForm
+        isFormShow={isFormShow}
+        updateFormShow={updateFormShow}
+        updateCards={updateCards}
+        selectedTypeConfig={selectedTypeConfig}
+        updateSelectedTypeConfig={updateSelectedTypeConfig}
+        isFormInvalid={isFormInvalid}
+        updateFormInvalid={updateFormInvalid}
+        triggerAlert={triggerAlert}
+        updateCardsFromUpload={updateCardsFromUpload}
+        existingCard={editId}
+      />
 
-      {isAddFormShow && (
-        <AddCardForm
-          isAddFormShow={isAddFormShow}
-          updateAddFormShow={updateAddFormShow}
-          updateCards={updateCards}
-          selectedTypeConfig={selectedTypeConfig}
-          updateSelectedTypeConfig={updateSelectedTypeConfig}
-          isFormInvalid={isFormInvalid}
-          updateFormInvalid={updateFormInvalid}
-          triggerAlert={triggerAlert}
-        ></AddCardForm>
-      )}
-      {isUploadFormShow && (
-        <UploadSaveForm
-          updateUploadFormShow={updateUploadFormShow}
-          triggerAlert={triggerAlert}
-          updateCardsFromUpload={updateCardsFromUpload}
-        />
-      )}
-      {isEditFormShow && (
-        <EditCardForm
-          updateEditFormShow={udpateEditFormShow}
-          isEditFormShow={isEditFormShow}
-          selectedTypeConfig={selectedTypeConfig}
-          updateCards={updateCards}
-          updateSelectedTypeConfig={updateSelectedTypeConfig}
-          isFormInvalid={isFormInvalid}
-          updateFormInvalid={updateFormInvalid}
-          triggerAlert={triggerAlert}
-          existingCard={editId}
-        />
-      )}
       <DndContext
         key="primaryDndContext"
         onDragStart={handleDragStart}

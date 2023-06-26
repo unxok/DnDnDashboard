@@ -1,7 +1,7 @@
 import React from "react";
 import plus from "../../../svgs/plus.svg";
 
-export const AddCardButton = ({ updateAddFormShow }) => {
+export const AddCardButton = ({ updateFormShow }) => {
   // logic
 
   return (
@@ -11,7 +11,7 @@ export const AddCardButton = ({ updateAddFormShow }) => {
         width="50vh"
         height="auto"
         onClick={() => {
-          updateAddFormShow(true);
+          updateFormShow("add", true);
         }}
       ></img>
     </div>

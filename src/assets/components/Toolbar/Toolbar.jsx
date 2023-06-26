@@ -8,6 +8,7 @@ export const Toolbar = ({
   updateAddFormShow,
   updateUploadFormShow,
   updateEditMode,
+  updateFormShow,
   isEditMode,
   cards,
   triggerAlert,
@@ -17,12 +18,12 @@ export const Toolbar = ({
   return (
     <div className="fixed flex-col left-5 top-5 p-3 flex items-center justify-center bg-primary rounded-md">
       <AddCardButton
-        updateAddFormShow={updateAddFormShow}
+        updateFormShow={updateFormShow}
         triggerAlert={triggerAlert}
       />
       <SaveButton cards={cards} triggerAlert={triggerAlert}></SaveButton>
       <UploadButton
-        updateUploadFormShow={updateUploadFormShow}
+        updateFormShow={updateFormShow}
         triggerAlert={triggerAlert}
       />
       <EditModeButton

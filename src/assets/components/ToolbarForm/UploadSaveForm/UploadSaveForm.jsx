@@ -2,11 +2,11 @@ import React from "react";
 
 import { useState } from "react";
 import { useEffect } from "react";
-import { getElementByName } from "../ConfigMap/ConfigMap";
+import { getElementByName } from "../../ConfigMap/ConfigMap";
 
 export const UploadSaveForm = ({
   triggerAlert,
-  updateUploadFormShow,
+  updateFormShow,
   updateCardsFromUpload,
 }) => {
   // logic
@@ -44,14 +44,14 @@ export const UploadSaveForm = ({
     triggerAlert("success", "Saved Dashboard loaded");
     setPastedSave(null);
     setFirefoxErr(false);
-    updateUploadFormShow(false);
+    updateFormShow("upload", false);
   };
 
   const cancelUpload = () => {
     // clear loaded save if needed
     setPastedSave(null);
     setFirefoxErr(false);
-    updateUploadFormShow(false);
+    updateFormShow("upload", false);
   };
 
   return (

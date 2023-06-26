@@ -1,7 +1,7 @@
 import React from "react";
 import cloudupload from "../../../svgs/cloud-upload.svg";
 
-export const UploadButton = ({ updateUploadFormShow }) => {
+export const UploadButton = ({ updateFormShow }) => {
   // logic
 
   return (
@@ -10,7 +10,7 @@ export const UploadButton = ({ updateUploadFormShow }) => {
         <img
           src={cloudupload}
           onClick={() => {
-            updateUploadFormShow(true);
+            updateFormShow("upload", true);
           }}
           width="50vh"
           height="auto"
