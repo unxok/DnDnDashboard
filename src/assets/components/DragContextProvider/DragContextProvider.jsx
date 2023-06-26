@@ -13,9 +13,6 @@ export const DraggableContainer = ({
 }) => {
   // logic
 
-  const Element = element || "div";
-  console.log("Element = ", Element);
-
   // render
   return (
     <div>

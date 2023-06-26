@@ -127,12 +127,17 @@ export const AddCardForm = ({
               >
                 Required <hr className="opacity-30 m-1" />
                 {selectedTypeConfig.required.map(
-                  ({ value, show, type, options = null, inputType = null }) => {
+                  (
+                    { value, show, type, options = null, inputType = null },
+                    index
+                  ) => {
                     const Component = type;
                     return options ? (
                       // <Component> = <select>
-                      <div className="flex justify-between m-2">
-                        <label htmlFor={value}>{show} :</label>
+                      <div key={index} className="flex justify-between m-2">
+                        <label key={value + "-label"} htmlFor={value}>
+                          {show} :
+                        </label>
                         <Component
                           name={value}
                           key={value}
@@ -142,7 +147,7 @@ export const AddCardForm = ({
                           className="text-center text-black"
                           defaultValue=""
                         >
-                          <option value="" disabled>
+                          <option key={index + "-def-label"} value="" disabled>
                             select one
                           </option>
                           {options.map((option) => (
@@ -154,8 +159,10 @@ export const AddCardForm = ({
                       </div>
                     ) : (
                       // <Component> = <input>
-                      <div className="flex justify-between m-2">
-                        <label htmlFor={value}>{show} :</label>
+                      <div key={index} className="flex justify-between m-2">
+                        <label key={value + "-label"} htmlFor={value}>
+                          {show} :
+                        </label>
                         <Component
                           name={value}
                           key={value}
@@ -172,13 +179,18 @@ export const AddCardForm = ({
             {selectedTypeConfig && (
               <div className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col border border-gray-800 shadow-lg">
                 {selectedTypeConfig.optional.map(
-                  ({ value, show, type, options = null, inputType = null }) => {
+                  (
+                    { value, show, type, options = null, inputType = null },
+                    index
+                  ) => {
                     const Component = type;
 
                     return options ? (
                       // <Component> = <select>
-                      <div className="flex justify-between m-2">
-                        <label htmlFor={value}>{show} :</label>
+                      <div key={index} className="flex justify-between m-2">
+                        <label key={value + "-label"} htmlFor={value}>
+                          {show} :
+                        </label>
                         <Component
                           name={value}
                           key={value}
@@ -188,7 +200,7 @@ export const AddCardForm = ({
                           className="text-center text-black w-24"
                           defaultValue=""
                         >
-                          <option value="" disabled>
+                          <option key={index + "-def-option"} value="" disabled>
                             select one
                           </option>
                           {options.map((option) => (
@@ -200,8 +212,10 @@ export const AddCardForm = ({
                       </div>
                     ) : (
                       // <Component> = <input>
-                      <div className="flex justify-between m-2">
-                        <label htmlFor={value}>{show} :</label>
+                      <div key={index} className="flex justify-between m-2">
+                        <label key={value + "-label"} htmlFor={value}>
+                          {show} :
+                        </label>
                         <Component
                           name={value}
                           key={value}

@@ -13,7 +13,7 @@ import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
-  const [cards, setCards] = useState([{}]);
+  const [cards, setCards] = useState([]);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [isFormInvalid, setFormInvalid] = useState(false);
   const [isAlertVisible, toggleAlertVisible] = useState(false);
@@ -50,15 +50,18 @@ export const App = () => {
   // load autosave
   useEffect(() => {
     if (firstLoad) {
-      let tmp = JSON.parse(localStorage.getItem("autosave"));
-      const parsedSave = tmp.map((obj) => {
-        obj.element = getElementByName(obj.element);
-        return obj;
-      });
-      setCards(parsedSave);
-      console.log("should have loaded from ls", parsedSave);
+      try {
+        let tmp = JSON.parse(localStorage.getItem("autosave"));
+        const parsedSave = tmp.map((obj) => {
+          obj.element = getElementByName(obj.element);
+          return obj;
+        });
+        setCards(parsedSave);
+      } catch (e) {
+        console.log("could not find autosave: ", e);
+      }
+      setFirstLoad(false);
     }
-    setFirstLoad(false);
   }, []);
 
   const triggerAlert = (aType, aText) => {
