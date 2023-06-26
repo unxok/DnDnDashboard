@@ -1,14 +1,15 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useContext } from "react";
-import { DragContextProvider } from "./assets/components/DragContextProvider/DragContextProvider";
+import { DraggableContainer } from "./assets/components/DragContextProvider/DragContextProvider";
 import { AddCardForm } from "./assets/components/AddCardForm/AddCardForm";
 import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
 import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
-import { DroppableTest } from "./assets/components/DroppableTest/DroppableTest";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
+import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -19,6 +20,7 @@ export const App = () => {
   const [isUploadModalShow, setUploadModalShow] = useState(false);
   const [{ alertType, alertText }, setAlertType] = useState({});
   const [firstLoad, setFirstLoad] = useState(true);
+  const [overlay, setOverlay] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -81,6 +83,18 @@ export const App = () => {
         }
       });
     });
+  };
+
+  const handleDragStart = ({ active: { id } }) => {
+    cards.forEach((card) => {
+      if (card.id === id) {
+        setOverlay({ element: card.element, configs: card.configs });
+      }
+    });
+  };
+
+  const handleDragEnd = ({ active, delta }) => {
+    logCoords(delta, active.id);
   };
 
   const updateCards = (newCard) => {
@@ -149,20 +163,32 @@ export const App = () => {
           updateCardsFromUpload={updateCardsFromUpload}
         />
       )}
-
-      {cards.map((card) => (
-        <DragContextProvider
-          id={card.id}
-          key={card.id}
-          top={card.top}
-          left={card.left}
-          element={card.element}
-          configs={card.configs}
-          logCoords={logCoords}
-        >
-          <DroppableTest></DroppableTest>
-        </DragContextProvider>
-      ))}
+      <DndContext
+        key="primaryDndContext"
+        onDragStart={handleDragStart}
+        onDragCancel={() => {}}
+        onDragEnd={handleDragEnd}
+      >
+        {cards.map((card) => (
+          <DraggableContainer
+            id={card.id}
+            key={card.id}
+            top={card.top}
+            left={card.left}
+            element={card.element}
+            configs={card.configs}
+            logCoords={logCoords}
+          ></DraggableContainer>
+        ))}
+        {overlay && (
+          <DragOverlay>
+            <OverlayMaker
+              element={overlay.element}
+              configs={overlay.configs}
+            ></OverlayMaker>
+          </DragOverlay>
+        )}
+      </DndContext>
     </div>
   );
 };
