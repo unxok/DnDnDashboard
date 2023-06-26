@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
+import { EditCardForm } from "./assets/components/EditCardForm/EditCardForm";
 import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
@@ -21,6 +22,9 @@ export const App = () => {
   const [{ alertType, alertText }, setAlertType] = useState({});
   const [firstLoad, setFirstLoad] = useState(true);
   const [overlay, setOverlay] = useState(null);
+  const [isEditMode, setEditMode] = useState(false);
+  const [isEditModalShow, setEditModalShow] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
@@ -92,6 +96,11 @@ export const App = () => {
     cards.forEach((card) => {
       if (card.id === id) {
         setOverlay({ element: card.element, configs: card.configs });
+        if (isEditMode) {
+          setEditId(card);
+          setEditModalShow(true);
+          console.log("edit mode should be enabled for id: ", editId);
+        }
       }
     });
   };
@@ -100,8 +109,16 @@ export const App = () => {
     logCoords(delta, active.id);
   };
 
-  const updateCards = (newCard) => {
-    setCards((prevCards) => [...prevCards, newCard]);
+  const updateCards = (newCard, optsObj) => {
+    optsObj && optsObj.edit
+      ? setCards((prevCards) =>
+          prevCards.filter((card) => card.id !== newCard.id).concat(newCard)
+        )
+      : optsObj && optsObj.delete
+      ? setCards((prevCards) =>
+          prevCards.filter((card) => card.id !== newCard.id)
+        )
+      : setCards((prevCards) => [...prevCards, newCard]);
   };
 
   const updateSelectedTypeConfig = (selectedType) => {
@@ -124,6 +141,21 @@ export const App = () => {
     setCards(upload);
   };
 
+  const updateEditModalShow = () => {
+    setEditModalShow((prev) => {
+      return !prev;
+    });
+  };
+
+  const updateEditMode = () => {
+    setEditMode((prev) => {
+      prev
+        ? triggerAlert("info", "Edit Mode Off")
+        : triggerAlert("info", "Edit Mode Enabled");
+      return !prev;
+    });
+  };
+
   useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
@@ -140,6 +172,8 @@ export const App = () => {
       <Toolbar
         updateModalShow={updateModalShow}
         updateUploadModalShow={updateUploadModalShow}
+        updateEditMode={updateEditMode}
+        isEditMode={isEditMode}
         cards={cards}
         triggerAlert={triggerAlert}
       ></Toolbar>
@@ -164,6 +198,19 @@ export const App = () => {
           updateUploadModalShow={updateUploadModalShow}
           triggerAlert={triggerAlert}
           updateCardsFromUpload={updateCardsFromUpload}
+        />
+      )}
+      {isEditModalShow && (
+        <EditCardForm
+          updateEditModalShow={updateEditModalShow}
+          isEditModalShow={isEditModalShow}
+          selectedTypeConfig={selectedTypeConfig}
+          updateCards={updateCards}
+          updateSelectedTypeConfig={updateSelectedTypeConfig}
+          isFormInvalid={isFormInvalid}
+          updateFormInvalid={updateFormInvalid}
+          triggerAlert={triggerAlert}
+          existingCard={editId}
         />
       )}
       <DndContext
