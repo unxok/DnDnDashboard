@@ -5,8 +5,8 @@ import { UploadButton } from "./UploadButton/UploadButton";
 import { EditModeButton } from "./EditModeButton/EditModeButton";
 
 export const Toolbar = ({
-  updateModalShow,
-  updateUploadModalShow,
+  updateAddFormShow,
+  updateUploadFormShow,
   updateEditMode,
   isEditMode,
   cards,
@@ -17,12 +17,12 @@ export const Toolbar = ({
   return (
     <div className="fixed flex-col left-5 top-5 p-3 flex items-center justify-center bg-primary rounded-md">
       <AddCardButton
-        updateModalShow={updateModalShow}
+        updateAddFormShow={updateAddFormShow}
         triggerAlert={triggerAlert}
       />
       <SaveButton cards={cards} triggerAlert={triggerAlert}></SaveButton>
       <UploadButton
-        updateUploadModalShow={updateUploadModalShow}
+        updateUploadFormShow={updateUploadFormShow}
         triggerAlert={triggerAlert}
       />
       <EditModeButton

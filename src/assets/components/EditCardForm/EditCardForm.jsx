@@ -4,8 +4,8 @@ import { ConfigMap } from "../ConfigMap/ConfigMap";
 import { useEffect } from "react";
 
 export const EditCardForm = ({
-  isEditModalShow,
-  updateEditModalShow,
+  isEditFormShow,
+  updateEditFormShow,
   updateCards,
   selectedTypeConfig,
   updateSelectedTypeConfig,
@@ -58,15 +58,15 @@ export const EditCardForm = ({
       return;
     }
     updateFormInvalid(false);
-    updateEditModalShow(false);
-    triggerAlert("success", `New ${selectedTypeConfig.element.name} was added`);
+    updateEditFormShow(false);
+    triggerAlert("success", "Card was updated");
     updateCards(newCardValue, { edit: 1 });
     updateSelectedTypeConfig(null);
   };
 
   const cancelAddItem = () => {
     updateFormInvalid(false);
-    updateEditModalShow(false);
+    updateEditFormShow(false);
     updateSelectedTypeConfig(null);
     setNewCardValue({});
   };
@@ -74,14 +74,14 @@ export const EditCardForm = ({
   const deleteItem = () => {
     updateCards(existingCard, { delete: 1 });
     updateFormInvalid(false);
-    updateEditModalShow(false);
+    updateEditFormShow(false);
     updateSelectedTypeConfig(null);
     setNewCardValue({});
   };
 
   return (
     <>
-      {isEditModalShow && (
+      {isEditFormShow && (
         <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-gray-500 bg-opacity-50 z-40">
           <div className="p-5 bg-primary shadow-lg border border-gray-700 z-50 flex flex-col rounded-lg items-center justify-center ">
             {selectedTypeConfig && (

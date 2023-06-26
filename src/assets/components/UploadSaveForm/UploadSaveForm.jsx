@@ -6,7 +6,7 @@ import { getElementByName } from "../ConfigMap/ConfigMap";
 
 export const UploadSaveForm = ({
   triggerAlert,
-  updateUploadModalShow,
+  updateUploadFormShow,
   updateCardsFromUpload,
 }) => {
   // logic
@@ -41,17 +41,17 @@ export const UploadSaveForm = ({
       return obj;
     });
     updateCardsFromUpload(parsedSave);
-    triggerAlert("success", "New Dashboard loaded");
+    triggerAlert("success", "Saved Dashboard loaded");
     setPastedSave(null);
     setFirefoxErr(false);
-    updateUploadModalShow(false);
+    updateUploadFormShow(false);
   };
 
   const cancelUpload = () => {
     // clear loaded save if needed
     setPastedSave(null);
     setFirefoxErr(false);
-    updateUploadModalShow(false);
+    updateUploadFormShow(false);
   };
 
   return (

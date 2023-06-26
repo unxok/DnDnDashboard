@@ -13,24 +13,24 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 
 export const App = () => {
-  const [isModalShow, setModalShow] = useState(false);
+  const [isAddFormShow, setAddFormShow] = useState(false);
   const [cards, setCards] = useState([]);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [isFormInvalid, setFormInvalid] = useState(false);
-  const [isAlertVisible, toggleAlertVisible] = useState(false);
-  const [isUploadModalShow, setUploadModalShow] = useState(false);
+  const [isAlertShow, toggleAlertShow] = useState(false);
+  const [isUploadFormShow, setUploadFormShow] = useState(false);
   const [{ alertType, alertText }, setAlertType] = useState({});
   const [firstLoad, setFirstLoad] = useState(true);
   const [overlay, setOverlay] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
-  const [isEditModalShow, setEditModalShow] = useState(false);
+  const [isEditFormShow, setEditFormShow] = useState(false);
   const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     setTimeout(() => {
-      toggleAlertVisible(false);
+      toggleAlertShow(false);
     }, 2600);
-  }, [isAlertVisible]);
+  }, [isAlertShow]);
 
   // autosave
   useEffect(() => {
@@ -73,7 +73,7 @@ export const App = () => {
       alertType: aType,
       alertText: aText,
     });
-    toggleAlertVisible(true);
+    toggleAlertShow(true);
   };
 
   const logCoords = (coords, id) => {
@@ -98,7 +98,7 @@ export const App = () => {
         setOverlay({ element: card.element, configs: card.configs });
         if (isEditMode) {
           setEditId(card);
-          setEditModalShow(true);
+          setEditFormShow(true);
           console.log("edit mode should be enabled for id: ", editId);
         }
       }
@@ -129,20 +129,20 @@ export const App = () => {
     setFormInvalid(bool);
   };
 
-  const updateModalShow = (bool) => {
-    setModalShow(bool);
+  const updateAddFormShow = (bool) => {
+    setAddFormShow(bool);
   };
 
-  const updateUploadModalShow = (bool) => {
-    setUploadModalShow(bool);
+  const updateUploadFormShow = (bool) => {
+    setUploadFormShow(bool);
   };
 
   const updateCardsFromUpload = (upload) => {
     setCards(upload);
   };
 
-  const updateEditModalShow = () => {
-    setEditModalShow((prev) => {
+  const udpateEditFormShow = () => {
+    setEditFormShow((prev) => {
       return !prev;
     });
   };
@@ -161,30 +161,30 @@ export const App = () => {
   }, [cards]);
 
   useEffect(() => {
-    if (isUploadModalShow) {
+    if (isUploadFormShow) {
       console.log("alert should trigger ");
       triggerAlert("info", "Current Dashboard will be overwritten!");
     }
-  }, [isUploadModalShow]);
+  }, [isUploadFormShow]);
 
   return (
     <div className="w-screen h-screen bg-base flex justify-center items-start">
       <Toolbar
-        updateModalShow={updateModalShow}
-        updateUploadModalShow={updateUploadModalShow}
+        updateAddFormShow={updateAddFormShow}
+        updateUploadFormShow={updateUploadFormShow}
         updateEditMode={updateEditMode}
         isEditMode={isEditMode}
         cards={cards}
         triggerAlert={triggerAlert}
       ></Toolbar>
-      <Alert isAlertVisible={isAlertVisible} alertType={alertType}>
+      <Alert isAlertVisible={isAlertShow} alertType={alertType}>
         {alertText}
       </Alert>
 
-      {isModalShow && (
+      {isAddFormShow && (
         <AddCardForm
-          isModalShow={isModalShow}
-          updateModalShow={updateModalShow}
+          isAddFormShow={isAddFormShow}
+          updateAddFormShow={updateAddFormShow}
           updateCards={updateCards}
           selectedTypeConfig={selectedTypeConfig}
           updateSelectedTypeConfig={updateSelectedTypeConfig}
@@ -193,17 +193,17 @@ export const App = () => {
           triggerAlert={triggerAlert}
         ></AddCardForm>
       )}
-      {isUploadModalShow && (
+      {isUploadFormShow && (
         <UploadSaveForm
-          updateUploadModalShow={updateUploadModalShow}
+          updateUploadFormShow={updateUploadFormShow}
           triggerAlert={triggerAlert}
           updateCardsFromUpload={updateCardsFromUpload}
         />
       )}
-      {isEditModalShow && (
+      {isEditFormShow && (
         <EditCardForm
-          updateEditModalShow={updateEditModalShow}
-          isEditModalShow={isEditModalShow}
+          updateEditFormShow={udpateEditFormShow}
+          isEditFormShow={isEditFormShow}
           selectedTypeConfig={selectedTypeConfig}
           updateCards={updateCards}
           updateSelectedTypeConfig={updateSelectedTypeConfig}
