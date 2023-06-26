@@ -1,5 +1,5 @@
 import React from "react";
-import upload from "../../../svgs/upload.svg";
+import cloudupload from "../../../svgs/cloud-upload.svg";
 
 export const UploadButton = ({ updateUploadModalShow }) => {
   // logic
@@ -8,7 +8,7 @@ export const UploadButton = ({ updateUploadModalShow }) => {
     <div>
       <div className="opacity-70 transition ease-in-out duration-300 hover:cursor-pointer hover:scale-110 hover:opacity-100 active:scale-90 active:duration-75">
         <img
-          src={upload}
+          src={cloudupload}
           onClick={() => {
             updateUploadModalShow(true);
           }}

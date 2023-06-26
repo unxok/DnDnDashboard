@@ -8,6 +8,7 @@ import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import { UploadSaveForm } from "./assets/components/UploadSaveForm/UploadSaveForm";
 import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
+import { DroppableTest } from "./assets/components/DroppableTest/DroppableTest";
 
 export const App = () => {
   const [isModalShow, setModalShow] = useState(false);
@@ -158,7 +159,9 @@ export const App = () => {
           element={card.element}
           configs={card.configs}
           logCoords={logCoords}
-        />
+        >
+          <DroppableTest></DroppableTest>
+        </DragContextProvider>
       ))}
     </div>
   );
