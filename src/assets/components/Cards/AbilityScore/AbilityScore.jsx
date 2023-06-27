@@ -76,7 +76,7 @@ export const AbilityScore = ({
     "flex-col-reverse": !isModAboveScore,
   });
 
-  let scoreName = "err";
+  let scoreName = longName;
   if (optional.textCase) {
     switch (optional.textCase) {
       case "regular":
