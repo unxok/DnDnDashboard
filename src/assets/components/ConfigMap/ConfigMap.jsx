@@ -1,4 +1,6 @@
-import { AbilityScore } from "../AbilityScore/AbilityScore";
+import { AbilityScore } from "../Cards/AbilityScore/AbilityScore";
+import { PlayerName } from "../Cards/PlayerName/PlayerName";
+import { PlayerDetails } from "../Cards/PlayerDetails/PlayerDetails";
 
 export const ConfigMap = {
   AbilityScore: {
@@ -54,8 +56,8 @@ export const ConfigMap = {
         type: "select",
         options: [
           { value: "primary", show: "primary" },
-          { value: "secondary", show: "secondary" },
           { value: "accent", show: "accent" },
+          { value: "secondary", show: "secondary" },
           { value: "base", show: "base" },
         ],
       },
@@ -64,10 +66,10 @@ export const ConfigMap = {
         show: "text",
         type: "select",
         options: [
-          { value: "primary", show: "primary" },
-          { value: "secondary", show: "secondary" },
           { value: "accent", show: "accent" },
           { value: "base", show: "base" },
+          { value: "primary", show: "primary" },
+          { value: "secondary", show: "secondary" },
         ],
       },
       {
@@ -82,8 +84,88 @@ export const ConfigMap = {
       {
         value: "isCapital",
         show: "Show name in all caps",
+        type: "select",
+        options: [
+          { value: null, show: "no" },
+          { value: true, show: "yes" },
+        ],
+      },
+    ],
+  },
+  PlayerName: {
+    element: PlayerName,
+    name: "PlayerName",
+    required: [
+      {
+        value: "playerName",
+        show: "Player Name",
         type: "input",
-        inputType: "checkbox",
+        inputType: "text",
+      },
+    ],
+    optional: [
+      {
+        value: "preTagline",
+        show: "tagline above name",
+        type: "input",
+        inputType: "text",
+      },
+      {
+        value: "postTagline",
+        show: "tagline below name",
+        type: "input",
+        inputType: "text",
+      },
+      {
+        value: "bgColor",
+        show: "Background",
+        type: "select",
+        options: [
+          { value: "primary", show: "primary" },
+          { value: "secondary", show: "secondary" },
+          { value: "accent", show: "accent" },
+          { value: "base", show: "base" },
+        ],
+      },
+      {
+        value: "textColor",
+        show: "Text",
+        type: "select",
+        options: [
+          { value: "accent", show: "accent" },
+          { value: "primary", show: "primary" },
+          { value: "secondary", show: "secondary" },
+          { value: "base", show: "base" },
+        ],
+      },
+      {
+        value: "showBottomLine",
+        show: "Show line at the bottom",
+        type: "select",
+        options: [
+          { value: true, show: "yes" },
+          { value: null, show: "no" },
+        ],
+      },
+    ],
+  },
+  PlayerDetails: {
+    element: PlayerDetails,
+    name: "PlayerDetails",
+    required: [
+      { value: "class", show: "Class", type: "input", inputType: "text" },
+      {
+        value: "background",
+        show: "Background",
+        type: "input",
+        inputType: "text",
+      },
+      { value: "race", show: "Race", type: "input", inputType: "text" },
+      {
+        value: "alignment",
+        show: "Alignment",
+        type: "input",
+        inputType: "text",
       },
     ],
   },

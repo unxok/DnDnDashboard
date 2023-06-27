@@ -1,6 +1,4 @@
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import clsx from "clsx";
 
 export const AbilityScore = ({
@@ -79,7 +77,10 @@ export const AbilityScore = ({
   });
 
   let scoreName = optional.isShorthand ? shortName : longName;
-  scoreName = optional.isCapital ? scoreName.toUpperCase() : scoreName;
+  scoreName =
+    optional.isCapital === "true"
+      ? scoreName.toUpperCase()
+      : scoreName.toLowerCase();
 
   // render
   return (

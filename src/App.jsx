@@ -152,16 +152,11 @@ export const App = () => {
   };
 
   useEffect(() => {
-    console.log("isFormShow : ", isFormShow);
-  }, [isFormShow]);
-
-  useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
 
   useEffect(() => {
     if (isFormShow.upload) {
-      console.log("alert should trigger ");
       triggerAlert("info", "Current Dashboard will be overwritten!");
     }
   }, [isFormShow]);

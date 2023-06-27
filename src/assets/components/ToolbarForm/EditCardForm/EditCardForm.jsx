@@ -144,7 +144,8 @@ export const EditCardForm = ({
               </div>
             )}
             {selectedTypeConfig && (
-              <div className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col border border-gray-800 shadow-lg">
+              <div className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col border border-gray-800 shadow-lg text-center">
+                Optional <hr className="opacity-30 m-1" />
                 {selectedTypeConfig.optional.map(
                   (
                     { value, show, type, options = null, inputType = null },
