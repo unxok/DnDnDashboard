@@ -35,6 +35,8 @@ export const EditCardForm = ({
     }));
   };
 
+  console.log("selected type config = ", selectedTypeConfig);
+
   const checkFormInvalid = () => {
     let numOfReqs = 0;
     let numOfFilledReqs = 0;
