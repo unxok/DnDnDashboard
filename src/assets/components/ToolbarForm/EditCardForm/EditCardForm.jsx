@@ -16,9 +16,11 @@ export const EditCardForm = ({
 }) => {
   const [newCardValue, setNewCardValue] = useState(existingCard);
 
-  useEffect(() => {
-    updateSelectedTypeConfig(ConfigMap[existingCard.element.name]);
-  }, []);
+  //updateSelectedTypeConfig(ConfigMap[existingCard.element.name]);
+  console.log(
+    "From EditCardForm, selectedTypeConfig is now: ",
+    selectedTypeConfig
+  );
 
   const updateNewCardValue = (e, optionType) => {
     const { name, value } = e.target;
@@ -34,8 +36,6 @@ export const EditCardForm = ({
       },
     }));
   };
-
-  console.log("selected type config = ", selectedTypeConfig);
 
   const checkFormInvalid = () => {
     let numOfReqs = 0;

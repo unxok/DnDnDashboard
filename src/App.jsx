@@ -5,7 +5,10 @@ import { DraggableContainer } from "./assets/components/DraggableContainer/Dragg
 import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
-import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
+import {
+  ConfigMap,
+  getElementByName,
+} from "./assets/components/ConfigMap/ConfigMap";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 import { ToolbarForm } from "./assets/components/ToolbarForm/ToolbarForm";
@@ -130,6 +133,7 @@ export const App = () => {
         setOverlay({ element: card.element, configs: card.configs });
         if (isEditMode) {
           setEditId(card);
+          setSelectedTypeConfig(ConfigMap[card.element.name]);
           updateFormShow("edit", true);
           console.log("edit mode should be enabled for id: ", editId);
         }
