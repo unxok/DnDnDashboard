@@ -76,11 +76,24 @@ export const AbilityScore = ({
     "flex-col-reverse": !isModAboveScore,
   });
 
-  let scoreName = optional.isShorthand ? shortName : longName;
-  scoreName =
-    optional.isCapital === "true"
-      ? scoreName.toUpperCase()
-      : scoreName.toLowerCase();
+  let scoreName = "err";
+  if (optional.textCase) {
+    switch (optional.textCase) {
+      case "regular":
+        scoreName = isShorthand ? shortName : longName;
+        break;
+      case "lower":
+        scoreName = isShorthand
+          ? shortName.toLowerCase()
+          : longName.toLowerCase();
+        break;
+      case "upper":
+        scoreName = isShorthand
+          ? shortName.toUpperCase()
+          : longName.toUpperCase();
+        break;
+    }
+  }
 
   // render
   return (

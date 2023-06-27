@@ -8,7 +8,6 @@ export const PlayerName = ({
   // logic
 
   let { playerName } = required;
-  console.log(optional.preTagline);
 
   let preTagline = optional.preTagline ? optional.preTagline : false;
   let postTagline = optional.postTagline ? optional.postTagline : false;

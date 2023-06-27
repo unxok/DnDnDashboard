@@ -17,7 +17,6 @@ export const ToolbarForm = ({
 }) => {
   // logic
   const { add, edit, upload } = isFormShow;
-  console.log("add", add, "edit", edit, "upload", upload);
 
   return (
     <>

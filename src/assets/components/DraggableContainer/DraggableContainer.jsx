@@ -9,21 +9,20 @@ export const DraggableContainer = ({
   left,
   element,
   configs,
-  logCoords,
+  updateHp,
 }) => {
   // logic
 
   // render
   return (
-    <div>
-      <DraggableProvider
-        id={id}
-        key={id}
-        top={top}
-        left={left}
-        element={element}
-        configs={configs}
-      ></DraggableProvider>
-    </div>
+    <DraggableProvider
+      id={id}
+      key={id}
+      top={top}
+      left={left}
+      element={element}
+      configs={configs}
+      updateHp={updateHp}
+    ></DraggableProvider>
   );
 };

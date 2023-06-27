@@ -1,7 +1,7 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useContext } from "react";
-import { DraggableContainer } from "./assets/components/DragContextProvider/DragContextProvider";
+import { DraggableContainer } from "./assets/components/DraggableContainer/DraggableContainer";
 import { AddCardForm } from "./assets/components/ToolbarForm/AddCardForm/AddCardForm";
 import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
@@ -12,6 +12,7 @@ import { getElementByName } from "./assets/components/ConfigMap/ConfigMap";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 import { ToolbarForm } from "./assets/components/ToolbarForm/ToolbarForm";
+import "./App.css";
 
 export const App = () => {
   const [isFormShow, setFormShow] = useState({
@@ -151,6 +152,28 @@ export const App = () => {
     });
   };
 
+  const updateHp = (num) => {
+    console.log("hp update triggered");
+    let hpCards = cards.filter((card) => card.element.name === "HealthPoints");
+    let nonHpCards = cards.filter(
+      (card) => card.element.name !== "HealthPoints"
+    );
+
+    hpCards = hpCards.map((card) => ({
+      ...card,
+      configs: {
+        ...card.configs,
+        required: {
+          ...card.configs.required,
+          score: Number(card.configs.score) + 1,
+        },
+      },
+    }));
+    console.log("hpCards = ", hpCards);
+
+    setCards(hpCards.concat(nonHpCards));
+  };
+
   useEffect(() => {
     console.log("cards : ", cards);
   }, [cards]);
@@ -162,7 +185,7 @@ export const App = () => {
   }, [isFormShow]);
 
   return (
-    <div className="w-screen h-screen bg-base flex justify-center items-start">
+    <div className="w-screen h-screen flex justify-center items-start grid-container bg-base">
       <Toolbar
         updateEditMode={updateEditMode}
         updateFormShow={updateFormShow}
@@ -201,6 +224,7 @@ export const App = () => {
             element={card.element}
             configs={card.configs}
             logCoords={logCoords}
+            updateHp={updateHp}
           ></DraggableContainer>
         ))}
         {overlay && (

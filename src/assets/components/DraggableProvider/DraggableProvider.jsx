@@ -1,9 +1,5 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
-// import { CSS } from "@dnd-kit/utilities";
-// import { useEffect } from "react";
-// import { useState } from "react";
-import SampleCard from "../SampleCard/SampleCard";
 
 export const DraggableProvider = ({
   id,
@@ -13,6 +9,7 @@ export const DraggableProvider = ({
   element,
   isoverlay,
   configs,
+  updateHp,
   ...props
 }) => {
   // logic
@@ -26,7 +23,7 @@ export const DraggableProvider = ({
     left: left,
   };
 
-  const Element = element || "div";
+  const Element = element || null;
 
   // render
   return (
@@ -37,7 +34,14 @@ export const DraggableProvider = ({
       {...listeners}
       className="absolute z-10"
     >
-      <Element configs={configs} text={text} {...props}></Element>
+      {Element && (
+        <Element
+          updateHp={updateHp}
+          configs={configs}
+          text={text}
+          {...props}
+        ></Element>
+      )}
     </div>
   );
 };

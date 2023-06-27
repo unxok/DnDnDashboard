@@ -115,9 +115,11 @@ export const AddCardForm = ({
                 <option value="" disabled>
                   select one
                 </option>
-                <option value="AbilityScore">Ability Score</option>
-                <option value="PlayerName">Player Name</option>
-                <option value="PlayerDetails">Player Details</option>
+                {Object.keys(ConfigMap).map((key) => (
+                  <option key={key} value={ConfigMap[key].name}>
+                    {ConfigMap[key].show}
+                  </option>
+                ))}
               </select>
             </div>
             {selectedTypeConfig && (
