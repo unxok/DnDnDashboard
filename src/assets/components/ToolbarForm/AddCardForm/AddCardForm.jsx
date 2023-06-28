@@ -16,7 +16,7 @@ export const AddCardForm = ({
   //const { updateCardsContextValue } = useContext(CardsContext);
   const [newCardValue, setNewCardValue] = useState(null);
 
-  const initializeNewCardValue = (element) => {
+  const initializeNewCardValue = ({ element, name }) => {
     setNewCardValue({
       configs: {
         required: {},
@@ -26,6 +26,7 @@ export const AddCardForm = ({
       top: 200,
       left: 200,
       element: element,
+      name: name,
     });
   };
 
@@ -36,10 +37,10 @@ export const AddCardForm = ({
 
   const handleChooseType = ({ target }) => {
     const selectedType = ConfigMap[target.value];
-    const element = ConfigMap[target.value].element;
+    const config = ConfigMap[target.value];
     if (selectedType !== selectedTypeConfig) {
       updateSelectedTypeConfig(selectedType);
-      initializeNewCardValue(element);
+      initializeNewCardValue(config);
     }
   };
 

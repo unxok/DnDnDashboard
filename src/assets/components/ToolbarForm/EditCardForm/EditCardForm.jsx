@@ -16,7 +16,6 @@ export const EditCardForm = ({
 }) => {
   const [newCardValue, setNewCardValue] = useState(existingCard);
 
-  //updateSelectedTypeConfig(ConfigMap[existingCard.element.name]);
   console.log(
     "From EditCardForm, selectedTypeConfig is now: ",
     selectedTypeConfig

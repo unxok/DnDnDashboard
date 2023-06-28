@@ -42,7 +42,7 @@ export const App = () => {
       const saveString = JSON.stringify(
         cards.map((obj) => {
           const newObj = { ...obj };
-          newObj.element = newObj.element ? newObj.element.name : undefined;
+          newObj.element = newObj.element ? newObj.name : undefined;
           return newObj;
         })
       );
@@ -138,8 +138,8 @@ export const App = () => {
             ConfigMap,
             "ConfigMap[card.name] =",
             ConfigMap[card.name],
-            "card.element.name =",
-            card.element.name
+            "card.name =",
+            card.name
           );
           setSelectedTypeConfig(ConfigMap[card.name]);
           updateFormShow("edit", true);
@@ -163,10 +163,8 @@ export const App = () => {
 
   const updateHp = (num) => {
     console.log("hp update triggered");
-    let hpCards = cards.filter((card) => card.element.name === "HealthPoints");
-    let nonHpCards = cards.filter(
-      (card) => card.element.name !== "HealthPoints"
-    );
+    let hpCards = cards.filter((card) => card.name === "HealthPoints");
+    let nonHpCards = cards.filter((card) => card.name !== "HealthPoints");
 
     hpCards = hpCards.map((card) => ({
       ...card,
