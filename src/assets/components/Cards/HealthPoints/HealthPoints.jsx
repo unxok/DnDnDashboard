@@ -1,10 +1,11 @@
 import React from "react";
 import clsx from "clsx";
 
-export const HealthPoints = (
-  { configs: { required, optional } = {}, isoverlay },
-  updateHp
-) => {
+export const HealthPoints = ({
+  configs: { required, optional } = {},
+  isoverlay,
+  updateHp,
+}) => {
   // logic
 
   let isShorthand = false;
@@ -73,7 +74,7 @@ export const HealthPoints = (
       <div className={childCardClass}>
         <button
           onClick={() => {
-            updateHp(1);
+            updateHp(-1);
           }}
           className="hover:text-red-500 mx-1 rounded-md text-2xl"
         >

@@ -1,8 +1,7 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
-import { React, useState, createContext, useContext } from "react";
+import { React, useState, createContext, useEffect } from "react";
 import { DraggableContainer } from "./assets/components/DraggableContainer/DraggableContainer";
-import { useEffect } from "react";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import {
@@ -13,6 +12,8 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 import { ToolbarForm } from "./assets/components/ToolbarForm/ToolbarForm";
 import "./App.css";
+
+export const DragModeContext = createContext();
 
 export const App = () => {
   const [isFormShow, setFormShow] = useState({
@@ -29,6 +30,7 @@ export const App = () => {
   const [overlay, setOverlay] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [isDragMode, setDragMode] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -153,6 +155,15 @@ export const App = () => {
     });
   };
 
+  const updateDragMode = () => {
+    setDragMode((prev) => {
+      prev
+        ? triggerAlert("info", "Drag Mode Off")
+        : triggerAlert("info", "Drag Mode Enabled");
+      return !prev;
+    });
+  };
+
   const updateHp = (num) => {
     console.log("hp update triggered");
     let hpCards = cards.filter((card) => card.name === "HealthPoints");
@@ -164,7 +175,7 @@ export const App = () => {
         ...card.configs,
         required: {
           ...card.configs.required,
-          score: Number(card.configs.score) + 1,
+          score: Number(card.configs.required.score) + num,
         },
       },
     }));
@@ -184,58 +195,62 @@ export const App = () => {
   }, [isFormShow]);
 
   return (
-    <div className="w-screen h-screen flex justify-center items-start grid-container bg-base">
-      <Toolbar
-        updateEditMode={updateEditMode}
-        updateFormShow={updateFormShow}
-        isEditMode={isEditMode}
-        cards={cards}
-        triggerAlert={triggerAlert}
-      ></Toolbar>
-      <Alert isAlertVisible={isAlertShow} alertType={alertType}>
-        {alertText}
-      </Alert>
-      <ToolbarForm
-        isFormShow={isFormShow}
-        updateFormShow={updateFormShow}
-        updateCards={updateCards}
-        selectedTypeConfig={selectedTypeConfig}
-        setSelectedTypeConfig={setSelectedTypeConfig}
-        isFormInvalid={isFormInvalid}
-        setFormInvalid={setFormInvalid}
-        triggerAlert={triggerAlert}
-        updateCardsFromUpload={updateCardsFromUpload}
-        existingCard={editId}
-      />
+    <DragModeContext.Provider value={isDragMode}>
+      <div className="w-screen h-screen flex justify-center items-start grid-container bg-base">
+        <Toolbar
+          isEditMode={isEditMode}
+          updateEditMode={updateEditMode}
+          updateFormShow={updateFormShow}
+          isDragMode={isDragMode}
+          updateDragMode={updateDragMode}
+          cards={cards}
+          triggerAlert={triggerAlert}
+        ></Toolbar>
+        <Alert isAlertVisible={isAlertShow} alertType={alertType}>
+          {alertText}
+        </Alert>
+        <ToolbarForm
+          isFormShow={isFormShow}
+          updateFormShow={updateFormShow}
+          updateCards={updateCards}
+          selectedTypeConfig={selectedTypeConfig}
+          setSelectedTypeConfig={setSelectedTypeConfig}
+          isFormInvalid={isFormInvalid}
+          setFormInvalid={setFormInvalid}
+          triggerAlert={triggerAlert}
+          updateCardsFromUpload={updateCardsFromUpload}
+          existingCard={editId}
+        />
 
-      <DndContext
-        key="primaryDndContext"
-        onDragStart={handleDragStart}
-        onDragCancel={() => {}}
-        onDragEnd={handleDragEnd}
-      >
-        {cards.map((card) => (
-          <DraggableContainer
-            id={card.id}
-            key={card.id}
-            top={card.top}
-            left={card.left}
-            element={card.element}
-            configs={card.configs}
-            logCoords={logCoords}
-            updateHp={updateHp}
-          ></DraggableContainer>
-        ))}
-        {overlay && (
-          <DragOverlay>
-            <OverlayMaker
-              element={overlay.element}
-              configs={overlay.configs}
-            ></OverlayMaker>
-          </DragOverlay>
-        )}
-      </DndContext>
-    </div>
+        <DndContext
+          key="primaryDndContext"
+          onDragStart={handleDragStart}
+          onDragCancel={() => {}}
+          onDragEnd={handleDragEnd}
+        >
+          {cards.map((card) => (
+            <DraggableContainer
+              id={card.id}
+              key={card.id}
+              top={card.top}
+              left={card.left}
+              element={card.element}
+              configs={card.configs}
+              logCoords={logCoords}
+              updateHp={updateHp}
+            ></DraggableContainer>
+          ))}
+          {overlay && (
+            <DragOverlay>
+              <OverlayMaker
+                element={overlay.element}
+                configs={overlay.configs}
+              ></OverlayMaker>
+            </DragOverlay>
+          )}
+        </DndContext>
+      </div>
+    </DragModeContext.Provider>
   );
 };
 

@@ -3,15 +3,16 @@ import { AddCardButton } from "./AddCardButton/AddCardButton";
 import { SaveButton } from "./SaveButton/SaveButton";
 import { UploadButton } from "./UploadButton/UploadButton";
 import { EditModeButton } from "./EditModeButton/EditModeButton";
+import { DragModeButton } from "./DragModeButton/DragModeButton";
 
 export const Toolbar = ({
-  updateAddFormShow,
-  updateUploadFormShow,
+  isEditMode,
   updateEditMode,
   updateFormShow,
-  isEditMode,
   cards,
   triggerAlert,
+  isDragMode,
+  updateDragMode,
 }) => {
   // logic
 
@@ -27,10 +28,15 @@ export const Toolbar = ({
         triggerAlert={triggerAlert}
       />
       <EditModeButton
+        isEditMode={isEditMode}
         updateEditMode={updateEditMode}
         triggerAlert={triggerAlert}
-        isEditMode={isEditMode}
-      ></EditModeButton>
+      />
+      <DragModeButton
+        isDragMode={isDragMode}
+        updateDragMode={updateDragMode}
+        triggerAlert={triggerAlert}
+      />
     </div>
   );
 };
