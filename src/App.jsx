@@ -134,6 +134,8 @@ export const App = () => {
         if (isEditMode) {
           setEditId(card);
           console.log(
+            "ConfigMap =",
+            ConfigMap,
             "ConfigMap[card.element.name] =",
             ConfigMap[card.element.name],
             "card.element.name =",
