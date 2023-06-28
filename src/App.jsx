@@ -136,12 +136,12 @@ export const App = () => {
           console.log(
             "ConfigMap =",
             ConfigMap,
-            "ConfigMap[card.element.name] =",
-            ConfigMap[card.element.name],
+            "ConfigMap[card.name] =",
+            ConfigMap[card.name],
             "card.element.name =",
             card.element.name
           );
-          setSelectedTypeConfig(ConfigMap[card.element.name]);
+          setSelectedTypeConfig(ConfigMap[card.name]);
           updateFormShow("edit", true);
           console.log("edit mode should be enabled for id: ", editId);
         }
