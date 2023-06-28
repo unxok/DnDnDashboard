@@ -158,8 +158,8 @@ export const App = () => {
   const updateDragMode = () => {
     setDragMode((prev) => {
       prev
-        ? triggerAlert("info", "Drag Mode Off")
-        : triggerAlert("info", "Drag Mode Enabled");
+        ? triggerAlert("info", "Drag Mode Enabled")
+        : triggerAlert("info", "Drag Mode Off");
       return !prev;
     });
   };
