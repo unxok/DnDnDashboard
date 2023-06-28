@@ -133,6 +133,12 @@ export const App = () => {
         setOverlay({ element: card.element, configs: card.configs });
         if (isEditMode) {
           setEditId(card);
+          console.log(
+            "ConfigMap[card.element.name] =",
+            ConfigMap[card.element.name],
+            "card.element.name =",
+            card.element.name
+          );
           setSelectedTypeConfig(ConfigMap[card.element.name]);
           updateFormShow("edit", true);
           console.log("edit mode should be enabled for id: ", editId);
