@@ -8,9 +8,9 @@ export const AddCardForm = ({
   updateFormShow,
   updateCards,
   selectedTypeConfig,
-  updateSelectedTypeConfig,
+  setSelectedTypeConfig,
   isFormInvalid,
-  updateFormInvalid,
+  setFormInvalid,
   triggerAlert,
 }) => {
   //const { updateCardsContextValue } = useContext(CardsContext);
@@ -39,7 +39,7 @@ export const AddCardForm = ({
     const selectedType = ConfigMap[target.value];
     const config = ConfigMap[target.value];
     if (selectedType !== selectedTypeConfig) {
-      updateSelectedTypeConfig(selectedType);
+      setSelectedTypeConfig(selectedType);
       initializeNewCardValue(config);
     }
   };
@@ -77,22 +77,22 @@ export const AddCardForm = ({
 
   const handleAddItem = () => {
     if (checkFormInvalid()) {
-      updateFormInvalid(true);
+      setFormInvalid(true);
       triggerAlert("error", "Please fill all required fields");
       return;
     }
-    updateFormInvalid(false);
+    setFormInvalid(false);
     updateFormShow("add", false);
     triggerAlert("success", `New card was added`);
     updateCards(newCardValue);
     // setNewCardValue(newCardValue);
-    updateSelectedTypeConfig(null);
+    setSelectedTypeConfig(null);
   };
 
   const cancelAddItem = () => {
-    updateFormInvalid(false);
+    setFormInvalid(false);
     updateFormShow("add", false);
-    updateSelectedTypeConfig(null);
+    setSelectedTypeConfig(null);
     setNewCardValue({});
   };
 

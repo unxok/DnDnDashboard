@@ -112,14 +112,6 @@ export const App = () => {
       : setCards((prevCards) => [...prevCards, newCard]);
   };
 
-  const updateSelectedTypeConfig = (selectedType) => {
-    setSelectedTypeConfig(selectedType);
-  };
-
-  const updateFormInvalid = (bool) => {
-    setFormInvalid(bool);
-  };
-
   const updateFormShow = (formType, bool) => {
     setFormShow((defVals) => ({
       ...defVals,
@@ -208,9 +200,9 @@ export const App = () => {
         updateFormShow={updateFormShow}
         updateCards={updateCards}
         selectedTypeConfig={selectedTypeConfig}
-        updateSelectedTypeConfig={updateSelectedTypeConfig}
+        setSelectedTypeConfig={setSelectedTypeConfig}
         isFormInvalid={isFormInvalid}
-        updateFormInvalid={updateFormInvalid}
+        setFormInvalid={setFormInvalid}
         triggerAlert={triggerAlert}
         updateCardsFromUpload={updateCardsFromUpload}
         existingCard={editId}

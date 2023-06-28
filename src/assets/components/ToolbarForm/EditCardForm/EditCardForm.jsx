@@ -8,9 +8,9 @@ export const EditCardForm = ({
   updateFormShow,
   updateCards,
   selectedTypeConfig,
-  updateSelectedTypeConfig,
+  setSelectedTypeConfig,
   isFormInvalid,
-  updateFormInvalid,
+  setFormInvalid,
   triggerAlert,
   existingCard,
 }) => {
@@ -54,29 +54,29 @@ export const EditCardForm = ({
 
   const handleAddItem = () => {
     if (checkFormInvalid()) {
-      updateFormInvalid(true);
+      setFormInvalid(true);
       triggerAlert("error", "Please fill all required fields");
       return;
     }
-    updateFormInvalid(false);
+    setFormInvalid(false);
     updateFormShow("edit", false);
     triggerAlert("success", "Card was updated");
     updateCards(newCardValue, { edit: 1 });
-    updateSelectedTypeConfig(null);
+    setSelectedTypeConfig(null);
   };
 
   const cancelAddItem = () => {
-    updateFormInvalid(false);
+    setFormInvalid(false);
     updateFormShow("edit", false);
-    updateSelectedTypeConfig(null);
+    setSelectedTypeConfig(null);
     setNewCardValue({});
   };
 
   const deleteItem = () => {
     updateCards(existingCard, { delete: 1 });
-    updateFormInvalid(false);
+    setFormInvalid(false);
     updateFormShow("edit", false);
-    updateSelectedTypeConfig(null);
+    setSelectedTypeConfig(null);
     setNewCardValue({});
   };
 

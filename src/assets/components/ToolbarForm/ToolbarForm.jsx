@@ -8,9 +8,9 @@ export const ToolbarForm = ({
   updateFormShow,
   updateCards,
   selectedTypeConfig,
-  updateSelectedTypeConfig,
+  setSelectedTypeConfig,
   isFormInvalid,
-  updateFormInvalid,
+  setFormInvalid,
   triggerAlert,
   updateCardsFromUpload,
   existingCard,
@@ -26,9 +26,9 @@ export const ToolbarForm = ({
           isFormShow={add}
           updateCards={updateCards}
           selectedTypeConfig={selectedTypeConfig}
-          updateSelectedTypeConfig={updateSelectedTypeConfig}
+          setSelectedTypeConfig={setSelectedTypeConfig}
           isFormInvalid={isFormInvalid}
-          updateFormInvalid={updateFormInvalid}
+          setFormInvalid={setFormInvalid}
           triggerAlert={triggerAlert}
         />
       )}
@@ -39,9 +39,9 @@ export const ToolbarForm = ({
           triggerAlert={triggerAlert}
           selectedTypeConfig={selectedTypeConfig}
           updateCards={updateCards}
-          updateSelectedTypeConfig={updateSelectedTypeConfig}
+          setSelectedTypeConfig={setSelectedTypeConfig}
           isFormInvalid={isFormInvalid}
-          updateFormInvalid={updateFormInvalid}
+          setFormInvalid={setFormInvalid}
           existingCard={existingCard}
         />
       )}
