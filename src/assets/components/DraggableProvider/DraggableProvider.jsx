@@ -9,9 +9,9 @@ export const DraggableProvider = ({
   left,
   text,
   element,
-  isoverlay,
   configs,
   updateHp,
+  updateFormShow,
   ...props
 }) => {
   // logic
@@ -20,7 +20,7 @@ export const DraggableProvider = ({
 
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: id,
-    disabled: isDragmode,
+    disabled: !isDragmode,
   });
 
   let style = {
@@ -46,6 +46,7 @@ export const DraggableProvider = ({
           configs={configs}
           text={text}
           {...props}
+          updateFormShow={updateFormShow}
         ></Element>
       )}
     </div>

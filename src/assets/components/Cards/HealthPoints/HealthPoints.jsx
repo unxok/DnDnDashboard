@@ -4,7 +4,7 @@ import clsx from "clsx";
 export const HealthPoints = ({
   configs: { required, optional } = {},
   isoverlay,
-  updateHp,
+  updateFormShow,
 }) => {
   // logic
 
@@ -53,6 +53,16 @@ export const HealthPoints = ({
     isNameTop = "flex-col-reverse";
   }
 
+  let showSlash = true;
+  if (optional.showSlash === "false") {
+    showSlash = false;
+  }
+
+  let pointsFlex = "flex-row";
+  if (optional.pointsFlex) {
+    pointsFlex = optional.pointsFlex;
+  }
+
   let cardClass = clsx(
     "flex",
     "p-3",
@@ -65,29 +75,30 @@ export const HealthPoints = ({
     isNameTop
   );
 
-  let childCardClass = clsx(isNameTop);
+  let pointsContainerClass = clsx(
+    "flex flex-row items-center justify-evenly",
+    pointsFlex
+  );
 
   return (
     <div className={cardClass}>
       <div>{nameMap(isShorthand, textCase)}</div>
-      <div className="text-3xl font-semibold">{required.score}</div>
-      <div className={childCardClass}>
+      <div className={pointsContainerClass}>
+        <div className="text-3xl font-semibold">{required.currentPoints}</div>
+        <div className="text-xl font-semibold flex flex-row self-center justify-center items-center">
+          {showSlash && <span className="text-sm mr-1">/</span>}
+          {required.maxPoints}
+        </div>
+      </div>
+      <div className="bg-accent text-black w-max self-center rounded-md mt-1">
         <button
           onClick={() => {
-            updateHp(-1);
+            console.log("setFormShow called");
+            updateFormShow("hp", true);
           }}
-          className="hover:text-red-500 mx-1 rounded-md text-2xl"
+          className="hover:text-green-500 mx-1 rounded-md"
         >
-          -
-        </button>
-        <button
-          onClick={() => {
-            console.log("button clicked");
-            updateHp(1);
-          }}
-          className="hover:text-green-500 mx-1 rounded-md text-2xl"
-        >
-          +
+          +/-
         </button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 // import SampleCard from "./assets/components/SampleCard/SampleCard";
 // import WidgetBase from "./assets/components/WidgetBase/WidgetBase";
 import { React, useState, createContext, useEffect } from "react";
-import { DraggableContainer } from "./assets/components/DraggableContainer/DraggableContainer";
+import { DraggableProvider } from "./assets/components/DraggableProvider/DraggableProvider";
 import { Toolbar } from "./assets/components/Toolbar/Toolbar";
 import { Alert } from "./assets/components/Alert/Alert";
 import {
@@ -20,6 +20,7 @@ export const App = () => {
     add: false,
     upload: false,
     edit: false,
+    hp: false,
   });
   const [cards, setCards] = useState([]);
   const [isAlertShow, toggleAlertShow] = useState(false);
@@ -158,8 +159,8 @@ export const App = () => {
   const updateDragMode = () => {
     setDragMode((prev) => {
       prev
-        ? triggerAlert("info", "Drag Mode Enabled")
-        : triggerAlert("info", "Drag Mode Off");
+        ? triggerAlert("info", "Drag Mode Off")
+        : triggerAlert("info", "Drag Mode Enabled");
       return !prev;
     });
   };
@@ -175,7 +176,7 @@ export const App = () => {
         ...card.configs,
         required: {
           ...card.configs.required,
-          score: Number(card.configs.required.score) + num,
+          currentPoints: Number(card.configs.required.currentPoints) + num,
         },
       },
     }));
@@ -220,6 +221,7 @@ export const App = () => {
           triggerAlert={triggerAlert}
           updateCardsFromUpload={updateCardsFromUpload}
           existingCard={editId}
+          updateHp={updateHp}
         />
 
         <DndContext
@@ -229,7 +231,7 @@ export const App = () => {
           onDragEnd={handleDragEnd}
         >
           {cards.map((card) => (
-            <DraggableContainer
+            <DraggableProvider
               id={card.id}
               key={card.id}
               top={card.top}
@@ -237,8 +239,8 @@ export const App = () => {
               element={card.element}
               configs={card.configs}
               logCoords={logCoords}
-              updateHp={updateHp}
-            ></DraggableContainer>
+              updateFormShow={updateFormShow}
+            ></DraggableProvider>
           ))}
           {overlay && (
             <DragOverlay>

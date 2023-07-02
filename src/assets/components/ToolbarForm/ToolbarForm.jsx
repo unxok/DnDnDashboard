@@ -2,6 +2,7 @@ import React from "react";
 import { AddCardForm } from "./AddCardForm/AddCardForm";
 import { EditCardForm } from "./EditCardForm/EditCardForm";
 import { UploadSaveForm } from "./UploadSaveForm/UploadSaveForm";
+import { HpForm } from "./HpForm/HpForm";
 
 export const ToolbarForm = ({
   isFormShow,
@@ -14,9 +15,10 @@ export const ToolbarForm = ({
   triggerAlert,
   updateCardsFromUpload,
   existingCard,
+  updateHp,
 }) => {
   // logic
-  const { add, edit, upload } = isFormShow;
+  const { add, edit, upload, hp } = isFormShow;
 
   return (
     <>
@@ -51,6 +53,13 @@ export const ToolbarForm = ({
           isFormShow={upload}
           triggerAlert={triggerAlert}
           updateCardsFromUpload={updateCardsFromUpload}
+        />
+      )}
+      {hp && (
+        <HpForm
+          updateHp={updateHp}
+          updateFormShow={updateFormShow}
+          triggerAlert={triggerAlert}
         />
       )}
     </>

@@ -31,6 +31,35 @@ The idea with this project started from me using Roll20 to play Dungeons and Dra
 <input type="checkbox" checked> Edit Mode Toggle</input><br>
 <input type="checkbox"> Custom Card Presets</input><br>
 <input type="checkbox"> Custom Card Component</input><br>
+<input type="checkbox"> Resizeable Cards</input><br>
+
+## Components
+
+<input type="checkbox" checked> Alert </input><br>
+<input type="checkbox"> Cards</input>
+
+- <input type="checkbox" checked> Ability Score</input>
+- <input type="checkbox"> Ability Score Group</input>
+- <input type="checkbox"> Skill</input>
+- <input type="checkbox"> Skill Group</input>
+- <input type="checkbox" checked> Armor Class</input>
+- <input type="checkbox" checked> Health Points</input>
+- <input type="checkbox" checked> Initiative</input>
+- <input type="checkbox"> Proficiency Bonus</input>
+- <input type="checkbox"> Hit Dice</input>
+- <input type="checkbox"> Death Saves</input>
+- <input type="checkbox"> Short Rest</input>
+- <input type="checkbox"> Long Rest</input>
+- <input type="checkbox"> Passive Wisdom</input>
+- <input type="checkbox"> Player Details (partially done)</input>
+- <input type="checkbox" checked> Player Name</input>
+- <input type="checkbox"> Spell</input>
+- <input type="checkbox"> Spell Group</input>
+- <input type="checkbox"> Item</input>
+- <input type="checkbox"> Item Group</input>
+- <input type="checkbox"> Quickbar</input>
+- <input type="checkbox"> Enemy Note</input>
+- <input type="checkbox"> Enemy Graveyard</input>
 
 ## Wait, is someone other than me reading this?
 

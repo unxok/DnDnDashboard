@@ -286,7 +286,18 @@ export const ConfigMap = {
     name: "HealthPoints",
     show: "Health Points",
     required: [
-      { value: "score", show: "Score", type: "input", inputType: "number" },
+      {
+        value: "maxPoints",
+        show: "Max Points",
+        type: "input",
+        inputType: "number",
+      },
+      {
+        value: "currentPoints",
+        show: "Current Points",
+        type: "input",
+        inputType: "number",
+      },
     ],
     optional: [
       {
@@ -327,6 +338,24 @@ export const ConfigMap = {
           { value: "text-base", show: "base" },
           { value: "text-primary", show: "primary" },
           { value: "text-secondary", show: "secondary" },
+        ],
+      },
+      {
+        value: "showSlash",
+        show: "Show slash (/) ?",
+        type: "select",
+        options: [
+          { value: true, show: "Yes" },
+          { value: false, show: "No" },
+        ],
+      },
+      {
+        value: "pointsFlex",
+        show: "Points Position",
+        type: "select",
+        options: [
+          { value: "flex-row", show: "Side-by-side" },
+          { value: "flex-col", show: "Stacked" },
         ],
       },
     ],
