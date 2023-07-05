@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { ConfigMap } from "../../ConfigMap/ConfigMap";
-import { useEffect } from "react";
 
 export const AddCardForm = ({
   isFormShow,
@@ -17,6 +16,9 @@ export const AddCardForm = ({
   const [newCardValue, setNewCardValue] = useState(null);
 
   const initializeNewCardValue = ({ element, name }) => {
+    console.log("setNewCardValue says: element: ", element);
+    console.log("setNewCardValue says: name: ", name);
+
     setNewCardValue({
       configs: {
         required: {},
@@ -126,7 +128,7 @@ export const AddCardForm = ({
             {selectedTypeConfig && (
               <div
                 className={
-                  "m-3 w-72 text-center rounded-lg bg-base text-white p-5 flex flex-col  border shadow-lg" +
+                  "m-3 w-96 text-center rounded-lg bg-base text-white p-5 flex flex-col  border shadow-lg" +
                   (isFormInvalid ? " border-red-500" : " border-gray-800")
                 }
               >

@@ -4,6 +4,31 @@ import { PlayerDetails } from "../Cards/PlayerDetails/PlayerDetails";
 import { ArmorClass } from "../Cards/ArmorClass/ArmorClass";
 import { HealthPoints } from "../Cards/HealthPoints/HealthPoints";
 import { Initiative } from "../Cards/Initiative/Initiative";
+import { SpellPoints } from "../Cards/SpellPoints/SpellPoints";
+
+/*
+ * Default Card Config :
+ *
+ * [ComponentName] : {
+ *  element: [ComponentName] (Custom Component),
+ *  name: [ComponentName] (string),
+ *  show: [Component Name] (string),
+ *  required: [
+ *      {
+ *        value: [optionName] (string),
+ *        show: [Option Display Name] (string),
+ *        type: "input" || "select",
+ *        (inputType : "text" || "number" || "color")
+ *        ||
+ *        (options: [
+ *          {value: [subOptionName] (string), show: [Sub Option Name] (string) },
+ *          {...},
+ *        ]), {...}
+ *  optional: [...]
+ *      }
+ *    ]
+ *  }
+ */
 
 export const ConfigMap = {
   AbilityScore: {
@@ -377,6 +402,93 @@ export const ConfigMap = {
           { value: true, show: "short" },
         ],
       },
+      {
+        value: "isNameTop",
+        show: "Name Above Score?",
+        type: "select",
+        options: [
+          { value: "", show: "yes" },
+          { value: true, show: "no" },
+        ],
+      },
+      {
+        value: "bgColor",
+        show: "Card Background",
+        type: "select",
+        options: [
+          { value: "bg-primary", show: "primary" },
+          { value: "bg-accent", show: "accent" },
+          { value: "bg-base", show: "base" },
+          { value: "bg-secondary", show: "secondary" },
+        ],
+      },
+      {
+        value: "textColor",
+        show: "Text Color",
+        type: "select",
+        options: [
+          { value: "text-accent", show: "accent" },
+          { value: "text-base", show: "base" },
+          { value: "text-primary", show: "primary" },
+          { value: "text-secondary", show: "secondary" },
+        ],
+      },
+      {
+        value: "showSlash",
+        show: "Show slash (/) ?",
+        type: "select",
+        options: [
+          { value: true, show: "Yes" },
+          { value: false, show: "No" },
+        ],
+      },
+      {
+        value: "pointsFlex",
+        show: "Points Position",
+        type: "select",
+        options: [
+          { value: "flex-row", show: "Side-by-side" },
+          { value: "flex-col", show: "Stacked" },
+        ],
+      },
+    ],
+  },
+  SpellPoints: {
+    element: SpellPoints,
+    name: "SpellPoints",
+    show: "Spell Points",
+    required: [
+      {
+        value: "spellLevel",
+        show: "Level of Points",
+        type: "select",
+        options: [
+          { value: "cantrip", show: "Cantrip" },
+          { value: "one", show: "One" },
+          { value: "two", show: "Two" },
+          { value: "three", show: "Three" },
+          { value: "four", show: "Four" },
+          { value: "five", show: "Five" },
+          { value: "six", show: "Six" },
+          { value: "seven", show: "Seven" },
+          { value: "eight", show: "Eight" },
+          { value: "nine", show: "Nine" },
+        ],
+      },
+      {
+        value: "maxPoints",
+        show: "Max Number of Points",
+        type: "input",
+        inputType: "number",
+      },
+      {
+        value: "currentPoints",
+        show: "Current Number of Points",
+        type: "input",
+        inputType: "number",
+      },
+    ],
+    optional: [
       {
         value: "isNameTop",
         show: "Name Above Score?",
