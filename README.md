@@ -6,6 +6,21 @@ The idea with this project started from me using Roll20 to play Dungeons and Dra
 
 <br />
 
+## Priority Overhaul
+
+I have decided that I want to do a bit of an overhaul.
+1. Start implementing typescript
+  - Doesn't need to be everything, but for things like components it will be extrememly useful
+  - I don't necessarily plan to make it as strict as possible either, I will try my best but this will be my first time using TS so I will take it slow
+3. Implement Radix UI
+  - Pretty much all components shold be based on Radix. This shouldn't be too difficult and wil make for better practices throughout the app 
+
+This will be very different (for the better) becuase using typescript will make the dx much better for making my components and their 'configuration' as I think it will allow me to more or less get rid of my `ConfigMap` element. As well, Radix UI will give me good experience for using UI libraries and ensuring accessibility for my app. 
+
+It will be a fair amount of work but I think it is worth it (if only for learning experience even) and needs to be done ASAP.
+
+<br />
+
 ## High Level Roadmap
 
 - Learn how to use ~~`react-beautiful-dnd`~~ ~~`react-grid-layout`~~ `react-dnd-kit` to make draggable and droppable components
