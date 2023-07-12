@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import { ConfigMap } from "../../ConfigMap/ConfigMap";
-import { useEffect } from "react";
 
 export const AddCardForm = ({
   isFormShow,
@@ -17,6 +16,9 @@ export const AddCardForm = ({
   const [newCardValue, setNewCardValue] = useState(null);
 
   const initializeNewCardValue = ({ element, name }) => {
+    console.log("setNewCardValue says: element: ", element);
+    console.log("setNewCardValue says: name: ", name);
+
     setNewCardValue({
       configs: {
         required: {},
