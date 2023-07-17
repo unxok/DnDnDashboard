@@ -1,16 +1,41 @@
 import clsx from "clsx";
 import React from "react";
 
-export const PlayerDetails = ({
-  configs: { required, optional } = {},
-  isoverlay,
-}) => {
+type Props = {
+  isoverlay: boolean;
+  configs: {
+    required: Required;
+    optional: Optional;
+  };
+};
+
+type Required = {
+  alignment: string;
+  background: string;
+  classs: string;
+  race: string;
+};
+
+type Optional = {
+  cardShape: "square" | "wide" | "tall";
+  grandChildBg: string;
+  parentBg: string;
+  textColor: string;
+  textPos: "text-center" | "text-start" | "text-end";
+};
+
+export const PlayerDetails = (props: Props) => {
   // logic
 
-  let parentCardShape = "flex-row";
-  let childCardShape = "flex-col";
-  if (optional.cardShape) {
-    switch (optional.cardShape) {
+  const { isoverlay } = props;
+  const { required, optional = {} as Optional } = props.configs;
+
+  const { alignment, background, classs, race } = required;
+  const { cardShape, grandChildBg, parentBg, textColor, textPos } = optional;
+
+  let parentCardShape, childCardShape;
+  if (cardShape) {
+    switch (cardShape) {
       case "square":
         parentCardShape = "flex-row";
         childCardShape = "flex-col";
@@ -29,65 +54,46 @@ export const PlayerDetails = ({
         break;
     }
   }
-  let textColor = "text-accent";
-  if (optional.textColor) {
-    textColor = optional.textColor;
-  }
-  let textPos = "text-center";
-  if (optional.textPos) {
-    textPos = optional.textPos;
-  }
 
-  let parentBg = "bg-primary";
-  if (optional.parentBg) {
-    parentBg = optional.parentBg;
-  }
-  let grandChildBg = "bg-base";
-  if (optional.grandChildBg) {
-    grandChildBg = optional.grandChildBg;
-  }
+  const pBg = parentBg ? "bg-" + parentBg : "bg-primary";
+  const gBg = grandChildBg ? "bg-" + grandChildBg : "bg-base";
+  const txt = textColor ? "text-" + textColor : "text-accent";
 
   let parentCardClass = clsx(
     "flex",
     "w-max",
     "p-1",
     "rounded-lg",
-    textColor,
+    txt,
     parentCardShape,
     textPos,
-    parentBg
+    pBg
   );
   let childCardClass = clsx("flex", childCardShape, textPos);
-  let grandChildCardClass = clsx(
-    "p-2",
-    "m-1",
-    "rounded-md",
-    textPos,
-    grandChildBg
-  );
+  let grandChildCardClass = clsx("p-2", "m-1", "rounded-md", textPos, gBg);
 
   return (
     <div className={parentCardClass}>
       <div className={childCardClass}>
         <div className={grandChildCardClass}>
           <div className="text-sm">Class</div>
-          <div className="font-semibold">{required.class}</div>
+          <div className="font-semibold">{classs}</div>
         </div>
         <div className={grandChildCardClass}>
           <div>
             <div className="text-sm">Background</div>
           </div>
-          <div className="font-semibold">{required.background}</div>
+          <div className="font-semibold">{background}</div>
         </div>
       </div>
       <div className={childCardClass}>
         <div className={grandChildCardClass}>
           <div className="text-sm">Race</div>
-          <div className="font-semibold">{required.race}</div>
+          <div className="font-semibold">{race}</div>
         </div>
         <div className={grandChildCardClass}>
           <div className="text-sm">Aligment</div>
-          <div className="font-semibold">{required.alignment}</div>
+          <div className="font-semibold">{alignment}</div>
         </div>
       </div>
     </div>
