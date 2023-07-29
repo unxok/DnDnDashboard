@@ -33,13 +33,7 @@ export const DraggableProvider = ({
 
   // render
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="absolute z-10"
-    >
+    <div ref={setNodeRef} style={style} className="absolute z-10">
       {Element && (
         <Element
           updateHp={updateHp}
@@ -47,7 +41,21 @@ export const DraggableProvider = ({
           text={text}
           {...props}
           updateFormShow={updateFormShow}
-        ></Element>
+          attributes={attributes}
+          listeners={listeners}
+          defaultClassName="group border-black border"
+        >
+          <button
+            {...attributes}
+            {...listeners}
+            className="absolute right-2 top-0 opacity-0 group-hover:opacity-100"
+          >
+            ✥
+          </button>
+          <button className="absolute left-2 top-0 opacity-0 group-hover:opacity-100">
+            ✎
+          </button>
+        </Element>
       )}
     </div>
   );

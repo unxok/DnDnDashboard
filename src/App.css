@@ -1,3 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit&family=Open+Sans&family=Oswald:wght@600&family=Roboto:wght@400;500&display=swap");
+
+* {
+  font-family: "Kanit", sans-serif;
+  font-family: "Open Sans", sans-serif;
+  font-family: "Oswald", sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
 .grid-container {
   background-image: linear-gradient(
       to right,

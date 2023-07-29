@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import clsx from "clsx";
 
 type Props = {
@@ -7,6 +7,8 @@ type Props = {
     required: Required;
     optional?: Optional;
   };
+  children: ReactNode;
+  defaultClassName: string;
 };
 
 type Required = {
@@ -27,6 +29,7 @@ type Optional = {
 export const AbilityScore = (props: Props) => {
   // logic
 
+  const { isoverlay, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { score, scoreType } = required;
@@ -37,6 +40,7 @@ export const AbilityScore = (props: Props) => {
     isNameBottom,
     isShorthand,
     textCase,
+    bgColor,
     textColor,
   } = optional;
 
@@ -77,8 +81,8 @@ export const AbilityScore = (props: Props) => {
   let modClass = isModBig ? "text-2xl" : "";
   let scoreClass = isModBig ? "" : "text-2xl";
 
-  let bg = optional.bgColor ? " bg-" + optional.bgColor : " bg-primary";
-  let txt = optional.textColor ? " text-" + optional.textColor : " text-accent";
+  let bg = bgColor ? " bg-" + bgColor : " bg-primary";
+  let txt = textColor ? " text-" + textColor : " text-accent";
 
   let cardContainerClass = clsx(
     "p-4",
@@ -95,7 +99,7 @@ export const AbilityScore = (props: Props) => {
     txt,
     { "flex-col-reverse": isNameBottom },
     { "flex-col": !isNameBottom },
-    { "opacity-50": props.isoverlay }
+    { "opacity-50": isoverlay }
   );
 
   let scoreContainerClass = clsx("flex", "items-center", "justify-center", {
@@ -115,14 +119,17 @@ export const AbilityScore = (props: Props) => {
       break;
   }
 
+  console.log(props.defaultClassName);
+
   // render
   return (
-    <div className={cardContainerClass}>
+    <div className={clsx(cardContainerClass, defaultClassName)}>
       <div className={"text-lg"}>{scoreName}</div>
       <div className={scoreContainerClass}>
         <div className={modClass}>{modifier}</div>
         <div className={scoreClass}>{required.score}</div>
       </div>
+      {props.children}
     </div>
   );
 };
