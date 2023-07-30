@@ -14,6 +14,7 @@ export const AddCardForm = ({
 }) => {
   //const { updateCardsContextValue } = useContext(CardsContext);
   const [newCardValue, setNewCardValue] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const initializeNewCardValue = ({ element, name }) => {
     console.log("setNewCardValue says: element: ", element);
@@ -59,6 +60,16 @@ export const AddCardForm = ({
         },
       },
     }));
+
+    const checkForPreview = () => {
+      try {
+        return !checkFormInvalid();
+      } catch (e) {
+        return false;
+      }
+    };
+
+    setShowPreview(checkForPreview());
   };
 
   const checkFormInvalid = () => {
@@ -256,6 +267,14 @@ export const AddCardForm = ({
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {showPreview && (
+        <div className="absolute right-[150px] top-1/3 z-50">
+          <p className="mb-1 rounded-sm bg-gray-500 px-1">Preview</p>
+          <newCardValue.element
+            configs={newCardValue.configs}
+          ></newCardValue.element>
         </div>
       )}
     </>
