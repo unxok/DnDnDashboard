@@ -28,7 +28,7 @@ export const DraggableProvider = ({
 
   // render
   return (
-    <div ref={setNodeRef} style={style} className="absolute z-10">
+    <div ref={setNodeRef} style={style} className="absolute">
       {Element && (
         <Element
           updateHp={updateHp}

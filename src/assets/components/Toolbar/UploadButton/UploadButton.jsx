@@ -1,21 +1,24 @@
 import React from "react";
 import cloudupload from "../../../svgs/cloud-upload.svg";
+import { forwardRef } from "react";
 
-export const UploadButton = ({ updateFormShow }) => {
+export const UploadButton = forwardRef(({ updateFormShow, ...props }, ref) => {
   // logic
 
   return (
-    <div>
-      <div className="opacity-70 transition ease-in-out duration-300 hover:cursor-pointer hover:scale-110 hover:opacity-100 active:scale-90 active:duration-75">
-        <img
-          src={cloudupload}
-          onClick={() => {
-            updateFormShow("upload", true);
-          }}
-          width="50vh"
-          height="auto"
-        ></img>
-      </div>
+    <div
+      ref={ref}
+      className="opacity-70 transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer hover:opacity-100 active:scale-90 active:duration-75"
+      {...props}
+    >
+      <img
+        src={cloudupload}
+        onClick={() => {
+          updateFormShow("upload", true);
+        }}
+        width="50vh"
+        height="auto"
+      ></img>
     </div>
   );
-};
+});

@@ -1,19 +1,25 @@
 import React from "react";
 import plus from "../../../svgs/plus.svg";
+import { forwardRef } from "react";
 
-export const AddCardButton = ({ updateFormShow }) => {
+export const AddCardButton = forwardRef(({ updateFormShow, ...props }, ref) => {
   // logic
 
   return (
-    <div className="opacity-70 transition ease-in-out duration-300 hover:cursor-pointer hover:scale-110 hover:opacity-100 active:scale-90 active:duration-75">
+    <div
+      ref={ref}
+      className="opacity-70 transition duration-300 ease-in-out hover:scale-110 hover:cursor-pointer hover:opacity-100 active:scale-90 active:duration-75"
+      {...props}
+    >
       <img
+        onClick={() => {
+          console.log("clicked");
+          updateFormShow("add", true);
+        }}
         src={plus}
         width="50vh"
         height="auto"
-        onClick={() => {
-          updateFormShow("add", true);
-        }}
       ></img>
     </div>
   );
-};
+});
