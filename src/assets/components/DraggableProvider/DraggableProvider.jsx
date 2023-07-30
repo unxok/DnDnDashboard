@@ -1,6 +1,4 @@
 import React from "react";
-import { useContext } from "react";
-import { DragModeContext } from "../../../App";
 import { useDraggable } from "@dnd-kit/core";
 
 export const DraggableProvider = ({
@@ -16,11 +14,8 @@ export const DraggableProvider = ({
 }) => {
   // logic
 
-  const isDragmode = useContext(DragModeContext);
-
   const { attributes, listeners, setNodeRef } = useDraggable({
     id: id,
-    disabled: !isDragmode,
   });
 
   let style = {
