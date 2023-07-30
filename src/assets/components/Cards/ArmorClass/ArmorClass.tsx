@@ -1,13 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
-type Props = {
-  isoverlay: boolean;
-  configs: {
-    required: Required;
-    optional?: Optional;
-  };
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   score: number;
@@ -21,9 +14,9 @@ type Optional = {
   textColor: string;
 };
 
-export const ArmorClass = (props: Props) => {
+export const ArmorClass = (props: defaultCardProps<Required, Optional>) => {
   // logic
-  const { isoverlay } = props;
+  const { isoverlay, children, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { bgColor, isNameTop, isShorthand, textCase, textColor } = optional;
@@ -57,7 +50,8 @@ export const ArmorClass = (props: Props) => {
   }
 
   return (
-    <div className={cardClass}>
+    <div className={clsx(cardClass, defaultClassName)}>
+      {children}
       <div>{armorClassName}</div>
       <div className="text-3xl font-semibold">{required.score}</div>
     </div>

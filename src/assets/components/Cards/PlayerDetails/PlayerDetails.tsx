@@ -1,13 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-
-type Props = {
-  isoverlay: boolean;
-  configs: {
-    required: Required;
-    optional: Optional;
-  };
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   alignment: string;
@@ -24,10 +17,10 @@ type Optional = {
   textPos: "text-center" | "text-start" | "text-end";
 };
 
-export const PlayerDetails = (props: Props) => {
+export const PlayerDetails = (props: defaultCardProps<Required, Optional>) => {
   // logic
 
-  const { isoverlay } = props;
+  const { isoverlay, children, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { alignment, background, classs, race } = required;
@@ -67,13 +60,23 @@ export const PlayerDetails = (props: Props) => {
     txt,
     parentCardShape,
     textPos,
-    pBg
+    pBg,
+    defaultClassName,
+    { "opacity-50": isoverlay }
   );
   let childCardClass = clsx("flex", childCardShape, textPos);
-  let grandChildCardClass = clsx("p-2", "m-1", "rounded-md", textPos, gBg);
+  let grandChildCardClass = clsx(
+    "p-2",
+    "m-1",
+    "rounded-md",
+    "border border-black",
+    textPos,
+    gBg
+  );
 
   return (
     <div className={parentCardClass}>
+      {children}
       <div className={childCardClass}>
         <div className={grandChildCardClass}>
           <div className="text-sm">Class</div>

@@ -1,13 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
-type Props = {
-  isoverlay: boolean;
-  configs: {
-    required: Required;
-    optional?: Optional;
-  };
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   playerName: string;
@@ -21,9 +14,9 @@ type Optional = {
   showBottomLine?: boolean;
 };
 
-export const PlayerName = (props: Props) => {
+export const PlayerName = (props: defaultCardProps<Required, Optional>) => {
   // logic
-  const { isoverlay } = props;
+  const { isoverlay, children, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { playerName } = required;
@@ -39,9 +32,11 @@ export const PlayerName = (props: Props) => {
         "absolute flex flex-col rounded-md p-5 text-center",
         bg,
         txt,
-        { "opacity-50": isoverlay }
+        { "opacity-50": isoverlay },
+        defaultClassName
       )}
     >
+      {children}
       <div>{preTagline}</div>
       <div className="w-max text-4xl font-bold">{playerName}</div>
       <div className="w-max">{postTagline}</div>

@@ -1,15 +1,6 @@
 import React, { ReactNode } from "react";
 import clsx from "clsx";
-
-type Props = {
-  isoverlay: boolean;
-  configs: {
-    required: Required;
-    optional?: Optional;
-  };
-  children: ReactNode;
-  defaultClassName: string;
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   scoreType: string;
@@ -26,10 +17,10 @@ type Optional = {
   textColor: boolean | null;
 };
 
-export const AbilityScore = (props: Props) => {
+export const AbilityScore = (props: defaultCardProps<Required, Optional>) => {
   // logic
 
-  const { isoverlay, defaultClassName } = props;
+  const { isoverlay, children, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { score, scoreType } = required;
@@ -129,7 +120,7 @@ export const AbilityScore = (props: Props) => {
         <div className={modClass}>{modifier}</div>
         <div className={scoreClass}>{required.score}</div>
       </div>
-      {props.children}
+      {children}
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { Initiative } from "../Cards/Initiative/Initiative";
 import { PlayerDetails } from "../Cards/PlayerDetails/PlayerDetails";
 import { PlayerName } from "../Cards/PlayerName/PlayerName";
 import { SpellPoints } from "../Cards/SpellPoints/SpellPoints";
-import React, { ElementType, ReactElement } from "react";
+import React, { ElementType } from "react";
 
 type InputType = {
   type: "input";

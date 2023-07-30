@@ -1,14 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
-type Props = {
-  isoverlay: boolean;
-  updateFormShow: (formType: string, bool: boolean) => void;
-  configs: {
-    required: Required;
-    optional?: Optional;
-  };
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   currentPoints: number;
@@ -25,10 +17,10 @@ type Optional = {
   textColor: string;
 };
 
-export const HealthPoints = (props: Props) => {
+export const HealthPoints = (props: defaultCardProps<Required, Optional>) => {
   // logic
 
-  const { isoverlay, updateFormShow } = props;
+  const { children, defaultClassName, isoverlay, updateFormShow } = props;
   const { required, optional = {} as Optional } = props.configs;
 
   const { currentPoints, maxPoints } = required;
@@ -66,7 +58,8 @@ export const HealthPoints = (props: Props) => {
     bg,
     txt,
     { "flex-col": !isNameTop },
-    { "flex-col-reverse": isNameTop }
+    { "flex-col-reverse": isNameTop },
+    defaultClassName
   );
 
   let pointsContainerClass = clsx(
@@ -77,7 +70,8 @@ export const HealthPoints = (props: Props) => {
 
   return (
     <div className={cardClass}>
-      <div>{healthPointsName}</div>
+      {children}
+      <div className="mt-1">{healthPointsName}</div>
       <div className={pointsContainerClass}>
         <div className="text-3xl font-semibold">{currentPoints}</div>
         <div className="flex flex-row items-center justify-center self-center text-xl font-semibold">
@@ -89,7 +83,9 @@ export const HealthPoints = (props: Props) => {
         <button
           onClick={() => {
             console.log("setFormShow called");
-            updateFormShow("hp", true);
+            {
+              updateFormShow && updateFormShow("hp", true);
+            }
           }}
           className="mx-1 rounded-md hover:text-green-500"
         >

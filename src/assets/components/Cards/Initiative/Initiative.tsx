@@ -1,13 +1,6 @@
 import React from "react";
 import clsx from "clsx";
-
-type Props = {
-  isoverlay: boolean;
-  configs: {
-    required: Required;
-    optional?: Optional;
-  };
-};
+import { defaultCardProps } from "Cards";
 
 type Required = {
   score: number;
@@ -21,10 +14,10 @@ type Optional = {
   textColor: string;
 };
 
-export const Initiative = (props: Props) => {
+export const Initiative = (props: defaultCardProps<Required, Optional>) => {
   // logic
 
-  const { isoverlay } = props;
+  const { isoverlay, children, defaultClassName } = props;
   const { required, optional = {} as Optional } = props.configs;
   const { score } = required;
   const { bgColor, isNameTop, isShorthand, textCase, textColor } = optional;
@@ -52,11 +45,13 @@ export const Initiative = (props: Props) => {
     bg,
     txt,
     { "flex-col-reverse": isNameTop },
-    { "flex-col": !isNameTop }
+    { "flex-col": !isNameTop },
+    defaultClassName
   );
 
   return (
     <div className={cardClass}>
+      {children}
       <div>{initiativeName}</div>
       <div className="text-3xl font-semibold">{score}</div>
     </div>
