@@ -14,6 +14,23 @@ export default {
       },
       animation: {
         "bounce-custom": "bounce 3s infinite",
+        "slide-from-right": "slideFromRight 300ms ",
+        "slide-to-left": "slideToLeft 300ms",
+        "fade-in": "fade-in 4s ease-out",
+      },
+      keyframes: {
+        slideFromRight: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
+        },
+        slideToLeft: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
     },
   },

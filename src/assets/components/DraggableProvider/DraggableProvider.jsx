@@ -43,11 +43,11 @@ export const DraggableProvider = ({
           <button
             {...attributes}
             {...listeners}
-            className="absolute right-2 top-0 opacity-0 group-hover:opacity-100"
+            className="absolute right-2 top-0 opacity-0 hover:cursor-move group-hover:opacity-100"
           >
             ✥
           </button>
-          <button className="absolute left-2 top-0 opacity-0 group-hover:opacity-100">
+          <button className="absolute left-2 top-0 opacity-0 hover:cursor-alias group-hover:opacity-100">
             ✎
           </button>
         </Element>

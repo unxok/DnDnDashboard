@@ -12,6 +12,10 @@ import { DndContext, DragOverlay } from "@dnd-kit/core";
 import { OverlayMaker } from "./assets/components/OverlayMaker/OverlayMaker";
 import { ToolbarForm } from "./assets/components/ToolbarForm/ToolbarForm";
 import "./App.css";
+import * as Toast from "@radix-ui/react-toast";
+import { useRef } from "react";
+
+export const AlertContext = createContext();
 
 export const App = () => {
   const [isFormShow, setFormShow] = useState({
@@ -21,20 +25,16 @@ export const App = () => {
     hp: false,
   });
   const [cards, setCards] = useState([]);
-  const [isAlertShow, toggleAlertShow] = useState(false);
   const [selectedTypeConfig, setSelectedTypeConfig] = useState(null);
   const [isFormInvalid, setFormInvalid] = useState(false);
-  const [{ alertType, alertText }, setAlertType] = useState({});
   const [firstLoad, setFirstLoad] = useState(true);
   const [overlay, setOverlay] = useState(null);
   const [isEditMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      toggleAlertShow(false);
-    }, 2600);
-  }, [isAlertShow]);
+  const [alertVisibility, setAlertVisibility] = useState(false);
+  const alertTimerRef = useRef(0);
+  const alertRef = useRef();
+  const [alertDetail, setAlertDetail] = useState(null);
 
   // autosave
   useEffect(() => {
@@ -73,11 +73,16 @@ export const App = () => {
   }, []);
 
   const triggerAlert = (aType, aText) => {
-    setAlertType({
+    console.log("trigger alert activated");
+    setAlertDetail({
       alertType: aType,
       alertText: aText,
     });
-    toggleAlertShow(true);
+    setAlertVisibility(false);
+    window.clearTimeout(alertTimerRef.current);
+    alertTimerRef.current = window.setTimeout(() => {
+      setAlertVisibility(true);
+    }, 100);
   };
 
   const logCoords = (coords, id) => {
@@ -146,9 +151,6 @@ export const App = () => {
 
   const updateEditMode = () => {
     setEditMode((prev) => {
-      prev
-        ? triggerAlert("info", "Edit Mode Off")
-        : triggerAlert("info", "Edit Mode Enabled");
       return !prev;
     });
   };
@@ -177,66 +179,70 @@ export const App = () => {
     console.log("cards : ", cards);
   }, [cards]);
 
-  useEffect(() => {
-    if (isFormShow.upload) {
-      triggerAlert("info", "Current Dashboard will be overwritten!");
-    }
-  }, [isFormShow]);
-
   return (
-    <div className="grid-container flex h-screen w-screen items-start justify-center bg-base">
-      <Toolbar
-        isEditMode={isEditMode}
-        updateEditMode={updateEditMode}
-        updateFormShow={updateFormShow}
-        cards={cards}
-        triggerAlert={triggerAlert}
-      ></Toolbar>
-      <Alert isAlertVisible={isAlertShow} alertType={alertType}>
-        {alertText}
-      </Alert>
-      <ToolbarForm
-        isFormShow={isFormShow}
-        updateFormShow={updateFormShow}
-        updateCards={updateCards}
-        selectedTypeConfig={selectedTypeConfig}
-        setSelectedTypeConfig={setSelectedTypeConfig}
-        isFormInvalid={isFormInvalid}
-        setFormInvalid={setFormInvalid}
-        triggerAlert={triggerAlert}
-        updateCardsFromUpload={updateCardsFromUpload}
-        existingCard={editId}
-        updateHp={updateHp}
-      />
-
-      <DndContext
-        key="primaryDndContext"
-        onDragStart={handleDragStart}
-        onDragCancel={() => {}}
-        onDragEnd={handleDragEnd}
-      >
-        {cards.map((card) => (
-          <DraggableProvider
-            id={card.id}
-            key={card.id}
-            top={card.top}
-            left={card.left}
-            element={card.element}
-            configs={card.configs}
-            logCoords={logCoords}
+    <Toast.Provider swipeDirection="right" duration={3000}>
+      <AlertContext.Provider value={triggerAlert}>
+        <Toast.Viewport className="fixed right-10 w-max" />
+        <div className="grid-container flex h-screen w-screen items-start justify-center bg-base">
+          <Toolbar
+            isEditMode={isEditMode}
+            updateEditMode={updateEditMode}
             updateFormShow={updateFormShow}
-          ></DraggableProvider>
-        ))}
-        {overlay && (
-          <DragOverlay>
-            <OverlayMaker
-              element={overlay.element}
-              configs={overlay.configs}
-            ></OverlayMaker>
-          </DragOverlay>
-        )}
-      </DndContext>
-    </div>
+            cards={cards}
+            // triggerAlert={triggerAlert}
+          ></Toolbar>
+          {true && (
+            <Alert
+              alertVisibility={alertVisibility}
+              setAlertVisibility={setAlertVisibility}
+              alertDetail={alertDetail}
+              ref={alertRef}
+            ></Alert>
+          )}
+          <ToolbarForm
+            isFormShow={isFormShow}
+            updateFormShow={updateFormShow}
+            updateCards={updateCards}
+            selectedTypeConfig={selectedTypeConfig}
+            setSelectedTypeConfig={setSelectedTypeConfig}
+            isFormInvalid={isFormInvalid}
+            setFormInvalid={setFormInvalid}
+            // triggerAlert={triggerAlert}
+            updateCardsFromUpload={updateCardsFromUpload}
+            existingCard={editId}
+            updateHp={updateHp}
+          />
+
+          <DndContext
+            key="primaryDndContext"
+            onDragStart={handleDragStart}
+            onDragCancel={() => {}}
+            onDragEnd={handleDragEnd}
+          >
+            {cards.map((card) => (
+              <DraggableProvider
+                id={card.id}
+                key={card.id}
+                top={card.top}
+                left={card.left}
+                element={card.element}
+                configs={card.configs}
+                logCoords={logCoords}
+                updateFormShow={updateFormShow}
+              ></DraggableProvider>
+            ))}
+            {overlay && (
+              <DragOverlay>
+                <OverlayMaker
+                  element={overlay.element}
+                  configs={overlay.configs}
+                ></OverlayMaker>
+              </DragOverlay>
+            )}
+          </DndContext>
+        </div>
+      </AlertContext.Provider>
+    </Toast.Provider>
   );
 };
 

@@ -110,8 +110,6 @@ export const AbilityScore = (props: defaultCardProps<Required, Optional>) => {
       break;
   }
 
-  console.log(props.defaultClassName);
-
   // render
   return (
     <div className={clsx(cardContainerClass, defaultClassName)}>

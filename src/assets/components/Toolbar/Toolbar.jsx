@@ -10,7 +10,6 @@ export const Toolbar = ({
   updateEditMode,
   updateFormShow,
   cards,
-  triggerAlert,
 }) => {
   // logic
 
@@ -20,13 +19,13 @@ export const Toolbar = ({
         <AddCardButton updateFormShow={updateFormShow} />
       </TooltipProvider>
       <TooltipProvider text="Save a copy of your dashboard">
-        <SaveButton cards={cards} triggerAlert={triggerAlert}></SaveButton>
+        <SaveButton cards={cards}></SaveButton>
       </TooltipProvider>
       <TooltipProvider text="Upload a new dashboard from a save">
         <UploadButton updateFormShow={updateFormShow} />
       </TooltipProvider>
 
-      <EditModeButton isEditMode={isEditMode} updateEditMode={updateEditMode} />
+      {/* <EditModeButton isEditMode={isEditMode} updateEditMode={updateEditMode} /> */}
     </div>
   );
 };
