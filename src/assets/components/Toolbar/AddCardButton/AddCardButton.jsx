@@ -2,7 +2,7 @@ import React from "react";
 import plus from "../../../svgs/plus.svg";
 import { forwardRef } from "react";
 
-export const AddCardButton = forwardRef(({ updateFormShow, ...props }, ref) => {
+export const AddCardButton = forwardRef(({ ...props }, ref) => {
   // logic
 
   return (
@@ -14,7 +14,6 @@ export const AddCardButton = forwardRef(({ updateFormShow, ...props }, ref) => {
       <img
         onClick={() => {
           console.log("clicked");
-          updateFormShow("add", true);
         }}
         src={plus}
         width="50vh"

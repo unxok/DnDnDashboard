@@ -4,17 +4,14 @@ import { ConfigMap } from "../../ConfigMap/ConfigMap";
 import { useEffect } from "react";
 
 export const EditCardForm = ({
-  isFormShow,
   updateFormShow,
   updateCards,
   selectedTypeConfig,
   setSelectedTypeConfig,
-  isFormInvalid,
-  setFormInvalid,
-  triggerAlert,
   existingCard,
 }) => {
   const [newCardValue, setNewCardValue] = useState(existingCard);
+  const [isFormInvalid, setFormInvalid] = useState(false);
 
   console.log(
     "From EditCardForm, selectedTypeConfig is now: ",
@@ -59,7 +56,6 @@ export const EditCardForm = ({
       return;
     }
     setFormInvalid(false);
-    updateFormShow("edit", false);
     triggerAlert("success", "Card was updated");
     updateCards(newCardValue, { edit: 1 });
     setSelectedTypeConfig(null);
@@ -67,7 +63,6 @@ export const EditCardForm = ({
 
   const cancelAddItem = () => {
     setFormInvalid(false);
-    updateFormShow("edit", false);
     setSelectedTypeConfig(null);
     setNewCardValue({});
   };
@@ -75,7 +70,6 @@ export const EditCardForm = ({
   const deleteItem = () => {
     updateCards(existingCard, { delete: 1 });
     setFormInvalid(false);
-    updateFormShow("edit", false);
     setSelectedTypeConfig(null);
     setNewCardValue({});
   };
@@ -83,16 +77,16 @@ export const EditCardForm = ({
   return (
     <>
       {isFormShow && (
-        <div className="fixed top-0 left-0 flex flex-col items-center justify-center w-screen h-screen bg-gray-500 bg-opacity-50 z-40">
-          <div className="p-5 bg-primary shadow-lg border border-gray-700 z-50 flex flex-col rounded-lg items-center justify-center ">
+        <div className="fixed left-0 top-0 z-40 flex h-screen w-screen flex-col items-center justify-center bg-gray-500 bg-opacity-50">
+          <div className="z-50 flex flex-col items-center justify-center rounded-lg border border-gray-700 bg-primary p-5 shadow-lg ">
             {selectedTypeConfig && (
               <div
                 className={
-                  "m-3 w-72 text-center rounded-lg bg-base text-white p-5 flex flex-col  border shadow-lg" +
+                  "m-3 flex w-72 flex-col rounded-lg border bg-base p-5 text-center  text-white shadow-lg" +
                   (isFormInvalid ? " border-red-500" : " border-gray-800")
                 }
               >
-                Required <hr className="opacity-30 m-1" />
+                Required <hr className="m-1 opacity-30" />
                 {selectedTypeConfig.required.map(
                   (
                     { value, show, type, options = null, inputType = null },
@@ -101,7 +95,7 @@ export const EditCardForm = ({
                     const Component = type;
                     return options ? (
                       // <Component> = <select>
-                      <div key={index} className="flex justify-between m-2">
+                      <div key={index} className="m-2 flex justify-between">
                         <label key={value + "-label"} htmlFor={value}>
                           {show} :
                         </label>
@@ -126,7 +120,7 @@ export const EditCardForm = ({
                       </div>
                     ) : (
                       // <Component> = <input>
-                      <div key={index} className="flex justify-between m-2">
+                      <div key={index} className="m-2 flex justify-between">
                         <label key={value + "-label"} htmlFor={value}>
                           {show} :
                         </label>
@@ -135,7 +129,7 @@ export const EditCardForm = ({
                           key={value}
                           type={inputType}
                           onChange={(e) => updateNewCardValue(e, "required")}
-                          className="w-24 text-black text-center"
+                          className="w-24 text-center text-black"
                           defaultValue={existingCard.configs.required[value]}
                         ></Component>
                       </div>
@@ -145,8 +139,8 @@ export const EditCardForm = ({
               </div>
             )}
             {selectedTypeConfig && selectedTypeConfig.optional && (
-              <div className="m-3 w-96 rounded-lg bg-base text-white p-5 flex flex-col border border-gray-800 shadow-lg text-center">
-                Optional <hr className="opacity-30 m-1" />
+              <div className="m-3 flex w-96 flex-col rounded-lg border border-gray-800 bg-base p-5 text-center text-white shadow-lg">
+                Optional <hr className="m-1 opacity-30" />
                 {selectedTypeConfig.optional.map(
                   (
                     { value, show, type, options = null, inputType = null },
@@ -156,7 +150,7 @@ export const EditCardForm = ({
 
                     return options ? (
                       // <Component> = <select>
-                      <div key={index} className="flex justify-between m-2">
+                      <div key={index} className="m-2 flex justify-between">
                         <label key={value + "-label"} htmlFor={value}>
                           {show} :
                         </label>
@@ -166,7 +160,7 @@ export const EditCardForm = ({
                           onChange={(e) => {
                             updateNewCardValue(e, "optional");
                           }}
-                          className="text-center text-black w-24"
+                          className="w-24 text-center text-black"
                           defaultValue={existingCard.configs.optional[value]}
                         >
                           <option key={index + "-def-option"} value="" disabled>
@@ -181,7 +175,7 @@ export const EditCardForm = ({
                       </div>
                     ) : (
                       // <Component> = <input>
-                      <div key={index} className="flex justify-between m-2">
+                      <div key={index} className="m-2 flex justify-between">
                         <label key={value + "-label"} htmlFor={value}>
                           {show} :
                         </label>
@@ -190,7 +184,7 @@ export const EditCardForm = ({
                           key={value}
                           type={inputType}
                           onChange={(e) => updateNewCardValue(e, "optional")}
-                          className="w-24 text-black text-center"
+                          className="w-24 text-center text-black"
                           defaultValue={existingCard.configs.optional[value]}
                         ></Component>
                       </div>
@@ -204,21 +198,21 @@ export const EditCardForm = ({
                 <button
                   disabled={!selectedTypeConfig}
                   onClick={handleAddItem}
-                  className="bg-accent m-2 p-2 rounded-lg border border-gray-800 shadow-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:bg-gray-300 disabled:hover:shadow-none disabled:hover:cursor-not-allowed active:scale-90 active:delay-0 active:shadow-none"
+                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none"
                 >
                   Update
                 </button>
                 <button
                   name="delete-item"
                   onClick={deleteItem}
-                  className="bg-accent m-2 p-2 rounded-lg border border-gray-800 shadow-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:delay-0 active:shadow-none"
+                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0"
                 >
                   Delete
                 </button>
                 <button
                   name="cancel-item"
                   onClick={cancelAddItem}
-                  className="bg-accent m-2 p-2 rounded-lg border border-gray-800 shadow-lg transition ease-in-out delay-75 hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:delay-0 active:shadow-none"
+                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0"
                 >
                   Cancel
                 </button>

@@ -187,18 +187,17 @@ export const App = () => {
           <Toolbar
             isEditMode={isEditMode}
             updateEditMode={updateEditMode}
-            updateFormShow={updateFormShow}
             cards={cards}
-            // triggerAlert={triggerAlert}
+            selectedTypeConfig={selectedTypeConfig}
+            setSelectedTypeConfig={setSelectedTypeConfig}
+            updateCardsFromUpload={updateCardsFromUpload}
           ></Toolbar>
-          {true && (
-            <Alert
-              alertVisibility={alertVisibility}
-              setAlertVisibility={setAlertVisibility}
-              alertDetail={alertDetail}
-              ref={alertRef}
-            ></Alert>
-          )}
+          <Alert
+            alertVisibility={alertVisibility}
+            setAlertVisibility={setAlertVisibility}
+            alertDetail={alertDetail}
+            ref={alertRef}
+          ></Alert>
           <ToolbarForm
             isFormShow={isFormShow}
             updateFormShow={updateFormShow}
@@ -207,7 +206,6 @@ export const App = () => {
             setSelectedTypeConfig={setSelectedTypeConfig}
             isFormInvalid={isFormInvalid}
             setFormInvalid={setFormInvalid}
-            // triggerAlert={triggerAlert}
             updateCardsFromUpload={updateCardsFromUpload}
             existingCard={editId}
             updateHp={updateHp}
