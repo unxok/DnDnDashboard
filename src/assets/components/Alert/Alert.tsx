@@ -51,7 +51,7 @@ export const Alert = forwardRef((props: AlertProps, ref: any) => {
   }
 
   let elClass = clsx(
-    "mt-5 p-2 px-4 border border-black shadow-lg rounded-lg text-black transition-opacity duration-2500 flex flex-row items-center data-[state='open']:animate-slide-from-right data-[state='closed']:animate-slide-to-left data-[swipe='move']:translate-x-[--radix-toast-swipe-move-x] hover:cursor-grab active:cursor-grabbing",
+    "z-[2147483647] mt-5 p-2 px-4 border border-black shadow-lg rounded-lg text-black transition-opacity duration-2500 flex flex-row items-center data-[state='open']:animate-slide-from-right data-[state='closed']:animate-slide-to-left data-[swipe='move']:translate-x-[--radix-toast-swipe-move-x] hover:cursor-grab active:cursor-grabbing",
     alertTypeClass
   );
 
@@ -75,7 +75,7 @@ export const Alert = forwardRef((props: AlertProps, ref: any) => {
       <Toast.Description>{alertText}</Toast.Description>
       {/* <Toast.Close className="absolute right-2 top-4">
         <span aria-hidden className="animate-fade-in">
-          ×
+        ×
         </span>
       </Toast.Close> */}
     </Toast.Root>

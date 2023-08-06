@@ -1,5 +1,7 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
+import { FormProvider } from "../ToolbarForm/FormProvider";
+import { EditCardForm } from "../ToolbarForm/EditCardForm/EditCardForm";
 
 export const DraggableProvider = ({
   id,
@@ -10,6 +12,10 @@ export const DraggableProvider = ({
   configs,
   updateHp,
   updateFormShow,
+  updateCards,
+  selectedTypeConfig,
+  setSelectedTypeConfig,
+  getCardById,
   ...props
 }) => {
   // logic
@@ -34,11 +40,10 @@ export const DraggableProvider = ({
           updateHp={updateHp}
           configs={configs}
           text={text}
-          {...props}
-          updateFormShow={updateFormShow}
-          attributes={attributes}
-          listeners={listeners}
+          // attributes={attributes}
+          // listeners={listeners}
           defaultClassName="group border-black border"
+          {...props}
         >
           <button
             {...attributes}
@@ -47,9 +52,21 @@ export const DraggableProvider = ({
           >
             ✥
           </button>
-          <button className="absolute left-2 top-0 opacity-0 hover:cursor-alias group-hover:opacity-100">
-            ✎
-          </button>
+          <FormProvider
+            form={
+              <EditCardForm
+                updateCards={updateCards}
+                selectedTypeConfig={selectedTypeConfig}
+                setSelectedTypeConfig={setSelectedTypeConfig}
+                getCardById={getCardById}
+                id={id}
+              ></EditCardForm>
+            }
+          >
+            <button className="absolute left-2 top-0 opacity-0 hover:cursor-alias group-hover:opacity-100">
+              ✎
+            </button>
+          </FormProvider>
         </Element>
       )}
     </div>

@@ -72,6 +72,16 @@ export const App = () => {
     }
   }, []);
 
+  const getCardById = (id) => {
+    let result = null;
+    cards.forEach((card) => {
+      if (card.id === id) {
+        result = card;
+      }
+    });
+    return result;
+  };
+
   const triggerAlert = (aType, aText) => {
     console.log("trigger alert activated");
     setAlertDetail({
@@ -187,6 +197,7 @@ export const App = () => {
           <Toolbar
             isEditMode={isEditMode}
             updateEditMode={updateEditMode}
+            updateCards={updateCards}
             cards={cards}
             selectedTypeConfig={selectedTypeConfig}
             setSelectedTypeConfig={setSelectedTypeConfig}
@@ -226,7 +237,10 @@ export const App = () => {
                 element={card.element}
                 configs={card.configs}
                 logCoords={logCoords}
-                updateFormShow={updateFormShow}
+                updateCards={updateCards}
+                selectedTypeConfig={selectedTypeConfig}
+                setSelectedTypeConfig={selectedTypeConfig}
+                getCardById={getCardById}
               ></DraggableProvider>
             ))}
             {overlay && (

@@ -1,226 +1,269 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { ConfigMap } from "../../ConfigMap/ConfigMap";
-import { useEffect } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { forwardRef } from "react";
+import { AlertContext } from "../../../../App";
 
-export const EditCardForm = ({
-  updateFormShow,
-  updateCards,
-  selectedTypeConfig,
-  setSelectedTypeConfig,
-  existingCard,
-}) => {
-  const [newCardValue, setNewCardValue] = useState(existingCard);
-  const [isFormInvalid, setFormInvalid] = useState(false);
+export const EditCardForm = forwardRef(
+  ({ updateCards, id, getCardById }, ref) => {
+    const [newCardValue, setNewCardValue] = useState(getCardById(id));
+    const [isFormInvalid, setFormInvalid] = useState(false);
+    const [showPreview, setShowPreview] = useState(true);
+    const [selectedTypeConfig, setSelectedTypeConfig] = useState(
+      ConfigMap[getCardById(id).name]
+    );
 
-  console.log(
-    "From EditCardForm, selectedTypeConfig is now: ",
-    selectedTypeConfig
-  );
+    const triggerAlert = useContext(AlertContext);
 
-  const updateNewCardValue = (e, optionType) => {
-    const { name, value } = e.target;
+    console.log(
+      "From EditCardForm, selectedTypeConfig is now: ",
+      selectedTypeConfig
+    );
 
-    setNewCardValue((prevValue) => ({
-      ...prevValue,
-      configs: {
-        ...prevValue.configs,
-        [optionType]: {
-          ...prevValue.configs[optionType],
-          [name]: value,
+    const existingCard = getCardById(id);
+    console.log("existingCard: ", existingCard);
+
+    const updateNewCardValue = (e, optionType) => {
+      const { name, value } = e.target;
+
+      setNewCardValue((prevValue) => ({
+        ...prevValue,
+        configs: {
+          ...prevValue.configs,
+          [optionType]: {
+            ...prevValue.configs[optionType],
+            [name]: value,
+          },
         },
-      },
-    }));
-  };
+      }));
 
-  const checkFormInvalid = () => {
-    let numOfReqs = 0;
-    let numOfFilledReqs = 0;
-    selectedTypeConfig.required.forEach((attr) => {
-      numOfReqs++;
-    });
+      const checkForPreview = () => {
+        try {
+          return !checkFormInvalid();
+        } catch (e) {
+          return false;
+        }
+      };
 
-    for (let key in newCardValue.configs.required) {
-      numOfFilledReqs++;
-    }
+      setShowPreview(checkForPreview());
+    };
 
-    if (numOfReqs !== numOfFilledReqs) {
-      return true;
-    }
-  };
+    const checkFormInvalid = () => {
+      let numOfReqs = 0;
+      let numOfFilledReqs = 0;
+      selectedTypeConfig.required.forEach((attr) => {
+        numOfReqs++;
+      });
 
-  const handleAddItem = () => {
-    if (checkFormInvalid()) {
-      setFormInvalid(true);
-      triggerAlert("error", "Please fill all required fields");
-      return;
-    }
-    setFormInvalid(false);
-    triggerAlert("success", "Card was updated");
-    updateCards(newCardValue, { edit: 1 });
-    setSelectedTypeConfig(null);
-  };
+      for (let key in newCardValue.configs.required) {
+        numOfFilledReqs++;
+      }
 
-  const cancelAddItem = () => {
-    setFormInvalid(false);
-    setSelectedTypeConfig(null);
-    setNewCardValue({});
-  };
+      if (numOfReqs !== numOfFilledReqs) {
+        return true;
+      }
+    };
 
-  const deleteItem = () => {
-    updateCards(existingCard, { delete: 1 });
-    setFormInvalid(false);
-    setSelectedTypeConfig(null);
-    setNewCardValue({});
-  };
+    const handleAddItem = () => {
+      if (checkFormInvalid()) {
+        setFormInvalid(true);
+        triggerAlert("error", "Please fill all required fields");
+        return;
+      }
+      setFormInvalid(false);
+      triggerAlert("success", "Card was updated");
+      updateCards(newCardValue, { edit: 1 });
+      setSelectedTypeConfig(null);
+      setShowPreview(false);
+    };
 
-  return (
-    <>
-      {isFormShow && (
-        <div className="fixed left-0 top-0 z-40 flex h-screen w-screen flex-col items-center justify-center bg-gray-500 bg-opacity-50">
-          <div className="z-50 flex flex-col items-center justify-center rounded-lg border border-gray-700 bg-primary p-5 shadow-lg ">
-            {selectedTypeConfig && (
-              <div
-                className={
-                  "m-3 flex w-72 flex-col rounded-lg border bg-base p-5 text-center  text-white shadow-lg" +
-                  (isFormInvalid ? " border-red-500" : " border-gray-800")
+    const cancelAddItem = () => {
+      setFormInvalid(false);
+      setSelectedTypeConfig(null);
+      setNewCardValue({});
+      setShowPreview(false);
+    };
+
+    const deleteItem = () => {
+      updateCards(existingCard, { delete: 1 });
+      setFormInvalid(false);
+      setSelectedTypeConfig(null);
+      setNewCardValue({});
+      setShowPreview(false);
+    };
+
+    return (
+      <>
+        <Dialog.Content
+          onEscapeKeyDown={cancelAddItem}
+          onPointerDownOutside={cancelAddItem}
+          onInteractOutside={cancelAddItem}
+          ref={ref}
+          className="fixed left-1/2 top-1/2 flex w-1/3 -translate-x-1/2 -translate-y-1/2 flex-col items-end justify-between rounded-md border-black bg-primary p-5 text-stone-300"
+        >
+          <div className="mb-5 flex w-full flex-col items-start">
+            <Dialog.Title className="text-2xl">Edit Card</Dialog.Title>
+            <Dialog.Description>
+              Edit or delete an existing card
+            </Dialog.Description>
+          </div>
+          {selectedTypeConfig && (
+            <div
+              className={
+                "mb-3 flex w-full flex-col rounded-lg border bg-base p-5 text-center  text-white shadow-lg" +
+                (isFormInvalid ? " border-red-500" : " border-gray-800")
+              }
+            >
+              Required <hr className="m-1 opacity-30" />
+              {selectedTypeConfig.required.map(
+                (
+                  { value, show, type, options = null, inputType = null },
+                  index
+                ) => {
+                  const Component = type;
+                  return options ? (
+                    // <Component> = <select>
+                    <div key={index} className="m-2 flex justify-between">
+                      <label key={value + "-label"} htmlFor={value}>
+                        {show} :
+                      </label>
+                      <Component
+                        name={value}
+                        key={value}
+                        onChange={(e) => {
+                          updateNewCardValue(e, "required");
+                        }}
+                        className="text-center text-black"
+                        defaultValue={existingCard.configs.required[value]}
+                      >
+                        <option key={index + "-def-label"} value="" disabled>
+                          select one
+                        </option>
+                        {options.map((option) => (
+                          <option value={option.value} key={option.value}>
+                            {option.show}
+                          </option>
+                        ))}
+                      </Component>
+                    </div>
+                  ) : (
+                    // <Component> = <input>
+                    <div key={index} className="m-2 flex justify-between">
+                      <label key={value + "-label"} htmlFor={value}>
+                        {show} :
+                      </label>
+                      <Component
+                        name={value}
+                        key={value}
+                        type={inputType}
+                        onChange={(e) => updateNewCardValue(e, "required")}
+                        className="w-24 text-center text-black"
+                        defaultValue={existingCard.configs.required[value]}
+                      ></Component>
+                    </div>
+                  );
                 }
-              >
-                Required <hr className="m-1 opacity-30" />
-                {selectedTypeConfig.required.map(
-                  (
-                    { value, show, type, options = null, inputType = null },
-                    index
-                  ) => {
-                    const Component = type;
-                    return options ? (
-                      // <Component> = <select>
-                      <div key={index} className="m-2 flex justify-between">
-                        <label key={value + "-label"} htmlFor={value}>
-                          {show} :
-                        </label>
-                        <Component
-                          name={value}
-                          key={value}
-                          onChange={(e) => {
-                            updateNewCardValue(e, "required");
-                          }}
-                          className="text-center text-black"
-                          defaultValue={existingCard.configs.required[value]}
-                        >
-                          <option key={index + "-def-label"} value="" disabled>
-                            select one
-                          </option>
-                          {options.map((option) => (
-                            <option value={option.value} key={option.value}>
-                              {option.show}
-                            </option>
-                          ))}
-                        </Component>
-                      </div>
-                    ) : (
-                      // <Component> = <input>
-                      <div key={index} className="m-2 flex justify-between">
-                        <label key={value + "-label"} htmlFor={value}>
-                          {show} :
-                        </label>
-                        <Component
-                          name={value}
-                          key={value}
-                          type={inputType}
-                          onChange={(e) => updateNewCardValue(e, "required")}
-                          className="w-24 text-center text-black"
-                          defaultValue={existingCard.configs.required[value]}
-                        ></Component>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            )}
-            {selectedTypeConfig && selectedTypeConfig.optional && (
-              <div className="m-3 flex w-96 flex-col rounded-lg border border-gray-800 bg-base p-5 text-center text-white shadow-lg">
-                Optional <hr className="m-1 opacity-30" />
-                {selectedTypeConfig.optional.map(
-                  (
-                    { value, show, type, options = null, inputType = null },
-                    index
-                  ) => {
-                    const Component = type;
+              )}
+            </div>
+          )}
+          {selectedTypeConfig && selectedTypeConfig.optional && (
+            <div className="mb-3 flex w-full flex-col rounded-lg border border-gray-800 bg-base p-5 text-center text-white shadow-lg">
+              Optional <hr className="m-1 opacity-30" />
+              {selectedTypeConfig.optional.map(
+                (
+                  { value, show, type, options = null, inputType = null },
+                  index
+                ) => {
+                  const Component = type;
 
-                    return options ? (
-                      // <Component> = <select>
-                      <div key={index} className="m-2 flex justify-between">
-                        <label key={value + "-label"} htmlFor={value}>
-                          {show} :
-                        </label>
-                        <Component
-                          name={value}
-                          key={value}
-                          onChange={(e) => {
-                            updateNewCardValue(e, "optional");
-                          }}
-                          className="w-24 text-center text-black"
-                          defaultValue={existingCard.configs.optional[value]}
-                        >
-                          <option key={index + "-def-option"} value="" disabled>
-                            select one
+                  return options ? (
+                    // <Component> = <select>
+                    <div key={index} className="m-2 flex justify-between">
+                      <label key={value + "-label"} htmlFor={value}>
+                        {show} :
+                      </label>
+                      <Component
+                        name={value}
+                        key={value}
+                        onChange={(e) => {
+                          updateNewCardValue(e, "optional");
+                        }}
+                        className="w-24 text-center text-black"
+                        defaultValue={existingCard.configs.optional[value]}
+                      >
+                        <option key={index + "-def-option"} value="" disabled>
+                          select one
+                        </option>
+                        {options.map((option) => (
+                          <option value={option.value} key={option.value}>
+                            {option.show}
                           </option>
-                          {options.map((option) => (
-                            <option value={option.value} key={option.value}>
-                              {option.show}
-                            </option>
-                          ))}
-                        </Component>
-                      </div>
-                    ) : (
-                      // <Component> = <input>
-                      <div key={index} className="m-2 flex justify-between">
-                        <label key={value + "-label"} htmlFor={value}>
-                          {show} :
-                        </label>
-                        <Component
-                          name={value}
-                          key={value}
-                          type={inputType}
-                          onChange={(e) => updateNewCardValue(e, "optional")}
-                          className="w-24 text-center text-black"
-                          defaultValue={existingCard.configs.optional[value]}
-                        ></Component>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            )}
-            <div>
-              <div className="flex items-center justify-center ">
+                        ))}
+                      </Component>
+                    </div>
+                  ) : (
+                    // <Component> = <input>
+                    <div key={index} className="m-2 flex justify-between">
+                      <label key={value + "-label"} htmlFor={value}>
+                        {show} :
+                      </label>
+                      <Component
+                        name={value}
+                        key={value}
+                        type={inputType}
+                        onChange={(e) => updateNewCardValue(e, "optional")}
+                        className="w-24 text-center text-black"
+                        defaultValue={existingCard.configs.optional[value]}
+                      ></Component>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+          )}
+          <div>
+            <div className="flex items-center justify-center ">
+              <Dialog.Close asChild>
+                <button
+                  disabled={!selectedTypeConfig}
+                  onClick={deleteItem}
+                  className="m-2 rounded-lg p-2 text-accent transition delay-75 ease-in-out hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950"
+                >
+                  Delete Card
+                </button>
+              </Dialog.Close>
+              <Dialog.Close asChild>
                 <button
                   disabled={!selectedTypeConfig}
                   onClick={handleAddItem}
-                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none"
+                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 text-black shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-green-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0 disabled:opacity-25 disabled:hover:scale-90 disabled:hover:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:shadow-none"
                 >
                   Update
                 </button>
-                <button
-                  name="delete-item"
-                  onClick={deleteItem}
-                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0"
-                >
-                  Delete
-                </button>
+              </Dialog.Close>
+
+              <Dialog.Close asChild>
                 <button
                   name="cancel-item"
                   onClick={cancelAddItem}
-                  className="m-2 rounded-lg border border-gray-800 bg-accent p-2 shadow-lg transition delay-75 ease-in-out hover:scale-110 hover:bg-red-400 hover:shadow-md hover:shadow-gray-950 active:scale-90 active:shadow-none active:delay-0"
+                  className="absolute right-4 top-2 text-2xl"
                 >
-                  Cancel
+                  ×
                 </button>
-              </div>
+              </Dialog.Close>
             </div>
           </div>
-        </div>
-      )}
-    </>
-  );
-};
+        </Dialog.Content>
+        {showPreview && (
+          <div className="fixed right-[100px] top-1/3 z-50 ">
+            <p className="mb-1 rounded-sm bg-gray-500 px-1">Preview</p>
+            <newCardValue.element
+              configs={newCardValue.configs}
+            ></newCardValue.element>
+          </div>
+        )}
+      </>
+    );
+  }
+);

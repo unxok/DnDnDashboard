@@ -13,6 +13,7 @@ export const Toolbar = ({
   isEditMode,
   updateEditMode,
   updateCardsFromUpload,
+  updateCards,
   cards,
   selectedTypeConfig,
   setSelectedTypeConfig,
@@ -27,6 +28,7 @@ export const Toolbar = ({
       <FormProvider
         form={
           <AddCardForm
+            updateCards={updateCards}
             ref={addFormRef}
             setSelectedTypeConfig={setSelectedTypeConfig}
             selectedTypeConfig={selectedTypeConfig}
