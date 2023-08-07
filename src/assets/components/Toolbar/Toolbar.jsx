@@ -10,8 +10,6 @@ import { UploadSaveForm } from "../ToolbarForm/UploadSaveForm/UploadSaveForm";
 import { useRef } from "react";
 
 export const Toolbar = ({
-  isEditMode,
-  updateEditMode,
   updateCardsFromUpload,
   updateCards,
   cards,

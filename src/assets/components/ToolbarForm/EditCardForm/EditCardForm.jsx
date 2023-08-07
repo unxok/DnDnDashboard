@@ -16,14 +16,6 @@ export const EditCardForm = forwardRef(
 
     const triggerAlert = useContext(AlertContext);
 
-    console.log(
-      "From EditCardForm, selectedTypeConfig is now: ",
-      selectedTypeConfig
-    );
-
-    const existingCard = getCardById(id);
-    console.log("existingCard: ", existingCard);
-
     const updateNewCardValue = (e, optionType) => {
       const { name, value } = e.target;
 

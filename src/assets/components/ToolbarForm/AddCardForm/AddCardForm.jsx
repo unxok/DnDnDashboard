@@ -4,7 +4,6 @@ import { ConfigMap } from "../../ConfigMap/ConfigMap";
 import * as Dialog from "@radix-ui/react-dialog";
 import { AlertContext } from "../../../../App";
 import { useContext } from "react";
-import { useEffect } from "react";
 import { forwardRef } from "react";
 
 export const AddCardForm = forwardRef(({ updateCards }, ref) => {
@@ -17,10 +16,6 @@ export const AddCardForm = forwardRef(({ updateCards }, ref) => {
     description: "Add a new card to your dashboard.",
   };
   const triggerAlert = useContext(AlertContext);
-
-  useEffect(() => {
-    console.log("add form rendered");
-  }, []);
 
   const initializeNewCardValue = ({ element, name }) => {
     setNewCardValue({
