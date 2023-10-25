@@ -2,6 +2,7 @@ import { AbilityScore } from "../Cards/AbilityScore/AbilityScore";
 import { ArmorClass } from "../Cards/ArmorClass/ArmorClass";
 import { HealthPoints } from "../Cards/HealthPoints/HealthPoints";
 import { Initiative } from "../Cards/Initiative/Initiative";
+import { Notepad } from "../Cards/Notepad/Notepad";
 import { PlayerDetails } from "../Cards/PlayerDetails/PlayerDetails";
 import { PlayerName } from "../Cards/PlayerName/PlayerName";
 import { SpellPoints } from "../Cards/SpellPoints/SpellPoints";
@@ -547,6 +548,20 @@ const SpellPointsConfig: ElementConfig = {
   ],
 };
 
+const NotepadConfig: ElementConfig = {
+  element: Notepad,
+  show: "Notepad",
+  name: "Notepad",
+  required: [
+    {
+      inputType: "text",
+      type: "input",
+      show: "Text",
+      value: "text",
+    },
+  ],
+};
+
 export const ConfigMap: ConfigMapType = {
   AbilityScore: AbilityScoreConfig,
   ArmorClass: ArmorClassConfig,
@@ -555,6 +570,7 @@ export const ConfigMap: ConfigMapType = {
   PlayerDetails: PlayerDetailsConfig,
   PlayerName: PlayerNameConfig,
   SpellPoints: SpellPointsConfig,
+  Notepad: NotepadConfig,
 };
 
 export const getElementByName = (elName: string): ElementType | undefined => {
